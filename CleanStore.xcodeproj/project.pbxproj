@@ -8,11 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		710475381B882CA000D72E3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710475371B882CA000D72E3C /* AppDelegate.swift */; };
-		7104753A1B882CA000D72E3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710475391B882CA000D72E3C /* ViewController.swift */; };
 		7104753D1B882CA000D72E3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7104753B1B882CA000D72E3C /* Main.storyboard */; };
 		7104753F1B882CA000D72E3C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7104753E1B882CA000D72E3C /* Images.xcassets */; };
 		710475421B882CA000D72E3C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 710475401B882CA000D72E3C /* LaunchScreen.xib */; };
 		7104754E1B882CA000D72E3C /* CleanStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7104754D1B882CA000D72E3C /* CleanStoreTests.swift */; };
+		718697401B8D8B94004E4CD9 /* CreateOrderConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718697391B8D8B94004E4CD9 /* CreateOrderConfigurator.swift */; };
+		718697411B8D8B94004E4CD9 /* CreateOrderConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718697391B8D8B94004E4CD9 /* CreateOrderConfigurator.swift */; };
+		718697421B8D8B94004E4CD9 /* CreateOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973A1B8D8B94004E4CD9 /* CreateOrderInteractor.swift */; };
+		718697431B8D8B94004E4CD9 /* CreateOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973A1B8D8B94004E4CD9 /* CreateOrderInteractor.swift */; };
+		718697441B8D8B94004E4CD9 /* CreateOrderModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973B1B8D8B94004E4CD9 /* CreateOrderModels.swift */; };
+		718697451B8D8B94004E4CD9 /* CreateOrderModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973B1B8D8B94004E4CD9 /* CreateOrderModels.swift */; };
+		718697461B8D8B94004E4CD9 /* CreateOrderPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973C1B8D8B94004E4CD9 /* CreateOrderPresenter.swift */; };
+		718697471B8D8B94004E4CD9 /* CreateOrderPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973C1B8D8B94004E4CD9 /* CreateOrderPresenter.swift */; };
+		718697481B8D8B94004E4CD9 /* CreateOrderRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973D1B8D8B94004E4CD9 /* CreateOrderRouter.swift */; };
+		718697491B8D8B94004E4CD9 /* CreateOrderRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973D1B8D8B94004E4CD9 /* CreateOrderRouter.swift */; };
+		7186974A1B8D8B94004E4CD9 /* CreateOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973E1B8D8B94004E4CD9 /* CreateOrderViewController.swift */; };
+		7186974B1B8D8B94004E4CD9 /* CreateOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973E1B8D8B94004E4CD9 /* CreateOrderViewController.swift */; };
+		7186974C1B8D8B94004E4CD9 /* CreateOrderWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973F1B8D8B94004E4CD9 /* CreateOrderWorker.swift */; };
+		7186974D1B8D8B94004E4CD9 /* CreateOrderWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973F1B8D8B94004E4CD9 /* CreateOrderWorker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,13 +42,19 @@
 		710475321B882CA000D72E3C /* CleanStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		710475361B882CA000D72E3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		710475371B882CA000D72E3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		710475391B882CA000D72E3C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7104753C1B882CA000D72E3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7104753E1B882CA000D72E3C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		710475411B882CA000D72E3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		710475471B882CA000D72E3C /* CleanStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleanStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7104754C1B882CA000D72E3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7104754D1B882CA000D72E3C /* CleanStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanStoreTests.swift; sourceTree = "<group>"; };
+		718697391B8D8B94004E4CD9 /* CreateOrderConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderConfigurator.swift; sourceTree = "<group>"; };
+		7186973A1B8D8B94004E4CD9 /* CreateOrderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderInteractor.swift; sourceTree = "<group>"; };
+		7186973B1B8D8B94004E4CD9 /* CreateOrderModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderModels.swift; sourceTree = "<group>"; };
+		7186973C1B8D8B94004E4CD9 /* CreateOrderPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderPresenter.swift; sourceTree = "<group>"; };
+		7186973D1B8D8B94004E4CD9 /* CreateOrderRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderRouter.swift; sourceTree = "<group>"; };
+		7186973E1B8D8B94004E4CD9 /* CreateOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderViewController.swift; sourceTree = "<group>"; };
+		7186973F1B8D8B94004E4CD9 /* CreateOrderWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderWorker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +96,8 @@
 		710475341B882CA000D72E3C /* CleanStore */ = {
 			isa = PBXGroup;
 			children = (
+				718697371B8D8B94004E4CD9 /* Scenes */,
 				710475371B882CA000D72E3C /* AppDelegate.swift */,
-				710475391B882CA000D72E3C /* ViewController.swift */,
 				7104753B1B882CA000D72E3C /* Main.storyboard */,
 				7104753E1B882CA000D72E3C /* Images.xcassets */,
 				710475401B882CA000D72E3C /* LaunchScreen.xib */,
@@ -110,6 +129,28 @@
 				7104754C1B882CA000D72E3C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		718697371B8D8B94004E4CD9 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				718697381B8D8B94004E4CD9 /* CreateOrder */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		718697381B8D8B94004E4CD9 /* CreateOrder */ = {
+			isa = PBXGroup;
+			children = (
+				718697391B8D8B94004E4CD9 /* CreateOrderConfigurator.swift */,
+				7186973A1B8D8B94004E4CD9 /* CreateOrderInteractor.swift */,
+				7186973B1B8D8B94004E4CD9 /* CreateOrderModels.swift */,
+				7186973C1B8D8B94004E4CD9 /* CreateOrderPresenter.swift */,
+				7186973D1B8D8B94004E4CD9 /* CreateOrderRouter.swift */,
+				7186973E1B8D8B94004E4CD9 /* CreateOrderViewController.swift */,
+				7186973F1B8D8B94004E4CD9 /* CreateOrderWorker.swift */,
+			);
+			path = CreateOrder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,8 +253,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7104753A1B882CA000D72E3C /* ViewController.swift in Sources */,
+				718697461B8D8B94004E4CD9 /* CreateOrderPresenter.swift in Sources */,
 				710475381B882CA000D72E3C /* AppDelegate.swift in Sources */,
+				7186974A1B8D8B94004E4CD9 /* CreateOrderViewController.swift in Sources */,
+				718697401B8D8B94004E4CD9 /* CreateOrderConfigurator.swift in Sources */,
+				7186974C1B8D8B94004E4CD9 /* CreateOrderWorker.swift in Sources */,
+				718697441B8D8B94004E4CD9 /* CreateOrderModels.swift in Sources */,
+				718697421B8D8B94004E4CD9 /* CreateOrderInteractor.swift in Sources */,
+				718697481B8D8B94004E4CD9 /* CreateOrderRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +268,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				718697471B8D8B94004E4CD9 /* CreateOrderPresenter.swift in Sources */,
 				7104754E1B882CA000D72E3C /* CleanStoreTests.swift in Sources */,
+				7186974B1B8D8B94004E4CD9 /* CreateOrderViewController.swift in Sources */,
+				718697411B8D8B94004E4CD9 /* CreateOrderConfigurator.swift in Sources */,
+				7186974D1B8D8B94004E4CD9 /* CreateOrderWorker.swift in Sources */,
+				718697451B8D8B94004E4CD9 /* CreateOrderModels.swift in Sources */,
+				718697431B8D8B94004E4CD9 /* CreateOrderInteractor.swift in Sources */,
+				718697491B8D8B94004E4CD9 /* CreateOrderRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,6 +463,7 @@
 				710475531B882CA000D72E3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		710475541B882CA000D72E3C /* Build configuration list for PBXNativeTarget "CleanStoreTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +472,7 @@
 				710475561B882CA000D72E3C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
