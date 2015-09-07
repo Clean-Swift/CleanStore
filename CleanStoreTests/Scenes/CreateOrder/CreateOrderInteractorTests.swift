@@ -3,7 +3,8 @@ import XCTest
 
 class CreateOrderInteractorTests: XCTestCase
 {
-  // Subject under test
+  // MARK: Subject under test
+  
   var createOrderInteractor: CreateOrderInteractor!
   
   // MARK: Test lifecycle
