@@ -50,7 +50,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
   func textFieldShouldReturn(textField: UITextField) -> Bool
   {
     textField.resignFirstResponder()
-    if let index = find(textFields, textField) {
+    if let index = textFields.indexOf(textField) {
       if index < textFields.count - 1 {
         let nextTextField = textFields[index + 1]
         nextTextField.becomeFirstResponder()
@@ -91,7 +91,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     return output.shippingMethods.count
   }
   
-  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String!
+  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
   {
     return output.shippingMethods[row]
   }

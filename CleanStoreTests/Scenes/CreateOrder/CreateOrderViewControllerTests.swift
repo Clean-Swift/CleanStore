@@ -28,7 +28,7 @@ class CreateOrderViewControllerTests: XCTestCase
     let bundle = NSBundle(forClass: self.dynamicType)
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     createOrderViewController = storyboard.instantiateViewControllerWithIdentifier("CreateOrderViewController") as! CreateOrderViewController
-    let view = createOrderViewController.view
+    _ = createOrderViewController.view
     addViewToWindow()
   }
   
@@ -220,7 +220,7 @@ class CreateOrderViewControllerTests: XCTestCase
     let bundle = NSBundle(forClass: self.dynamicType)
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     let createOrderViewController = storyboard.instantiateViewControllerWithIdentifier("CreateOrderViewController") as! CreateOrderViewController
-    let view = createOrderViewController.view
+    _ = createOrderViewController.view
     
     // Given
     // When
