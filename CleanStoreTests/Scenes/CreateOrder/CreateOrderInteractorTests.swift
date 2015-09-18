@@ -65,8 +65,8 @@ class CreateOrderInteractorTests: XCTestCase
     // Given
     let allAvailableShippingMethods = [
       "Standard Shipping",
-      "Two-Day Shipping ",
-      "One-Day Shipping "
+      "Two-Day Shipping",
+      "One-Day Shipping"
     ]
     
     // When

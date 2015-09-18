@@ -45,7 +45,7 @@ class CreateOrderPresenterTests: XCTestCase
     func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel)
     {
       displayExpirationDateCalled = true
-      self.createOrder_formatExpirationDate_viewModel = viewModel
+      createOrder_formatExpirationDate_viewModel = viewModel
     }
   }
   
