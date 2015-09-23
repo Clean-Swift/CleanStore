@@ -217,11 +217,6 @@ class CreateOrderViewControllerTests: XCTestCase
   
   func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded() // viewDidLoad() -> configurePickers()
   {
-    let bundle = NSBundle(forClass: self.dynamicType)
-    let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-    let createOrderViewController = storyboard.instantiateViewControllerWithIdentifier("CreateOrderViewController") as! CreateOrderViewController
-    _ = createOrderViewController.view
-    
     // Given
     // When
     // Then

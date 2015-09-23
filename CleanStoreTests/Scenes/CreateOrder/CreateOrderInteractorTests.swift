@@ -24,10 +24,7 @@ class CreateOrderInteractorTests: XCTestCase
   
   func setupCreateOrderInteractor()
   {
-    let bundle = NSBundle(forClass: self.dynamicType)
-    let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-    let createOrderViewController = storyboard.instantiateViewControllerWithIdentifier("CreateOrderViewController") as! CreateOrderViewController
-    createOrderInteractor = createOrderViewController.output as! CreateOrderInteractor
+    createOrderInteractor = CreateOrderInteractor()
   }
   
   // MARK: Test doubles
