@@ -159,7 +159,7 @@ class CreateOrderViewControllerTests: XCTestCase
     let displayedShippingMethod = createOrderViewController.shippingMethodTextField.text
     XCTAssertEqual(displayedShippingMethod, expectedShippingMethod, "Selecting a shipping method in the shipping method picker should display the selected shipping method to the user")
   }
-  
+
   // MARK: Test text fields
   
   func testCursorFocusShouldMoveToNextTextFieldWhenUserTapsReturnKey()
@@ -168,6 +168,7 @@ class CreateOrderViewControllerTests: XCTestCase
     let currentTextField = createOrderViewController.textFields[0]
     let nextTextField = createOrderViewController.textFields[1]
     currentTextField.becomeFirstResponder()
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
     
     // When
     createOrderViewController.textFieldShouldReturn(currentTextField)
@@ -180,26 +181,67 @@ class CreateOrderViewControllerTests: XCTestCase
   func testKeyboardShouldBeDismissedWhenUserTapsReturnKeyWhenFocusIsInLastTextField()
   {
     // Given
-    let numTextFields = createOrderViewController.textFields.count
-    let lastTextField = createOrderViewController.textFields[numTextFields-1]
-    lastTextField.becomeFirstResponder()
     
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardDidHide:"), name: UIKeyboardDidHideNotification, object: lastTextField)
+    // Scroll to the bottom of table view so the last text field is visible and its gesture recognizer is set up
+    let lastSectionIndex = createOrderViewController.tableView.numberOfSections - 1
+    let lastRowIndex = createOrderViewController.tableView.numberOfRowsInSection(lastSectionIndex) - 1
+    createOrderViewController.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: lastRowIndex, inSection: lastSectionIndex), atScrollPosition: .Bottom, animated: false)
+    
+    // Show keyboard for the last text field
+    let numTextFields = createOrderViewController.textFields.count
+    let lastTextField = createOrderViewController.textFields[numTextFields - 1]
+    lastTextField.becomeFirstResponder()
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    
+    expectationForNotification(UIKeyboardWillHideNotification, object: nil) { (notification: NSNotification) -> Bool in
+      return true
+    }
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
     
     // When
     createOrderViewController.textFieldShouldReturn(lastTextField)
-    NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 5))
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    
+    // Then
+    waitForExpectationsWithTimeout(5.0) { (error: NSError?) -> Void in
+      XCTAssert(!lastTextField.isFirstResponder(), "Last text field should lose keyboard focus")
+      XCTAssert(true, "Keyboard should be dismissed when user taps the return key while focus is in the last text field")
+    }
   }
   
-  func keyboardDidHide(notification: NSNotification)
+  func testKeyboardShouldBeDismissedWhenUserTapsReturnKeyWhenFocusIsInLastTextField2()
   {
-    // Then
-    let lastTextField = notification.object as! UITextField
-    XCTAssert(!lastTextField.isFirstResponder(), "Last text field should lose keyboard focus")
-    XCTAssert(false, "Keyboard should be dismissed when user taps the return key while focus is in the last text field")
+    // Given
     
-    NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidHideNotification, object: lastTextField)
+    // Scroll to the bottom of table view so the last text field is visible and its gesture recognizer is set up
+    let lastSectionIndex = createOrderViewController.tableView.numberOfSections - 1
+    let lastRowIndex = createOrderViewController.tableView.numberOfRowsInSection(lastSectionIndex) - 1
+    createOrderViewController.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: lastRowIndex, inSection: lastSectionIndex), atScrollPosition: .Bottom, animated: false)
+    
+    // Show keyboard for the last text field
+    let numTextFields = createOrderViewController.textFields.count
+    let lastTextField = createOrderViewController.textFields[numTextFields - 1]
+    lastTextField.becomeFirstResponder()
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    
+    let expectation = expectationWithDescription("UIKeyboardWillHideNotification")
+    let observer = NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification: NSNotification) -> Void in
+      expectation.fulfill()
+    }
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    
+    // When
+    createOrderViewController.textFieldShouldReturn(lastTextField)
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    
+    // Then
+    waitForExpectationsWithTimeout(5.0) { (error: NSError?) -> Void in
+      XCTAssert(!lastTextField.isFirstResponder(), "Last text field should lose keyboard focus")
+      XCTAssert(true, "Keyboard should be dismissed when user taps the return key while focus is in the last text field")
+    }
+    NSNotificationCenter.defaultCenter().removeObserver(observer, name: UIKeyboardWillHideNotification, object: nil)
   }
+  
   /*
   func testTextFieldShouldHaveFocusWhenUserTapsOnTableViewRow()
   {
@@ -214,11 +256,12 @@ class CreateOrderViewControllerTests: XCTestCase
   }
   */
   // MARK: Test picker configs when view is loaded
-  
+  /*
   func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded() // viewDidLoad() -> configurePickers()
   {
     // Given
     // When
     // Then
   }
+  */
 }
