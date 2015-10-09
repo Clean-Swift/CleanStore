@@ -242,26 +242,30 @@ class CreateOrderViewControllerTests: XCTestCase
     NSNotificationCenter.defaultCenter().removeObserver(observer, name: UIKeyboardWillHideNotification, object: nil)
   }
   
-  /*
   func testTextFieldShouldHaveFocusWhenUserTapsOnTableViewRow()
   {
     // Given
-    let tableView = createOrderViewController.tableView
-    let indexPath: NSIndexPath
+    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+    
+    let textField = createOrderViewController.textFields[0]
     
     // When
-    createOrderViewController.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+    createOrderViewController.tableView(createOrderViewController.tableView, didSelectRowAtIndexPath: indexPath)
     
     // Then
+    XCTAssert(textField.isFirstResponder(), "The text field should have keyboard focus when user taps on the corresponding table view row")
   }
-  */
+  
   // MARK: Test picker configs when view is loaded
-  /*
+  
   func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded() // viewDidLoad() -> configurePickers()
   {
     // Given
+    
     // When
+    
     // Then
+    XCTAssertEqual(createOrderViewController.shippingMethodTextField.inputView, createOrderViewController.shippingMethodPicker, "")
+    XCTAssertEqual(createOrderViewController.expirationDateTextField.inputView, createOrderViewController.expirationDatePicker, "")
   }
-  */
 }
