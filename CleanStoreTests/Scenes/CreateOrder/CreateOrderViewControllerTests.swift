@@ -168,7 +168,6 @@ class CreateOrderViewControllerTests: XCTestCase
     let currentTextField = createOrderViewController.textFields[0]
     let nextTextField = createOrderViewController.textFields[1]
     currentTextField.becomeFirstResponder()
-    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
     
     // When
     createOrderViewController.textFieldShouldReturn(currentTextField)
@@ -245,14 +244,13 @@ class CreateOrderViewControllerTests: XCTestCase
   func testTextFieldShouldHaveFocusWhenUserTapsOnTableViewRow()
   {
     // Given
-    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-    
-    let textField = createOrderViewController.textFields[0]
     
     // When
+    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
     createOrderViewController.tableView(createOrderViewController.tableView, didSelectRowAtIndexPath: indexPath)
     
     // Then
+    let textField = createOrderViewController.textFields[0]
     XCTAssert(textField.isFirstResponder(), "The text field should have keyboard focus when user taps on the corresponding table view row")
   }
   
@@ -265,7 +263,7 @@ class CreateOrderViewControllerTests: XCTestCase
     // When
     
     // Then
-    XCTAssertEqual(createOrderViewController.shippingMethodTextField.inputView, createOrderViewController.shippingMethodPicker, "")
-    XCTAssertEqual(createOrderViewController.expirationDateTextField.inputView, createOrderViewController.expirationDatePicker, "")
+    XCTAssertEqual(createOrderViewController.expirationDateTextField.inputView, createOrderViewController.expirationDatePicker, "Expiration date text field should have the expiration date picker as input view")
+    XCTAssertEqual(createOrderViewController.shippingMethodTextField.inputView, createOrderViewController.shippingMethodPicker, "Shipping method text field should have the shipping method picker as input view")
   }
 }
