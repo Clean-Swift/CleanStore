@@ -6,18 +6,20 @@ class CreateOrderViewControllerTests: XCTestCase
   // MARK: Subject under test
   
   var createOrderViewController: CreateOrderViewController!
-  let window = UIWindow()
+  var window: UIWindow!
   
   // MARK: Test lifecycle
   
   override func setUp()
   {
     super.setUp()
+    window = UIWindow()
     setupCreateOrderViewController()
   }
   
   override func tearDown()
   {
+    window = nil
     super.tearDown()
   }
   
@@ -200,7 +202,6 @@ class CreateOrderViewControllerTests: XCTestCase
     // Then
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
       XCTAssert(!lastTextField.isFirstResponder(), "Last text field should lose keyboard focus")
-      XCTAssert(true, "Keyboard should be dismissed when user taps the return key while focus is in the last text field")
     }
   }
   
