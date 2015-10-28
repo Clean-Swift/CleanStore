@@ -193,16 +193,11 @@ class CreateOrderViewControllerTests: XCTestCase
     let lastTextField = createOrderViewController.textFields[numTextFields - 1]
     lastTextField.becomeFirstResponder()
     
-    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
-    
     // When
     createOrderViewController.textFieldShouldReturn(lastTextField)
-    expectationForNotification(UIKeyboardDidHideNotification, object: nil, handler: nil)
     
     // Then
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-      XCTAssert(!lastTextField.isFirstResponder(), "Last text field should lose keyboard focus")
-    }
+    XCTAssert(!lastTextField.isFirstResponder(), "Last text field should lose keyboard focus")
   }
   
   func testTextFieldShouldHaveFocusWhenUserTapsOnTableViewRow()
@@ -220,7 +215,7 @@ class CreateOrderViewControllerTests: XCTestCase
   
   // MARK: Test picker configs when view is loaded
   
-  func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded() // viewDidLoad() -> configurePickers()
+  func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded()
   {
     // Given
     
