@@ -13,12 +13,10 @@ import UIKit
 
 protocol ListOrdersPresenterInput
 {
-  func presentSomething(response: ListOrdersResponse)
 }
 
 protocol ListOrdersPresenterOutput: class
 {
-  func displaySomething(viewModel: ListOrdersViewModel)
 }
 
 class ListOrdersPresenter: ListOrdersPresenterInput
@@ -27,11 +25,4 @@ class ListOrdersPresenter: ListOrdersPresenterInput
   
   // MARK: Presentation logic
   
-  func presentSomething(response: ListOrdersResponse)
-  {
-    // NOTE: Format the response from the Interactor and pass the result back to the View Controller
-    
-    let viewModel = ListOrdersViewModel()
-    output.displaySomething(viewModel)
-  }
 }

@@ -11,14 +11,14 @@
 
 import UIKit
 
-struct ListOrdersRequest
+struct ListOrders_FetchOrders_Request
 {
 }
 
-struct ListOrdersResponse
+struct ListOrders_FetchOrders_Response
 {
 }
 
-struct ListOrdersViewModel
+struct ListOrders_FetchOrders_ViewModel
 {
 }

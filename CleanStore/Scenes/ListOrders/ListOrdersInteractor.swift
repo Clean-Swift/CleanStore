@@ -13,12 +13,11 @@ import UIKit
 
 protocol ListOrdersInteractorInput
 {
-  func doSomething(request: ListOrdersRequest)
+  func fetchOrders(request: ListOrders_FetchOrders_Request)
 }
 
 protocol ListOrdersInteractorOutput
 {
-  func presentSomething(response: ListOrdersResponse)
 }
 
 class ListOrdersInteractor: ListOrdersInteractorInput
@@ -28,16 +27,7 @@ class ListOrdersInteractor: ListOrdersInteractorInput
   
   // MARK: Business logic
   
-  func doSomething(request: ListOrdersRequest)
+  func fetchOrders(request: ListOrders_FetchOrders_Request)
   {
-    // NOTE: Create some Worker to do the work
-    
-    worker = ListOrdersWorker()
-    worker.doSomeWork()
-    
-    // NOTE: Pass the result to the Presenter
-    
-    let response = ListOrdersResponse()
-    output.presentSomething(response)
   }
 }

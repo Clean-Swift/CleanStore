@@ -13,12 +13,11 @@ import UIKit
 
 protocol ListOrdersViewControllerInput
 {
-  func displaySomething(viewModel: ListOrdersViewModel)
 }
 
 protocol ListOrdersViewControllerOutput
 {
-  func doSomething(request: ListOrdersRequest)
+  func fetchOrders(request: ListOrders_FetchOrders_Request)
 }
 
 class ListOrdersViewController: UITableViewController, ListOrdersViewControllerInput
@@ -39,25 +38,17 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
   override func viewDidLoad()
   {
     super.viewDidLoad()
-    doSomethingOnLoad()
+    fetchOrdersOnLoad()
   }
   
   // MARK: Event handling
   
-  func doSomethingOnLoad()
+  func fetchOrdersOnLoad()
   {
-    // NOTE: Ask the Interactor to do some work
-    
-    let request = ListOrdersRequest()
-    output.doSomething(request)
+    let request = ListOrders_FetchOrders_Request()
+    output.fetchOrders(request)
   }
   
   // MARK: Display logic
   
-  func displaySomething(viewModel: ListOrdersViewModel)
-  {
-    // NOTE: Display the result from the Presenter
-    
-    // nameTextField.text = viewModel.name
-  }
 }
