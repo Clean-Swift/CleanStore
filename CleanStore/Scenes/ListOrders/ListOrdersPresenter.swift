@@ -13,6 +13,7 @@ import UIKit
 
 protocol ListOrdersPresenterInput
 {
+  func presentFetchedOrders(response: ListOrders_FetchOrders_Response)
 }
 
 protocol ListOrdersPresenterOutput: class
@@ -25,4 +26,7 @@ class ListOrdersPresenter: ListOrdersPresenterInput
   
   // MARK: Presentation logic
   
+  func presentFetchedOrders(response: ListOrders_FetchOrders_Response)
+  {
+  }
 }

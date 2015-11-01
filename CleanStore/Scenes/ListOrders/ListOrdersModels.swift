@@ -17,6 +17,7 @@ struct ListOrders_FetchOrders_Request
 
 struct ListOrders_FetchOrders_Response
 {
+  var orders: [Order]
 }
 
 struct ListOrders_FetchOrders_ViewModel
