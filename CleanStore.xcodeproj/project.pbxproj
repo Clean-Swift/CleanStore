@@ -52,6 +52,13 @@
 		71B2CD011BE5FA0E00C734CA /* OrdersWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CCFF1BE5FA0E00C734CA /* OrdersWorker.swift */; };
 		71B2CD081BE5FB6E00C734CA /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD071BE5FB6E00C734CA /* Order.swift */; };
 		71B2CD091BE5FB6E00C734CA /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD071BE5FB6E00C734CA /* Order.swift */; };
+		71B2CD0E1BE68CBF00C734CA /* OrdersWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD0D1BE68CBF00C734CA /* OrdersWorkerTests.swift */; };
+		71B2CD111BE6A03800C734CA /* OrdersMemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD101BE6A03800C734CA /* OrdersMemStore.swift */; };
+		71B2CD121BE6A03800C734CA /* OrdersMemStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD101BE6A03800C734CA /* OrdersMemStore.swift */; };
+		71B2CD141BE6A04900C734CA /* OrdersCoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD131BE6A04900C734CA /* OrdersCoreDataStore.swift */; };
+		71B2CD151BE6A04900C734CA /* OrdersCoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD131BE6A04900C734CA /* OrdersCoreDataStore.swift */; };
+		71B2CD171BE6A06800C734CA /* OrdersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD161BE6A06800C734CA /* OrdersAPI.swift */; };
+		71B2CD181BE6A06800C734CA /* OrdersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD161BE6A06800C734CA /* OrdersAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +104,10 @@
 		71B2CCF71BE54B4600C734CA /* ListOrdersViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListOrdersViewControllerTests.swift; path = ListOrders/ListOrdersViewControllerTests.swift; sourceTree = "<group>"; };
 		71B2CCFF1BE5FA0E00C734CA /* OrdersWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersWorker.swift; path = Workers/OrdersWorker.swift; sourceTree = "<group>"; };
 		71B2CD071BE5FB6E00C734CA /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Order.swift; path = Models/Order.swift; sourceTree = "<group>"; };
+		71B2CD0D1BE68CBF00C734CA /* OrdersWorkerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersWorkerTests.swift; path = Workers/OrdersWorkerTests.swift; sourceTree = "<group>"; };
+		71B2CD101BE6A03800C734CA /* OrdersMemStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersMemStore.swift; path = Services/OrdersMemStore.swift; sourceTree = "<group>"; };
+		71B2CD131BE6A04900C734CA /* OrdersCoreDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersCoreDataStore.swift; path = Services/OrdersCoreDataStore.swift; sourceTree = "<group>"; };
+		71B2CD161BE6A06800C734CA /* OrdersAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersAPI.swift; path = Services/OrdersAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +149,7 @@
 		710475341B882CA000D72E3C /* CleanStore */ = {
 			isa = PBXGroup;
 			children = (
+				71B2CD0F1BE6A01A00C734CA /* Services */,
 				71B2CD061BE5FB5800C734CA /* Models */,
 				71B2CCFD1BE5F9A700C734CA /* Workers */,
 				718697371B8D8B94004E4CD9 /* Scenes */,
@@ -161,6 +173,7 @@
 		7104754A1B882CA000D72E3C /* CleanStoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				71B2CD0B1BE68C7800C734CA /* Workers */,
 				71416E9D1B9D678600C6DBE4 /* Scenes */,
 				713B53C31B995C2400C2E152 /* TheLittleMocker.swift */,
 				7104754D1B882CA000D72E3C /* CleanStoreTests.swift */,
@@ -257,6 +270,24 @@
 				71B2CD071BE5FB6E00C734CA /* Order.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		71B2CD0B1BE68C7800C734CA /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				71B2CD0D1BE68CBF00C734CA /* OrdersWorkerTests.swift */,
+			);
+			name = Workers;
+			sourceTree = "<group>";
+		};
+		71B2CD0F1BE6A01A00C734CA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				71B2CD101BE6A03800C734CA /* OrdersMemStore.swift */,
+				71B2CD131BE6A04900C734CA /* OrdersCoreDataStore.swift */,
+				71B2CD161BE6A06800C734CA /* OrdersAPI.swift */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -371,11 +402,14 @@
 				71B2CD081BE5FB6E00C734CA /* Order.swift in Sources */,
 				71B2CD001BE5FA0E00C734CA /* OrdersWorker.swift in Sources */,
 				7186974A1B8D8B94004E4CD9 /* CreateOrderViewController.swift in Sources */,
+				71B2CD141BE6A04900C734CA /* OrdersCoreDataStore.swift in Sources */,
 				718697401B8D8B94004E4CD9 /* CreateOrderConfigurator.swift in Sources */,
 				7186974C1B8D8B94004E4CD9 /* CreateOrderWorker.swift in Sources */,
 				718697441B8D8B94004E4CD9 /* CreateOrderModels.swift in Sources */,
 				71B2CCE81BE547CA00C734CA /* ListOrdersInteractor.swift in Sources */,
 				718697421B8D8B94004E4CD9 /* CreateOrderInteractor.swift in Sources */,
+				71B2CD171BE6A06800C734CA /* OrdersAPI.swift in Sources */,
+				71B2CD111BE6A03800C734CA /* OrdersMemStore.swift in Sources */,
 				71B2CCF01BE547CA00C734CA /* ListOrdersViewController.swift in Sources */,
 				71B2CCEE1BE547CA00C734CA /* ListOrdersRouter.swift in Sources */,
 				718697481B8D8B94004E4CD9 /* CreateOrderRouter.swift in Sources */,
@@ -406,8 +440,12 @@
 				71B2CCEF1BE547CA00C734CA /* ListOrdersRouter.swift in Sources */,
 				71B2CD091BE5FB6E00C734CA /* Order.swift in Sources */,
 				718697431B8D8B94004E4CD9 /* CreateOrderInteractor.swift in Sources */,
+				71B2CD151BE6A04900C734CA /* OrdersCoreDataStore.swift in Sources */,
+				71B2CD121BE6A03800C734CA /* OrdersMemStore.swift in Sources */,
 				718697491B8D8B94004E4CD9 /* CreateOrderRouter.swift in Sources */,
+				71B2CD181BE6A06800C734CA /* OrdersAPI.swift in Sources */,
 				71B2CCE91BE547CA00C734CA /* ListOrdersInteractor.swift in Sources */,
+				71B2CD0E1BE68CBF00C734CA /* OrdersWorkerTests.swift in Sources */,
 				71B2CD011BE5FA0E00C734CA /* OrdersWorker.swift in Sources */,
 				71B2CCFB1BE54B4600C734CA /* ListOrdersViewControllerTests.swift in Sources */,
 			);

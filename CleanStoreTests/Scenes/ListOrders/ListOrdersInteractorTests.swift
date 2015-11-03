@@ -71,7 +71,7 @@ class ListOrdersInteractorTests: XCTestCase
     // Given
     let listOrdersInteractorOutputSpy = ListOrdersInteractorOutputSpy()
     sut.output = listOrdersInteractorOutputSpy
-    let ordersWorkerSpy = OrdersWorkerSpy()
+    let ordersWorkerSpy = OrdersWorkerSpy(ordersStore: OrdersMemStore())
     sut.ordersWorker = ordersWorkerSpy
     
     // When

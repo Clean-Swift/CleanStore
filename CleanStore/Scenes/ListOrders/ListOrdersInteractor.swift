@@ -24,7 +24,7 @@ protocol ListOrdersInteractorOutput
 class ListOrdersInteractor: ListOrdersInteractorInput
 {
   var output: ListOrdersInteractorOutput!
-  var ordersWorker = OrdersWorker()
+  var ordersWorker = OrdersWorker(ordersStore: OrdersMemStore())
   
   // MARK: Business logic
   
