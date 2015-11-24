@@ -1,11 +1,12 @@
 @testable import CleanStore
 import XCTest
+import CoreData
 
-class OrdersMemStoreTests: XCTestCase
+class OrdersCoreDataStoreTests: XCTestCase
 {
   // MARK: - Subject under test
   
-  var sut: OrdersMemStore!
+  var sut: OrdersCoreDataStore!
   var testOrders: [Order]!
   
   // MARK: - Test lifecycle
@@ -13,28 +14,53 @@ class OrdersMemStoreTests: XCTestCase
   override func setUp()
   {
     super.setUp()
-    setupOrdersMemStore()
+    setupOrdersCoreDataStore()
   }
   
   override func tearDown()
   {
-    resetOrdersMemStore()
+    sut = nil
     super.tearDown()
   }
   
   // MARK: - Test setup
   
-  func setupOrdersMemStore()
+  func setupOrdersCoreDataStore()
   {
-    sut = OrdersMemStore()
+    sut = OrdersCoreDataStore()
+    
+    deleteAllOrdersInOrdersCoreDataStore()
+    
     testOrders = [Order(date: NSDate(), id: "abc123"), Order(date: NSDate(), id: "def456")]
-    sut.orders = testOrders
+    for order in testOrders {
+      let expectation = expectationWithDescription("Wait for createOrder() to return")
+      sut.createOrder(order) { (done: () throws -> Void) -> Void in
+        expectation.fulfill()
+      }
+      waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
+      }
+    }
   }
   
-  func resetOrdersMemStore()
+  func deleteAllOrdersInOrdersCoreDataStore()
   {
-    sut.orders = []
-    sut = nil
+    var allOrders = [Order]()
+    let fetchOrdersExpectation = expectationWithDescription("Wait for fetchOrder() to return")
+    sut.fetchOrders { (orders: () throws -> [Order]) -> Void in
+      allOrders = try! orders()
+      fetchOrdersExpectation.fulfill()
+    }
+    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
+    }
+    
+    for order in allOrders {
+      let deleteOrderExpectation = expectationWithDescription("Wait for deleteOrder() to return")
+      self.sut.deleteOrder(order.id!) { (done: () throws -> Void) -> Void in
+        deleteOrderExpectation.fulfill()
+      }
+      waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
+      }
+    }
   }
   
   // MARK: - Test CRUD operations - Optional error
@@ -93,16 +119,16 @@ class OrdersMemStoreTests: XCTestCase
     }
     
     // Then
-    var createdOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToCreate.id!) { (order: Order?, error: OrdersStoreError?) -> Void in
-      createdOrder = order
-      fetchOrderExpectation.fulfill()
+    var returnedOrder: Order?
+    let expectation = expectationWithDescription("Wait for fetchOrder() to return")
+    sut.fetchOrder(orderToCreate.id!) { (order: () throws -> Order?) -> Void in
+      returnedOrder = try! order()
+      expectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
-    XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
+    XCTAssertEqual(returnedOrder, orderToCreate, "createOrder() should create a new order")
   }
   
   func testUpdateOrderShouldUpdateExistingOrder_OptionalError()
@@ -222,33 +248,22 @@ class OrdersMemStoreTests: XCTestCase
     // When
     let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
     sut.createOrder(orderToCreate) { (result: OrdersStoreResult<Void>) -> Void in
-      switch (result) {
-      case .Success:
-        break;
-      case .Failure(let error):
-        XCTFail("createOrder() should not return an error: \(error)")
-      }
       createOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    var createdOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToCreate.id!) { (result: OrdersStoreResult<Order>) -> Void in
-      switch (result) {
-      case .Success(let order):
-        createdOrder = order
-      case .Failure(let error):
-        XCTFail("fetchOrder() should not return an error: \(error)")
-      }
-      fetchOrderExpectation.fulfill()
+    var returnedOrder: Order?
+    let expectation = expectationWithDescription("Wait for fetchOrder() to return")
+    sut.fetchOrder(orderToCreate.id!) { (order: () throws -> Order?) -> Void in
+      returnedOrder = try! order()
+      expectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
-    XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
+    XCTAssertEqual(returnedOrder, orderToCreate, "createOrder() should create a new order")
   }
   
   func testUpdateOrderShouldUpdateExistingOrder_GenericEnumResultType()
@@ -380,16 +395,16 @@ class OrdersMemStoreTests: XCTestCase
     }
     
     // Then
-    var createdOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
+    var returnedOrder: Order?
+    let expectation = expectationWithDescription("Wait for fetchOrder() to return")
     sut.fetchOrder(orderToCreate.id!) { (order: () throws -> Order?) -> Void in
-      createdOrder = try! order()
-      fetchOrderExpectation.fulfill()
+      returnedOrder = try! order()
+      expectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
-    XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
+    XCTAssertEqual(returnedOrder, orderToCreate, "createOrder() should create a new order")
   }
   
   func testUpdateOrderShouldUpdateExistingOrder_InnerClosure()
@@ -444,7 +459,8 @@ class OrdersMemStoreTests: XCTestCase
         deletedOrder = try order()
       } catch let error as OrdersStoreError {
         deleteOrderError = error
-      } catch {}
+      } catch {
+      }
       fetchOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in

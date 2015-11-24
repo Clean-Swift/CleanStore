@@ -1,3 +1,4 @@
+@testable import CleanStore
 import UIKit
 import XCTest
 

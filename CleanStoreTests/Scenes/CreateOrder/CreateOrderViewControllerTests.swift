@@ -1,3 +1,4 @@
+@testable import CleanStore
 import UIKit
 import XCTest
 
@@ -27,7 +28,7 @@ class CreateOrderViewControllerTests: XCTestCase
   
   func setupCreateOrderViewController()
   {
-    let bundle = NSBundle(forClass: self.dynamicType)
+    let bundle = NSBundle.mainBundle()
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     createOrderViewController = storyboard.instantiateViewControllerWithIdentifier("CreateOrderViewController") as! CreateOrderViewController
     _ = createOrderViewController.view
@@ -161,7 +162,7 @@ class CreateOrderViewControllerTests: XCTestCase
     let displayedShippingMethod = createOrderViewController.shippingMethodTextField.text
     XCTAssertEqual(displayedShippingMethod, expectedShippingMethod, "Selecting a shipping method in the shipping method picker should display the selected shipping method to the user")
   }
-
+  
   // MARK: Test text fields
   
   func testCursorFocusShouldMoveToNextTextFieldWhenUserTapsReturnKey()

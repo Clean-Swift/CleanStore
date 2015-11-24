@@ -1,3 +1,4 @@
+@testable import CleanStore
 import XCTest
 
 class OrdersWorkerTests: XCTestCase
@@ -34,12 +35,14 @@ class OrdersWorkerTests: XCTestCase
     var fetchedOrdersCalled = false
     
     // MARK: Spied methods
-    override func fetchOrders(completionHandler: (orders: [Order]) -> Void)
+    override func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
     {
       fetchedOrdersCalled = true
       let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
       dispatch_after(oneSecond, dispatch_get_main_queue(), {
-        completionHandler(orders: [Order(), Order()])
+        completionHandler {
+          return [Order(date: NSDate(), id: "abc123"), Order(date: NSDate(), id: "def456")]
+        }
       })
     }
   }
@@ -52,7 +55,7 @@ class OrdersWorkerTests: XCTestCase
     let ordersMemStoreSpy = sut.ordersStore as! OrdersMemStoreSpy
     
     // When
-    let expectation = expectationWithDescription("Wait for fetched orders result")
+    let expectation = expectationWithDescription("Wait for fetchOrders() to return")
     sut.fetchOrders { (orders: [Order]) -> Void in
       expectation.fulfill()
     }

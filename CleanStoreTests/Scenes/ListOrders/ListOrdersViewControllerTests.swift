@@ -9,6 +9,7 @@
 //  clean architecture to your iOS and Mac projects, see http://clean-swift.com
 //
 
+@testable import CleanStore
 import XCTest
 
 class ListOrdersViewControllerTests: XCTestCase
@@ -37,7 +38,7 @@ class ListOrdersViewControllerTests: XCTestCase
   
   func setupListOrdersViewController()
   {
-    let bundle = NSBundle(forClass: self.dynamicType)
+    let bundle = NSBundle.mainBundle()
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     sut = storyboard.instantiateViewControllerWithIdentifier("ListOrdersViewController") as! ListOrdersViewController
   }

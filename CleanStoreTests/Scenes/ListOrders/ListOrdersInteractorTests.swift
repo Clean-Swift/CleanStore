@@ -9,6 +9,7 @@
 //  clean architecture to your iOS and Mac projects, see http://clean-swift.com
 //
 
+@testable import CleanStore
 import XCTest
 
 class ListOrdersInteractorTests: XCTestCase
