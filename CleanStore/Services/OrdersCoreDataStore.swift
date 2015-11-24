@@ -91,6 +91,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
         managedOrder.id = orderToCreate.id
         managedOrder.date = orderToCreate.date
+        managedOrder.email = orderToCreate.email
+        managedOrder.firstName = orderToCreate.firstName
+        managedOrder.lastName = orderToCreate.lastName
+        managedOrder.total = orderToCreate.total
         try self.privateManagedObjectContext.save()
         completionHandler(error: nil)
       } catch {
@@ -110,6 +114,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol
           do {
             managedOrder.id = orderToUpdate.id
             managedOrder.date = orderToUpdate.date
+            managedOrder.email = orderToUpdate.email
+            managedOrder.firstName = orderToUpdate.firstName
+            managedOrder.lastName = orderToUpdate.lastName
+            managedOrder.total = orderToUpdate.total
             try self.privateManagedObjectContext.save()
             completionHandler(error: nil)
           } catch {
@@ -187,6 +195,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
         managedOrder.id = orderToCreate.id
         managedOrder.date = orderToCreate.date
+        managedOrder.email = orderToCreate.email
+        managedOrder.firstName = orderToCreate.firstName
+        managedOrder.lastName = orderToCreate.lastName
+        managedOrder.total = orderToCreate.total
         try self.privateManagedObjectContext.save()
         completionHandler(result: OrdersStoreResult.Success(result: ()))
       } catch {
@@ -207,6 +219,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol
           do {
             managedOrder.id = orderToUpdate.id
             managedOrder.date = orderToUpdate.date
+            managedOrder.email = orderToUpdate.email
+            managedOrder.firstName = orderToUpdate.firstName
+            managedOrder.lastName = orderToUpdate.lastName
+            managedOrder.total = orderToUpdate.total
             try self.privateManagedObjectContext.save()
             completionHandler(result: OrdersStoreResult.Success(result: ()))
           } catch {
@@ -284,6 +300,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
         managedOrder.id = orderToCreate.id
         managedOrder.date = orderToCreate.date
+        managedOrder.email = orderToCreate.email
+        managedOrder.firstName = orderToCreate.firstName
+        managedOrder.lastName = orderToCreate.lastName
+        managedOrder.total = orderToCreate.total
         try self.privateManagedObjectContext.save()
         completionHandler { return }
       } catch {
@@ -303,6 +323,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol
           do {
             managedOrder.id = orderToUpdate.id
             managedOrder.date = orderToUpdate.date
+            managedOrder.email = orderToUpdate.email
+            managedOrder.firstName = orderToUpdate.firstName
+            managedOrder.lastName = orderToUpdate.lastName
+            managedOrder.total = orderToUpdate.total
             try self.privateManagedObjectContext.save()
             completionHandler { return }
           } catch {

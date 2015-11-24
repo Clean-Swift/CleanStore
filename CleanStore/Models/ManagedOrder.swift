@@ -5,6 +5,6 @@ class ManagedOrder: NSManagedObject
 {
   func toOrder() -> Order
   {
-    return Order(date: date, id: id)
+    return Order(id: id, date: date, email: email, firstName: firstName, lastName: lastName, total: total)
   }
 }

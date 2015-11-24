@@ -27,7 +27,12 @@ class OrdersMemStoreTests: XCTestCase
   func setupOrdersMemStore()
   {
     sut = OrdersMemStore()
-    testOrders = [Order(date: NSDate(), id: "abc123"), Order(date: NSDate(), id: "def456")]
+    
+    testOrders = [
+      Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23")),
+      Order(id: "def456", date: NSDate(), email: "bob.battery@clean-swift.com", firstName: "Bob", lastName: "Battery", total: NSDecimalNumber(string: "4.56"))
+    ]
+    
     sut.orders = testOrders
   }
   
@@ -82,7 +87,7 @@ class OrdersMemStoreTests: XCTestCase
   func testCreateOrderShouldCreateNewOrder_OptionalError()
   {
     // Given
-    let orderToCreate = Order(date: NSDate(), id: "ghi789")
+    let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
     
     // When
     let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
@@ -217,7 +222,7 @@ class OrdersMemStoreTests: XCTestCase
   func testCreateOrderShouldCreateNewOrder_GenericEnumResultType()
   {
     // Given
-    let orderToCreate = Order(date: NSDate(), id: "ghi789")
+    let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
     
     // When
     let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
@@ -368,7 +373,7 @@ class OrdersMemStoreTests: XCTestCase
   func testCreateOrderShouldCreateNewOrder_InnerClosure()
   {
     // Given
-    let orderToCreate = Order(date: NSDate(), id: "ghi789")
+    let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
     
     // When
     let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")

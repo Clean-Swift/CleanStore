@@ -41,7 +41,10 @@ class OrdersWorkerTests: XCTestCase
       let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
       dispatch_after(oneSecond, dispatch_get_main_queue(), {
         completionHandler {
-          return [Order(date: NSDate(), id: "abc123"), Order(date: NSDate(), id: "def456")]
+          return [
+            Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23")),
+            Order(id: "def456", date: NSDate(), email: "bob.battery@clean-swift.com", firstName: "Bob", lastName: "Battery", total: NSDecimalNumber(string: "4.56"))
+          ]
         }
       })
     }

@@ -2,8 +2,12 @@ import Foundation
 
 struct Order: Equatable
 {
-  var date: NSDate?
   var id: String?
+  var date: NSDate?
+  var email: String?
+  var firstName: String?
+  var lastName: String?
+  var total: NSDecimalNumber?
 }
 
 func ==(lhs: Order, rhs: Order) -> Bool
@@ -12,5 +16,10 @@ func ==(lhs: Order, rhs: Order) -> Bool
   if let lhsDate = lhs.date, rhsDate = rhs.date {
     dateEqual = lhsDate.timeIntervalSinceDate(rhsDate) < 1.0
   }
-  return lhs.id == rhs.id && dateEqual
+  return lhs.id == rhs.id
+    && dateEqual
+    && lhs.email == rhs.email
+    && lhs.firstName == rhs.firstName
+    && lhs.lastName == rhs.lastName
+    && lhs.total == rhs.total
 }
