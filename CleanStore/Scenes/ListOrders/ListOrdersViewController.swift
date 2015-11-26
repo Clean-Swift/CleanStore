@@ -13,6 +13,7 @@ import UIKit
 
 protocol ListOrdersViewControllerInput
 {
+  func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
 }
 
 protocol ListOrdersViewControllerOutput
@@ -24,6 +25,7 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
 {
   var output: ListOrdersViewControllerOutput!
   var router: ListOrdersRouter!
+  var displayedOrders: [ListOrders_FetchOrders_ViewModel.DisplayedOrder] = []
   
   // MARK: Object lifecycle
   
@@ -51,4 +53,7 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
   
   // MARK: Display logic
   
+  func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
+  {
+  }
 }

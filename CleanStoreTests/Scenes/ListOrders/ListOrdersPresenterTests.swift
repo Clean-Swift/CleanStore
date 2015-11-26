@@ -40,14 +40,66 @@ class ListOrdersPresenterTests: XCTestCase
   
   // MARK: Test doubles
   
+  class ListOrdersPresenterOutputSpy: ListOrdersPresenterOutput
+  {
+    // MARK: Method call expectations
+    var displayFetchedOrdersCalled = false
+    
+    // MARK: Argument expectations
+    var listOrders_fetchOrders_viewModel: ListOrders_FetchOrders_ViewModel!
+    
+    // MARK: Spied methods
+    func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
+    {
+      displayFetchedOrdersCalled = true
+      listOrders_fetchOrders_viewModel = viewModel
+    }
+  }
+  
   // MARK: Tests
   
-  func testSomething()
+  func testPresentFetchedOrdersShouldFormatFetchedOrdersForDisplay()
   {
     // Given
+    let listOrdersPresenterOutputSpy = ListOrdersPresenterOutputSpy()
+    sut.output = listOrdersPresenterOutputSpy
+    
+    let dateComponents = NSDateComponents()
+    dateComponents.year = 2007
+    dateComponents.month = 6
+    dateComponents.day = 29
+    let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents)!
+    
+    let orders = [Order(id: "abc123", date: date, email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
+    let response = ListOrders_FetchOrders_Response(orders: orders)
     
     // When
+    sut.presentFetchedOrders(response)
     
     // Then
+    let displayedOrders = listOrdersPresenterOutputSpy.listOrders_fetchOrders_viewModel.displayedOrders
+    for displayedOrder in displayedOrders{
+      XCTAssertEqual(displayedOrder.id, "abc123", "Presenting fetched orders should properly format order ID")
+      XCTAssertEqual(displayedOrder.date, "6/29/07", "Presenting fetched orders should properly format order date")
+      XCTAssertEqual(displayedOrder.email, "amy.apple@clean-swift.com", "Presenting fetched orders should properly format email")
+      XCTAssertEqual(displayedOrder.name, "Amy Apple", "Presenting fetched orders should properly format name")
+      XCTAssertEqual(displayedOrder.total, "$1.23", "Presenting fetched orders should properly format total")
+    }
+  }
+  
+  func testPresentFetchedOrdersShouldAskViewControllerToDisplayFetchedOrders()
+  {
+    // Given
+    let listOrdersPresenterOutputSpy = ListOrdersPresenterOutputSpy()
+    sut.output = listOrdersPresenterOutputSpy
+    
+    let orders = [Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
+    let response = ListOrders_FetchOrders_Response(orders: orders)
+    
+    // When
+    sut.presentFetchedOrders(response)
+    
+    // Then
+    XCTAssert(listOrdersPresenterOutputSpy.displayFetchedOrdersCalled, "Presenting fetched orders should ask view controller to display them")
   }
 }
