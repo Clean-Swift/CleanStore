@@ -59,27 +59,4 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
     tableView.reloadData()
   }
   
-  // MARK: Table view data source
-  
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int
-  {
-    return 1
-  }
-  
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-  {
-    return displayedOrders.count
-  }
-  
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-  {
-    let displayedOrder = displayedOrders[indexPath.row]
-    var cell = tableView.dequeueReusableCellWithIdentifier("OrderTableViewCell")
-    if cell == nil {
-      cell = UITableViewCell(style: .Value1, reuseIdentifier: "OrderTableViewCell")
-    }
-    cell?.textLabel?.text = displayedOrder.date
-    cell?.detailTextLabel?.text = displayedOrder.total
-    return cell!
-  }
 }

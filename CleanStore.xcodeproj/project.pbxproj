@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		44D61FA71C5230E0000E5DEF /* ListOrdersViewControllerTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D61FA61C5230E0000E5DEF /* ListOrdersViewControllerTableView.swift */; };
 		710475381B882CA000D72E3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710475371B882CA000D72E3C /* AppDelegate.swift */; };
 		7104753D1B882CA000D72E3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7104753B1B882CA000D72E3C /* Main.storyboard */; };
 		7104753F1B882CA000D72E3C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7104753E1B882CA000D72E3C /* Images.xcassets */; };
@@ -58,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		44D61FA61C5230E0000E5DEF /* ListOrdersViewControllerTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListOrdersViewControllerTableView.swift; path = ListOrders/ListOrdersViewControllerTableView.swift; sourceTree = "<group>"; };
 		710475321B882CA000D72E3C /* CleanStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		710475361B882CA000D72E3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		710475371B882CA000D72E3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				71B2CCE31BE547CA00C734CA /* ListOrdersRouter.swift */,
 				71B2CCE41BE547CA00C734CA /* ListOrdersViewController.swift */,
 				71B2CCE51BE547CA00C734CA /* ListOrdersWorker.swift */,
+				44D61FA61C5230E0000E5DEF /* ListOrdersViewControllerTableView.swift */,
 			);
 			name = ListOrders;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				71B2CCF01BE547CA00C734CA /* ListOrdersViewController.swift in Sources */,
 				71B2CCEE1BE547CA00C734CA /* ListOrdersRouter.swift in Sources */,
 				718697481B8D8B94004E4CD9 /* CreateOrderRouter.swift in Sources */,
+				44D61FA71C5230E0000E5DEF /* ListOrdersViewControllerTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
