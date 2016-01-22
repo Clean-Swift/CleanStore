@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		44D61FA71C5230E0000E5DEF /* ListOrdersViewControllerTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D61FA61C5230E0000E5DEF /* ListOrdersViewControllerTableView.swift */; };
+		44D61FA91C523F2F000E5DEF /* CreateOrderViewControllerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D61FA81C523F2F000E5DEF /* CreateOrderViewControllerTextField.swift */; };
+		44D61FAB1C523F7D000E5DEF /* CreateOrderViewControllerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D61FAA1C523F7D000E5DEF /* CreateOrderViewControllerPickerView.swift */; };
 		710475381B882CA000D72E3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710475371B882CA000D72E3C /* AppDelegate.swift */; };
 		7104753D1B882CA000D72E3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7104753B1B882CA000D72E3C /* Main.storyboard */; };
 		7104753F1B882CA000D72E3C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7104753E1B882CA000D72E3C /* Images.xcassets */; };
@@ -60,6 +62,8 @@
 
 /* Begin PBXFileReference section */
 		44D61FA61C5230E0000E5DEF /* ListOrdersViewControllerTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListOrdersViewControllerTableView.swift; path = ListOrders/ListOrdersViewControllerTableView.swift; sourceTree = "<group>"; };
+		44D61FA81C523F2F000E5DEF /* CreateOrderViewControllerTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderViewControllerTextField.swift; sourceTree = "<group>"; };
+		44D61FAA1C523F7D000E5DEF /* CreateOrderViewControllerPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderViewControllerPickerView.swift; sourceTree = "<group>"; };
 		710475321B882CA000D72E3C /* CleanStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		710475361B882CA000D72E3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		710475371B882CA000D72E3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -234,6 +238,8 @@
 				7186973D1B8D8B94004E4CD9 /* CreateOrderRouter.swift */,
 				7186973E1B8D8B94004E4CD9 /* CreateOrderViewController.swift */,
 				7186973F1B8D8B94004E4CD9 /* CreateOrderWorker.swift */,
+				44D61FA81C523F2F000E5DEF /* CreateOrderViewControllerTextField.swift */,
+				44D61FAA1C523F7D000E5DEF /* CreateOrderViewControllerPickerView.swift */,
 			);
 			path = CreateOrder;
 			sourceTree = "<group>";
@@ -401,6 +407,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44D61FAB1C523F7D000E5DEF /* CreateOrderViewControllerPickerView.swift in Sources */,
+				44D61FA91C523F2F000E5DEF /* CreateOrderViewControllerTextField.swift in Sources */,
 				716B29391BEECAC9005986B1 /* ManagedOrder+CoreDataProperties.swift in Sources */,
 				718697461B8D8B94004E4CD9 /* CreateOrderPresenter.swift in Sources */,
 				710475381B882CA000D72E3C /* AppDelegate.swift in Sources */,

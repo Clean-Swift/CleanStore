@@ -20,7 +20,7 @@ protocol CreateOrderViewControllerOutput {
   func formatExpirationDate(request: CreateOrder_FormatExpirationDate_Request)
 }
 
-class CreateOrderViewController: UITableViewController, CreateOrderViewControllerInput, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class CreateOrderViewController: UITableViewController, CreateOrderViewControllerInput {
   var output: CreateOrderViewControllerOutput!
   var router: CreateOrderRouter!
   
@@ -40,32 +40,9 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     configurePickers()
   }
   
-  // MARK: Text fields
+  // MARK: Text Fields
   
   @IBOutlet var textFields: [UITextField]!
-  
-  func textFieldShouldReturn(textField: UITextField) -> Bool
-  {
-    textField.resignFirstResponder()
-    if let index = textFields.indexOf(textField) {
-      if index < textFields.count - 1 {
-        let nextTextField = textFields[index + 1]
-        nextTextField.becomeFirstResponder()
-      }
-    }
-    return true
-  }
-  
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-  {
-    if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-      for textField in textFields {
-        if textField.isDescendantOfView(cell) {
-          textField.becomeFirstResponder()
-        }
-      }
-    }
-  }
   
   // MARK: Shipping method
   
@@ -77,21 +54,6 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     expirationDateTextField.inputView = expirationDatePicker
   }
   
-  func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-    return 1
-  }
-  
-  func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return output.shippingMethods.count
-  }
-  
-  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return output.shippingMethods[row]
-  }
-  
-  func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    shippingMethodTextField.text = output.shippingMethods[row]
-  }
   
   // MARK: Expiration date
   
