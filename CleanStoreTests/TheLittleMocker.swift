@@ -9,81 +9,64 @@
 import UIKit
 import XCTest
 
-protocol Authorizer
-{
+protocol Authorizer {
   func authorize(username: String, password: String) -> Bool?
 }
 
-class DummyAuthorizer: Authorizer
-{
-  func authorize(username: String, password: String) -> Bool?
-  {
+class DummyAuthorizer: Authorizer {
+  func authorize(username: String, password: String) -> Bool? {
     return nil
   }
 }
 
-class AcceptingAuthorizerStub: Authorizer
-{
-  func authorize(username: String, password: String) -> Bool?
-  {
+class AcceptingAuthorizerStub: Authorizer {
+  func authorize(username: String, password: String) -> Bool? {
     return true
   }
 }
 
-class AcceptingAuthorizerSpy: Authorizer
-{
+class AcceptingAuthorizerSpy: Authorizer {
   var authorizeWasCalled = false
   
-  func authorize(username: String, password: String) -> Bool?
-  {
+  func authorize(username: String, password: String) -> Bool? {
     authorizeWasCalled = true
     return true
   }
 }
 
-class AcceptingAuthorizerVerificationMock: Authorizer
-{
+class AcceptingAuthorizerVerificationMock: Authorizer {
   var authorizeWasCalled = false
   
-  func authorize(username: String, password: String) -> Bool?
-  {
+  func authorize(username: String, password: String) -> Bool? {
     authorizeWasCalled = true
     return true
   }
   
-  func verify() -> Bool
-  {
+  func verify() -> Bool {
     return authorizeWasCalled
   }
 }
 
-class AcceptingAuthorizerFake: Authorizer
-{
-  func authorize(username: String, password: String) -> Bool?
-  {
+class AcceptingAuthorizerFake: Authorizer {
+  func authorize(username: String, password: String) -> Bool? {
     return username == "Bob"
   }
 }
 
-class System
-{
+class System {
   var authorizer: Authorizer
   
-  init(authorizer: Authorizer)
-  {
+  init(authorizer: Authorizer) {
     self.authorizer = authorizer
   }
   
-  func loginCount() -> Int
-  {
+  func loginCount() -> Int {
     return 0
   }
 }
 
-class TheLittleMocker: XCTestCase
-{
-  func testNewlyCreatedSystem_hasNoLoggedInUsers()
-  {
+class TheLittleMocker: XCTestCase {
+  func testNewlyCreatedSystem_hasNoLoggedInUsers() {
     let system = System(authorizer: DummyAuthorizer())
     XCTAssert(system.loginCount() == 0, "Pass")
   }

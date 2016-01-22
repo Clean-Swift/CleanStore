@@ -2,17 +2,14 @@ import Foundation
 
 // MARK: - Orders worker
 
-class OrdersWorker
-{
+class OrdersWorker {
   var ordersStore: OrdersStoreProtocol
   
-  init(ordersStore: OrdersStoreProtocol)
-  {
+  init(ordersStore: OrdersStoreProtocol) {
     self.ordersStore = ordersStore
   }
   
-  func fetchOrders(completionHandler: (orders: [Order]) -> Void)
-  {
+  func fetchOrders(completionHandler: (orders: [Order]) -> Void) {
     ordersStore.fetchOrders { (orders: () throws -> [Order]) -> Void in
       do {
         let orders = try orders()
@@ -26,8 +23,7 @@ class OrdersWorker
 
 // MARK: - Orders store API
 
-protocol OrdersStoreProtocol
-{
+protocol OrdersStoreProtocol {
   // MARK: CRUD operations - Optional error
   
   func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void)
@@ -61,24 +57,21 @@ typealias OrdersStoreCreateOrderCompletionHandler = (result: OrdersStoreResult<V
 typealias OrdersStoreUpdateOrderCompletionHandler = (result: OrdersStoreResult<Void>) -> Void
 typealias OrdersStoreDeleteOrderCompletionHandler = (result: OrdersStoreResult<Void>) -> Void
 
-enum OrdersStoreResult<U>
-{
+enum OrdersStoreResult<U> {
   case Success(result: U)
   case Failure(error: OrdersStoreError)
 }
 
 // MARK: - Orders store CRUD operation errors
 
-enum OrdersStoreError: Equatable, ErrorType
-{
+enum OrdersStoreError: Equatable, ErrorType {
   case CannotFetch(String)
   case CannotCreate(String)
   case CannotUpdate(String)
   case CannotDelete(String)
 }
 
-func ==(lhs: OrdersStoreError, rhs: OrdersStoreError) -> Bool
-{
+func ==(lhs: OrdersStoreError, rhs: OrdersStoreError) -> Bool {
   switch (lhs, rhs) {
   case (.CannotFetch(let a), .CannotFetch(let b)) where a == b: return true
   case (.CannotCreate(let a), .CannotCreate(let b)) where a == b: return true

@@ -1,8 +1,7 @@
 @testable import CleanStore
 import XCTest
 
-class OrdersMemStoreTests: XCTestCase
-{
+class OrdersMemStoreTests: XCTestCase {
   // MARK: - Subject under test
   
   var sut: OrdersMemStore!
@@ -10,22 +9,19 @@ class OrdersMemStoreTests: XCTestCase
   
   // MARK: - Test lifecycle
   
-  override func setUp()
-  {
+  override func setUp() {
     super.setUp()
     setupOrdersMemStore()
   }
   
-  override func tearDown()
-  {
+  override func tearDown() {
     resetOrdersMemStore()
     super.tearDown()
   }
   
   // MARK: - Test setup
   
-  func setupOrdersMemStore()
-  {
+  func setupOrdersMemStore() {
     sut = OrdersMemStore()
     
     testOrders = [
@@ -36,16 +32,14 @@ class OrdersMemStoreTests: XCTestCase
     sut.orders = testOrders
   }
   
-  func resetOrdersMemStore()
-  {
+  func resetOrdersMemStore() {
     sut.orders = []
     sut = nil
   }
   
   // MARK: - Test CRUD operations - Optional error
   
-  func testFetchOrdersShouldReturnListOfOrders_OptionalError()
-  {
+  func testFetchOrdersShouldReturnListOfOrders_OptionalError() {
     // Given
     
     // When
@@ -65,8 +59,7 @@ class OrdersMemStoreTests: XCTestCase
     }
   }
   
-  func testFetchOrderShouldReturnOrder_OptionalError()
-  {
+  func testFetchOrderShouldReturnOrder_OptionalError() {
     // Given
     let orderToFetch = testOrders.first!
     
@@ -84,8 +77,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(returnedOrder, orderToFetch, "fetchOrder() should return an order")
   }
   
-  func testCreateOrderShouldCreateNewOrder_OptionalError()
-  {
+  func testCreateOrderShouldCreateNewOrder_OptionalError() {
     // Given
     let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
     
@@ -110,8 +102,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
   }
   
-  func testUpdateOrderShouldUpdateExistingOrder_OptionalError()
-  {
+  func testUpdateOrderShouldUpdateExistingOrder_OptionalError() {
     // Given
     var orderToUpdate = testOrders.first!
     let tomorrow = NSDate(timeIntervalSinceNow: 24*60*60)
@@ -138,8 +129,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
   }
   
-  func testDeleteOrderShouldDeleteExistingOrder_OptionalError()
-  {
+  func testDeleteOrderShouldDeleteExistingOrder_OptionalError() {
     // Given
     let orderToDelete = testOrders.first!
     
@@ -169,8 +159,7 @@ class OrdersMemStoreTests: XCTestCase
   
   // MARK: - Test CRUD operations - Generic enum result type
   
-  func testFetchOrdersShouldReturnListOfOrders_GenericEnumResultType()
-  {
+  func testFetchOrdersShouldReturnListOfOrders_GenericEnumResultType() {
     // Given
     
     // When
@@ -195,8 +184,7 @@ class OrdersMemStoreTests: XCTestCase
     }
   }
   
-  func testFetchOrderShouldReturnOrder_GenericEnumResultType()
-  {
+  func testFetchOrderShouldReturnOrder_GenericEnumResultType() {
     // Given
     let orderToFetch = testOrders.first!
     
@@ -219,8 +207,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(returnedOrder, orderToFetch, "fetchOrder() should return an order")
   }
   
-  func testCreateOrderShouldCreateNewOrder_GenericEnumResultType()
-  {
+  func testCreateOrderShouldCreateNewOrder_GenericEnumResultType() {
     // Given
     let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
     
@@ -256,8 +243,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
   }
   
-  func testUpdateOrderShouldUpdateExistingOrder_GenericEnumResultType()
-  {
+  func testUpdateOrderShouldUpdateExistingOrder_GenericEnumResultType() {
     // Given
     var orderToUpdate = testOrders.first!
     let tomorrow = NSDate(timeIntervalSinceNow: 24*60*60)
@@ -295,8 +281,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
   }
   
-  func testDeleteOrderShouldDeleteExistingOrder_GenericEnumResultType()
-  {
+  func testDeleteOrderShouldDeleteExistingOrder_GenericEnumResultType() {
     // Given
     let orderToDelete = testOrders.first!
     
@@ -330,8 +315,7 @@ class OrdersMemStoreTests: XCTestCase
   
   // MARK: - Test CRUD operations - Inner closure
   
-  func testFetchOrdersShouldReturnListOfOrders_InnerClosure()
-  {
+  func testFetchOrdersShouldReturnListOfOrders_InnerClosure() {
     // Given
     
     // When
@@ -351,8 +335,7 @@ class OrdersMemStoreTests: XCTestCase
     }
   }
   
-  func testFetchOrderShouldReturnOrder_InnerClosure()
-  {
+  func testFetchOrderShouldReturnOrder_InnerClosure() {
     // Given
     let orderToFetch = testOrders.first!
     
@@ -370,8 +353,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(returnedOrder, orderToFetch, "fetchOrder() should return an order")
   }
   
-  func testCreateOrderShouldCreateNewOrder_InnerClosure()
-  {
+  func testCreateOrderShouldCreateNewOrder_InnerClosure() {
     // Given
     let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
     
@@ -397,8 +379,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
   }
   
-  func testUpdateOrderShouldUpdateExistingOrder_InnerClosure()
-  {
+  func testUpdateOrderShouldUpdateExistingOrder_InnerClosure() {
     // Given
     var orderToUpdate = testOrders.first!
     let tomorrow = NSDate(timeIntervalSinceNow: 24*60*60)
@@ -426,8 +407,7 @@ class OrdersMemStoreTests: XCTestCase
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
   }
   
-  func testDeleteOrderShouldDeleteExistingOrder_InnerClosure()
-  {
+  func testDeleteOrderShouldDeleteExistingOrder_InnerClosure() {
     // Given
     let orderToDelete = testOrders.first!
     

@@ -11,12 +11,10 @@
 
 import UIKit
 
-class CreateOrderWorker
-{
+class CreateOrderWorker {
   // MARK: Business Logic
   
-  func doSomeWork()
-  {
+  func doSomeWork() {
     // NOTE: Do the work
   }
 }

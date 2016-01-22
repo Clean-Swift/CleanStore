@@ -1,7 +1,6 @@
 import CoreData
 
-class OrdersCoreDataStore: OrdersStoreProtocol
-{
+class OrdersCoreDataStore: OrdersStoreProtocol {
   // MARK: - Managed object contexts
   
   var mainManagedObjectContext: NSManagedObjectContext
@@ -9,8 +8,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
   
   // MARK: - Object lifecycle
   
-  init()
-  {
+  init() {
     // This resource is the same name as your xcdatamodeld contained in your project.
     guard let modelURL = NSBundle.mainBundle().URLForResource("CleanStore", withExtension:"momd") else {
       fatalError("Error loading model from bundle")
@@ -41,8 +39,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     privateManagedObjectContext.parentContext = mainManagedObjectContext
   }
   
-  deinit
-  {
+  deinit {
     do {
       try self.mainManagedObjectContext.save()
     } catch {
@@ -52,8 +49,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
   
   // MARK: - CRUD operations - Optional error
   
-  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void)
-  {
+  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -66,8 +62,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void)
-  {
+  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -84,8 +79,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
-  {
+  func createOrder(orderToCreate: Order, completionHandler: (error: OrdersStoreError?) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
@@ -103,8 +97,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
-  {
+  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -130,8 +123,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void)
-  {
+  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -156,8 +148,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
   
   // MARK: - CRUD operations - Generic enum result type
   
-  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler)
-  {
+  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -170,8 +161,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler)
-  {
+  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -188,8 +178,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler)
-  {
+  func createOrder(orderToCreate: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler) {
     privateManagedObjectContext.performBlock {
       do {
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
@@ -208,8 +197,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler)
-  {
+  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -235,8 +223,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler)
-  {
+  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -261,8 +248,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
   
   // MARK: - CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
-  {
+  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -275,8 +261,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void)
-  {
+  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -293,8 +278,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (done: () throws -> Void) -> Void)
-  {
+  func createOrder(orderToCreate: Order, completionHandler: (done: () throws -> Void) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
@@ -312,8 +296,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void)
-  {
+  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
@@ -339,8 +322,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void)
-  {
+  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void) {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")

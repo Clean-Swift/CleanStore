@@ -2,8 +2,7 @@
 import UIKit
 import XCTest
 
-class CreateOrderViewControllerTests: XCTestCase
-{
+class CreateOrderViewControllerTests: XCTestCase {
   // MARK: Subject under test
   
   var createOrderViewController: CreateOrderViewController!
@@ -11,23 +10,20 @@ class CreateOrderViewControllerTests: XCTestCase
   
   // MARK: Test lifecycle
   
-  override func setUp()
-  {
+  override func setUp() {
     super.setUp()
     window = UIWindow()
     setupCreateOrderViewController()
   }
   
-  override func tearDown()
-  {
+  override func tearDown() {
     window = nil
     super.tearDown()
   }
   
   // MARK: Test setup
   
-  func setupCreateOrderViewController()
-  {
+  func setupCreateOrderViewController() {
     let bundle = NSBundle.mainBundle()
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     createOrderViewController = storyboard.instantiateViewControllerWithIdentifier("CreateOrderViewController") as! CreateOrderViewController
@@ -35,16 +31,14 @@ class CreateOrderViewControllerTests: XCTestCase
     addViewToWindow()
   }
   
-  func addViewToWindow()
-  {
+  func addViewToWindow() {
     window.addSubview(createOrderViewController.view)
     NSRunLoop.currentRunLoop().runUntilDate(NSDate())
   }
   
   // MARK: Test doubles
   
-  class CreateOrderViewControllerOutputSpy: CreateOrderViewControllerOutput
-  {
+  class CreateOrderViewControllerOutputSpy: CreateOrderViewControllerOutput {
     // MARK: Method call expectations
     var formatExpirationDateCalled = false
     
@@ -64,8 +58,7 @@ class CreateOrderViewControllerTests: XCTestCase
   
   // MARK: Test expiration date
   
-  func testDisplayExpirationDateShouldDisplayDateStringInTextField()
-  {
+  func testDisplayExpirationDateShouldDisplayDateStringInTextField() {
     // Given
     let viewModel = CreateOrder_FormatExpirationDate_ViewModel(date: "6/29/07")
     
@@ -77,8 +70,7 @@ class CreateOrderViewControllerTests: XCTestCase
     XCTAssertEqual(displayedDate, "6/29/07", "Displaying an expiration date should display the date string in the expiration date text field")
   }
   
-  func testExpirationDatePickerValueChangedShouldFormatSelectedDate()
-  {
+  func testExpirationDatePickerValueChangedShouldFormatSelectedDate() {
     // Given
     let createOrderViewControllerOutputSpy = CreateOrderViewControllerOutputSpy()
     createOrderViewController.output = createOrderViewControllerOutputSpy
@@ -101,8 +93,7 @@ class CreateOrderViewControllerTests: XCTestCase
   
   // MARK: Test shipping method
   
-  func testNumberOfComponentsInPickerViewShouldReturnOneComponent()
-  {
+  func testNumberOfComponentsInPickerViewShouldReturnOneComponent() {
     // Given
     let pickerView = createOrderViewController.shippingMethodPicker
     
@@ -113,8 +104,7 @@ class CreateOrderViewControllerTests: XCTestCase
     XCTAssertEqual(numberOfComponents, 1, "The number of components in the shipping method picker should be 1")
   }
   
-  func testNumberOfRowsInFirstComponentOfPickerViewShouldEqualNumberOfAvailableShippingMethods()
-  {
+  func testNumberOfRowsInFirstComponentOfPickerViewShouldEqualNumberOfAvailableShippingMethods() {
     // Given
     let pickerView = createOrderViewController.shippingMethodPicker
     
@@ -126,8 +116,7 @@ class CreateOrderViewControllerTests: XCTestCase
     XCTAssertEqual(numberOfRows, numberOfAvailableShippingtMethods, "The number of rows in the first component of shipping method picker should equal to the number of available shipping methods")
   }
   
-  func testShippingMethodPickerShouldDisplayProperTitles()
-  {
+  func testShippingMethodPickerShouldDisplayProperTitles() {
     // Given
     let pickerView = createOrderViewController.shippingMethodPicker
     
@@ -149,8 +138,7 @@ class CreateOrderViewControllerTests: XCTestCase
     XCTAssertEqual(returnedTitles[2], expectedTitles[2], "The shipping method picker should display proper titles")
   }
   
-  func testSelectingShippingMethodInThePickerShouldDisplayTheSelectedShippingMethodToUser()
-  {
+  func testSelectingShippingMethodInThePickerShouldDisplayTheSelectedShippingMethodToUser() {
     // Given
     let pickerView = createOrderViewController.shippingMethodPicker
     
@@ -165,8 +153,7 @@ class CreateOrderViewControllerTests: XCTestCase
   
   // MARK: Test text fields
   
-  func testCursorFocusShouldMoveToNextTextFieldWhenUserTapsReturnKey()
-  {
+  func testCursorFocusShouldMoveToNextTextFieldWhenUserTapsReturnKey() {
     // Given
     let currentTextField = createOrderViewController.textFields[0]
     let nextTextField = createOrderViewController.textFields[1]
@@ -180,8 +167,7 @@ class CreateOrderViewControllerTests: XCTestCase
     XCTAssert(nextTextField.isFirstResponder(), "Next text field should gain keyboard focus")
   }
   
-  func testKeyboardShouldBeDismissedWhenUserTapsReturnKeyWhenFocusIsInLastTextField()
-  {
+  func testKeyboardShouldBeDismissedWhenUserTapsReturnKeyWhenFocusIsInLastTextField() {
     // Given
     
     // Scroll to the bottom of table view so the last text field is visible and its gesture recognizer is set up
@@ -201,8 +187,7 @@ class CreateOrderViewControllerTests: XCTestCase
     XCTAssert(!lastTextField.isFirstResponder(), "Last text field should lose keyboard focus")
   }
   
-  func testTextFieldShouldHaveFocusWhenUserTapsOnTableViewRow()
-  {
+  func testTextFieldShouldHaveFocusWhenUserTapsOnTableViewRow() {
     // Given
     
     // When
@@ -216,8 +201,7 @@ class CreateOrderViewControllerTests: XCTestCase
   
   // MARK: Test picker configs when view is loaded
   
-  func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded()
-  {
+  func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded() {
     // Given
     
     // When

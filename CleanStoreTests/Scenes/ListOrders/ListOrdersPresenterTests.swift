@@ -12,36 +12,31 @@
 @testable import CleanStore
 import XCTest
 
-class ListOrdersPresenterTests: XCTestCase
-{
+class ListOrdersPresenterTests: XCTestCase {
   // MARK: Subject under test
   
   var sut: ListOrdersPresenter!
   
   // MARK: Test lifecycle
   
-  override func setUp()
-  {
+  override func setUp() {
     super.setUp()
     setupListOrdersPresenter()
   }
   
-  override func tearDown()
-  {
+  override func tearDown() {
     super.tearDown()
   }
   
   // MARK: Test setup
   
-  func setupListOrdersPresenter()
-  {
+  func setupListOrdersPresenter() {
     sut = ListOrdersPresenter()
   }
   
   // MARK: Test doubles
   
-  class ListOrdersPresenterOutputSpy: ListOrdersPresenterOutput
-  {
+  class ListOrdersPresenterOutputSpy: ListOrdersPresenterOutput {
     // MARK: Method call expectations
     var displayFetchedOrdersCalled = false
     
@@ -58,8 +53,7 @@ class ListOrdersPresenterTests: XCTestCase
   
   // MARK: Tests
   
-  func testPresentFetchedOrdersShouldFormatFetchedOrdersForDisplay()
-  {
+  func testPresentFetchedOrdersShouldFormatFetchedOrdersForDisplay() {
     // Given
     let listOrdersPresenterOutputSpy = ListOrdersPresenterOutputSpy()
     sut.output = listOrdersPresenterOutputSpy
@@ -87,8 +81,7 @@ class ListOrdersPresenterTests: XCTestCase
     }
   }
   
-  func testPresentFetchedOrdersShouldAskViewControllerToDisplayFetchedOrders()
-  {
+  func testPresentFetchedOrdersShouldAskViewControllerToDisplayFetchedOrders() {
     // Given
     let listOrdersPresenterOutputSpy = ListOrdersPresenterOutputSpy()
     sut.output = listOrdersPresenterOutputSpy

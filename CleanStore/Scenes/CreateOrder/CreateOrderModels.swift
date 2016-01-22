@@ -11,17 +11,14 @@
 
 import UIKit
 
-struct CreateOrder_FormatExpirationDate_Request
-{
+struct CreateOrder_FormatExpirationDate_Request {
   var date: NSDate
 }
 
-struct CreateOrder_FormatExpirationDate_Response
-{
+struct CreateOrder_FormatExpirationDate_Response {
   var date: NSDate
 }
 
-struct CreateOrder_FormatExpirationDate_ViewModel
-{
+struct CreateOrder_FormatExpirationDate_ViewModel {
   var date: String
 }

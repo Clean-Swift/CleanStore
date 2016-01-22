@@ -12,18 +12,15 @@ extension ListOrdersViewController {
   
   // MARK: Table view data source
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int
-  {
+  override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     return 1
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-  {
+  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return displayedOrders.count
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-  {
+  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     var cell = tableView.dequeueReusableCellWithIdentifier("OrderTableViewCell")
     if cell == nil {
       cell = UITableViewCell(style: .Value1, reuseIdentifier: "OrderTableViewCell")

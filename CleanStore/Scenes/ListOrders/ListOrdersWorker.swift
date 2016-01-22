@@ -11,8 +11,7 @@
 
 import UIKit
 
-class ListOrdersWorker
-{
+class ListOrdersWorker {
   // MARK: Business Logic
   
   func doSomeWork()

@@ -11,19 +11,16 @@
 
 import UIKit
 
-protocol CreateOrderInteractorInput
-{
+protocol CreateOrderInteractorInput {
   var shippingMethods: [String] { get }
   func formatExpirationDate(request: CreateOrder_FormatExpirationDate_Request)
 }
 
-protocol CreateOrderInteractorOutput
-{
+protocol CreateOrderInteractorOutput {
   func presentExpirationDate(response: CreateOrder_FormatExpirationDate_Response)
 }
 
-class CreateOrderInteractor: CreateOrderInteractorInput
-{
+class CreateOrderInteractor: CreateOrderInteractorInput {
   var output: CreateOrderInteractorOutput!
   var worker: CreateOrderWorker!
   var shippingMethods = [
@@ -34,8 +31,7 @@ class CreateOrderInteractor: CreateOrderInteractorInput
   
   // MARK: Expiration date
   
-  func formatExpirationDate(request: CreateOrder_FormatExpirationDate_Request)
-  {
+  func formatExpirationDate(request: CreateOrder_FormatExpirationDate_Request) {
     let response = CreateOrder_FormatExpirationDate_Response(date: request.date)
     output.presentExpirationDate(response)
   }

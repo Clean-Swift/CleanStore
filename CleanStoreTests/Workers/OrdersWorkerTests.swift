@@ -1,36 +1,31 @@
 @testable import CleanStore
 import XCTest
 
-class OrdersWorkerTests: XCTestCase
-{
+class OrdersWorkerTests: XCTestCase {
   // MARK: Subject under test
   
   var sut: OrdersWorker!
   
   // MARK: Test lifecycle
   
-  override func setUp()
-  {
+  override func setUp() {
     super.setUp()
     setupOrdersWorker()
   }
   
-  override func tearDown()
-  {
+  override func tearDown() {
     super.tearDown()
   }
   
   // MARK: Test setup
   
-  func setupOrdersWorker()
-  {
+  func setupOrdersWorker() {
     sut = OrdersWorker(ordersStore: OrdersMemStoreSpy())
   }
   
   // MARK: Test doubles
   
-  class OrdersMemStoreSpy: OrdersMemStore
-  {
+  class OrdersMemStoreSpy: OrdersMemStore {
     // MARK: Method call expectations
     var fetchedOrdersCalled = false
     
@@ -52,8 +47,7 @@ class OrdersWorkerTests: XCTestCase
   
   // MARK: Tests
   
-  func testFetchOrdersShouldReturnListOfOrders()
-  {
+  func testFetchOrdersShouldReturnListOfOrders() {
     // Given
     let ordersMemStoreSpy = sut.ordersStore as! OrdersMemStoreSpy
     

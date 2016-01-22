@@ -1,23 +1,20 @@
 import Foundation
 
-class OrdersMemStore: OrdersStoreProtocol
-{
+class OrdersMemStore: OrdersStoreProtocol {
   // MARK: - Data
   
   var orders = [Order]()
   
   // MARK: - CRUD operations - Optional error
   
-  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void)
-  {
+  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void) {
     completionHandler(orders: orders, error: nil)
   }
   
-  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void)
-  {
+  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void) {
     let order = orders.filter { (order: Order) -> Bool in
       return order.id == id
-    }.first
+      }.first
     if let _ = order {
       completionHandler(order: order, error: nil)
     } else {
@@ -25,14 +22,12 @@ class OrdersMemStore: OrdersStoreProtocol
     }
   }
   
-  func createOrder(order: Order, completionHandler: (error: OrdersStoreError?) -> Void)
-  {
+  func createOrder(order: Order, completionHandler: (error: OrdersStoreError?) -> Void) {
     orders.append(order)
     completionHandler(error: nil)
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
-  {
+  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void) {
     for var order in orders {
       if order.id == orderToUpdate.id {
         order = orderToUpdate
@@ -43,8 +38,7 @@ class OrdersMemStore: OrdersStoreProtocol
     completionHandler(error: OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update"))
   }
   
-  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void)
-  {
+  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void) {
     let index = orders.indexOf { (order: Order) -> Bool in
       return order.id == id
     }
@@ -58,13 +52,11 @@ class OrdersMemStore: OrdersStoreProtocol
   
   // MARK: - CRUD operations - Generic enum result type
   
-  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler)
-  {
+  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler) {
     completionHandler(result: OrdersStoreResult.Success(result: orders))
   }
   
-  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler)
-  {
+  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler) {
     let order = orders.filter { (order: Order) -> Bool in
       return order.id == id
       }.first
@@ -75,14 +67,12 @@ class OrdersMemStore: OrdersStoreProtocol
     }
   }
   
-  func createOrder(order: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler)
-  {
+  func createOrder(order: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler) {
     orders.append(order)
     completionHandler(result: OrdersStoreResult.Success(result: ()))
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler)
-  {
+  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler) {
     for var order in orders {
       if order.id == orderToUpdate.id {
         order = orderToUpdate
@@ -93,8 +83,7 @@ class OrdersMemStore: OrdersStoreProtocol
     completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id) to update")))
   }
   
-  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler)
-  {
+  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler) {
     let index = orders.indexOf { (order: Order) -> Bool in
       return order.id == id
     }
@@ -108,13 +97,11 @@ class OrdersMemStore: OrdersStoreProtocol
   
   // MARK: - CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
-  {
+  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void) {
     completionHandler { return self.orders }
   }
   
-  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void)
-  {
+  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void) {
     let index = orders.indexOf { (order: Order) -> Bool in
       return order.id == id
     }
@@ -125,14 +112,12 @@ class OrdersMemStore: OrdersStoreProtocol
     }
   }
   
-  func createOrder(order: Order, completionHandler: (done: () throws -> Void) -> Void)
-  {
+  func createOrder(order: Order, completionHandler: (done: () throws -> Void) -> Void) {
     orders.append(order)
     completionHandler { return }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void)
-  {
+  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void) {
     let index = orders.indexOf { (order: Order) -> Bool in
       return order.id == orderToUpdate.id
     }
@@ -144,8 +129,7 @@ class OrdersMemStore: OrdersStoreProtocol
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void)
-  {
+  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void) {
     let index = orders.indexOf { (order: Order) -> Bool in
       return order.id == id
     }

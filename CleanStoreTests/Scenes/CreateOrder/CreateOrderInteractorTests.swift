@@ -2,36 +2,31 @@
 import UIKit
 import XCTest
 
-class CreateOrderInteractorTests: XCTestCase
-{
+class CreateOrderInteractorTests: XCTestCase {
   // MARK: Subject under test
   
   var createOrderInteractor: CreateOrderInteractor!
   
   // MARK: Test lifecycle
   
-  override func setUp()
-  {
+  override func setUp() {
     super.setUp()
     setupCreateOrderInteractor()
   }
   
-  override func tearDown()
-  {
+  override func tearDown() {
     super.tearDown()
   }
   
   // MARK: Test setup
   
-  func setupCreateOrderInteractor()
-  {
+  func setupCreateOrderInteractor() {
     createOrderInteractor = CreateOrderInteractor()
   }
   
   // MARK: Test doubles
   
-  class CreateOrderInteractorOutputSpy: CreateOrderInteractorOutput
-  {
+  class CreateOrderInteractorOutputSpy: CreateOrderInteractorOutput {
     var presentExpirationDateCalled = false
     
     func presentExpirationDate(response: CreateOrder_FormatExpirationDate_Response)
@@ -42,8 +37,7 @@ class CreateOrderInteractorTests: XCTestCase
   
   // MARK: Test expiration date
   
-  func testFormatExpirationDateShouldAskPresenterToFormatExpirationDate()
-  {
+  func testFormatExpirationDateShouldAskPresenterToFormatExpirationDate() {
     // Given
     let createOrderInteractorOutputSpy = CreateOrderInteractorOutputSpy()
     createOrderInteractor.output = createOrderInteractorOutputSpy
@@ -58,8 +52,7 @@ class CreateOrderInteractorTests: XCTestCase
   
   // MARK: Test shipping methods
   
-  func testShippingMethodsShouldReturnAllAvailableShippingMethods()
-  {
+  func testShippingMethodsShouldReturnAllAvailableShippingMethods() {
     // Given
     let allAvailableShippingMethods = [
       "Standard Shipping",

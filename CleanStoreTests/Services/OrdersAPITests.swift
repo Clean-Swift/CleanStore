@@ -1,8 +1,7 @@
 @testable import CleanStore
 import XCTest
 
-class OrdersAPITests: XCTestCase
-{
+class OrdersAPITests: XCTestCase {
   // MARK: - Subject under test
   
   var sut: OrdersAPI!
@@ -10,21 +9,18 @@ class OrdersAPITests: XCTestCase
   
   // MARK: - Test lifecycle
   
-  override func setUp()
-  {
+  override func setUp() {
     super.setUp()
     setupOrdersAPI()
   }
   
-  override func tearDown()
-  {
+  override func tearDown() {
     super.tearDown()
   }
   
   // MARK: - Test setup
   
-  func setupOrdersAPI()
-  {
+  func setupOrdersAPI() {
     sut = OrdersAPI()
     testOrders = [
       Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23")),
@@ -34,8 +30,7 @@ class OrdersAPITests: XCTestCase
   
   // MARK: - Test CRUD operations - Optional error
   
-  func testFetchOrdersShouldReturnListOfOrders_OptionalError()
-  {
+  func testFetchOrdersShouldReturnListOfOrders_OptionalError() {
     // Given
     
     // When
@@ -43,8 +38,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testFetchOrderShouldReturnOrder_OptionalError()
-  {
+  func testFetchOrderShouldReturnOrder_OptionalError() {
     // Given
     
     // When
@@ -52,8 +46,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testCreateOrderShouldCreateNewOrder_OptionalError()
-  {
+  func testCreateOrderShouldCreateNewOrder_OptionalError() {
     // Given
     
     // When
@@ -61,8 +54,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testUpdateOrderShouldUpdateExistingOrder_OptionalError()
-  {
+  func testUpdateOrderShouldUpdateExistingOrder_OptionalError() {
     // Given
     
     // When
@@ -70,8 +62,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testDeleteOrderShouldDeleteExistingOrder_OptionalError()
-  {
+  func testDeleteOrderShouldDeleteExistingOrder_OptionalError() {
     // Given
     
     // When
@@ -81,8 +72,7 @@ class OrdersAPITests: XCTestCase
   
   // MARK: - Test CRUD operations - Generic enum result type
   
-  func testFetchOrdersShouldReturnListOfOrders_GenericEnumResultType()
-  {
+  func testFetchOrdersShouldReturnListOfOrders_GenericEnumResultType() {
     // Given
     
     // When
@@ -90,8 +80,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testFetchOrderShouldReturnOrder_GenericEnumResultType()
-  {
+  func testFetchOrderShouldReturnOrder_GenericEnumResultType() {
     // Given
     
     // When
@@ -99,8 +88,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testCreateOrderShouldCreateNewOrder_GenericEnumResultType()
-  {
+  func testCreateOrderShouldCreateNewOrder_GenericEnumResultType() {
     // Given
     
     // When
@@ -108,8 +96,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testUpdateOrderShouldUpdateExistingOrder_GenericEnumResultType()
-  {
+  func testUpdateOrderShouldUpdateExistingOrder_GenericEnumResultType() {
     // Given
     
     // When
@@ -117,8 +104,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testDeleteOrderShouldDeleteExistingOrder_GenericEnumResultType()
-  {
+  func testDeleteOrderShouldDeleteExistingOrder_GenericEnumResultType() {
     // Given
     
     // When
@@ -128,8 +114,7 @@ class OrdersAPITests: XCTestCase
   
   // MARK: - Test CRUD operations - Inner closure
   
-  func testFetchOrdersShouldReturnListOfOrders_InnerClosure()
-  {
+  func testFetchOrdersShouldReturnListOfOrders_InnerClosure() {
     // Given
     
     // When
@@ -137,8 +122,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testFetchOrderShouldReturnOrder_InnerClosure()
-  {
+  func testFetchOrderShouldReturnOrder_InnerClosure() {
     // Given
     
     // When
@@ -146,8 +130,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testCreateOrderShouldCreateNewOrder_InnerClosure()
-  {
+  func testCreateOrderShouldCreateNewOrder_InnerClosure() {
     // Given
     
     // When
@@ -155,8 +138,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testUpdateOrderShouldUpdateExistingOrder_InnerClosure()
-  {
+  func testUpdateOrderShouldUpdateExistingOrder_InnerClosure() {
     // Given
     
     // When
@@ -164,8 +146,7 @@ class OrdersAPITests: XCTestCase
     // Then
   }
   
-  func testDeleteOrderShouldDeleteExistingOrder_InnerClosure()
-  {
+  func testDeleteOrderShouldDeleteExistingOrder_InnerClosure() {
     // Given
     
     // When

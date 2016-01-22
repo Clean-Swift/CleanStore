@@ -11,25 +11,24 @@
 
 import UIKit
 
-protocol ListOrdersPresenterInput
-{
+protocol ListOrdersPresenterInput {
   func presentFetchedOrders(response: ListOrders_FetchOrders_Response)
 }
 
-protocol ListOrdersPresenterOutput: class
-{
+protocol ListOrdersPresenterOutput: class {
   func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
 }
 
-class ListOrdersPresenter: ListOrdersPresenterInput
-{
+class ListOrdersPresenter: ListOrdersPresenterInput {
   weak var output: ListOrdersPresenterOutput!
+  
   let dateFormatter: NSDateFormatter = {
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateStyle = .ShortStyle
     dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
     return dateFormatter
   }()
+  
   let currencyFormatter: NSNumberFormatter = {
     let currencyFormatter = NSNumberFormatter()
     currencyFormatter.numberStyle = .CurrencyStyle
@@ -38,8 +37,7 @@ class ListOrdersPresenter: ListOrdersPresenterInput
   
   // MARK: Presentation logic
   
-  func presentFetchedOrders(response: ListOrders_FetchOrders_Response)
-  {
+  func presentFetchedOrders(response: ListOrders_FetchOrders_Response) {
     var displayedOrders: [ListOrders_FetchOrders_ViewModel.DisplayedOrder] = []
     for order in response.orders {
       let date = dateFormatter.stringFromDate(order.date!)

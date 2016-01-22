@@ -12,8 +12,7 @@
 @testable import CleanStore
 import XCTest
 
-class ListOrdersViewControllerTests: XCTestCase
-{
+class ListOrdersViewControllerTests: XCTestCase {
   // MARK: Subject under test
   
   var sut: ListOrdersViewController!
@@ -21,38 +20,33 @@ class ListOrdersViewControllerTests: XCTestCase
   
   // MARK: Test lifecycle
   
-  override func setUp()
-  {
+  override func setUp() {
     super.setUp()
     window = UIWindow()
     setupListOrdersViewController()
   }
   
-  override func tearDown()
-  {
+  override func tearDown() {
     window = nil
     super.tearDown()
   }
   
   // MARK: Test setup
   
-  func setupListOrdersViewController()
-  {
+  func setupListOrdersViewController() {
     let bundle = NSBundle.mainBundle()
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
     sut = storyboard.instantiateViewControllerWithIdentifier("ListOrdersViewController") as! ListOrdersViewController
   }
   
-  func loadView()
-  {
+  func loadView() {
     window.addSubview(sut.view)
     NSRunLoop.currentRunLoop().runUntilDate(NSDate())
   }
   
   // MARK: Test doubles
   
-  class ListOrdersViewControllerOutputSpy: ListOrdersViewControllerOutput
-  {
+  class ListOrdersViewControllerOutputSpy: ListOrdersViewControllerOutput {
     // MARK: Method call expectations
     var fetchOrdersCalled = false
     
@@ -63,8 +57,7 @@ class ListOrdersViewControllerTests: XCTestCase
     }
   }
   
-  class TableViewSpy: UITableView
-  {
+  class TableViewSpy: UITableView {
     // MARK: Method call expectations
     var reloadDataCalled = false
     
@@ -77,8 +70,7 @@ class ListOrdersViewControllerTests: XCTestCase
   
   // MARK: Tests
   
-  func testShouldFetchOrdersWhenViewIsLoaded()
-  {
+  func testShouldFetchOrdersWhenViewIsLoaded() {
     // Given
     let listOrdersViewControllerOutputSpy = ListOrdersViewControllerOutputSpy()
     sut.output = listOrdersViewControllerOutputSpy
@@ -90,8 +82,7 @@ class ListOrdersViewControllerTests: XCTestCase
     XCTAssert(listOrdersViewControllerOutputSpy.fetchOrdersCalled, "Should fetch orders when the view is loaded")
   }
   
-  func testShouldDisplayFetchedOrders()
-  {
+  func testShouldDisplayFetchedOrders() {
     // Given
     let tableViewSpy = TableViewSpy()
     sut.tableView = tableViewSpy
@@ -106,8 +97,7 @@ class ListOrdersViewControllerTests: XCTestCase
     XCTAssert(tableViewSpy.reloadDataCalled, "Displaying fetched orders should reload the table view")
   }
   
-  func testNumberOfSectionsInTableViewShouldAlwaysBeOne()
-  {
+  func testNumberOfSectionsInTableViewShouldAlwaysBeOne() {
     // Given
     let tableView = sut.tableView
     
@@ -118,8 +108,7 @@ class ListOrdersViewControllerTests: XCTestCase
     XCTAssertEqual(numberOfSections, 1, "The number of table view sections should always be 1")
   }
   
-  func testNumberOfRowsInAnySectionShouldEqaulNumberOfOrdersToDisplay()
-  {
+  func testNumberOfRowsInAnySectionShouldEqaulNumberOfOrdersToDisplay() {
     // Given
     let tableView = sut.tableView
     let testDisplayedOrders = [ListOrders_FetchOrders_ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]
@@ -132,8 +121,7 @@ class ListOrdersViewControllerTests: XCTestCase
     XCTAssertEqual(numberOfRows, testDisplayedOrders.count, "The number of table view rows should equal the number of orders to display")
   }
   
-  func testShouldConfigureTableViewCellToDisplayOrder()
-  {
+  func testShouldConfigureTableViewCellToDisplayOrder() {
     // Given
     let tableView = sut.tableView
     let testDisplayedOrders = [ListOrders_FetchOrders_ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]

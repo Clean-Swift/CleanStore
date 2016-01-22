@@ -12,36 +12,31 @@
 @testable import CleanStore
 import XCTest
 
-class ListOrdersInteractorTests: XCTestCase
-{
+class ListOrdersInteractorTests: XCTestCase {
   // MARK: Subject under test
   
   var sut: ListOrdersInteractor!
   
   // MARK: Test lifecycle
   
-  override func setUp()
-  {
+  override func setUp() {
     super.setUp()
     setupListOrdersInteractor()
   }
   
-  override func tearDown()
-  {
+  override func tearDown() {
     super.tearDown()
   }
   
   // MARK: Test setup
   
-  func setupListOrdersInteractor()
-  {
+  func setupListOrdersInteractor() {
     sut = ListOrdersInteractor()
   }
   
   // MARK: Test doubles
   
-  class ListOrdersInteractorOutputSpy: ListOrdersInteractorOutput
-  {
+  class ListOrdersInteractorOutputSpy: ListOrdersInteractorOutput {
     // MARK: Method call expectations
     var presentFetchedOrdersCalled = false
     
@@ -52,8 +47,7 @@ class ListOrdersInteractorTests: XCTestCase
     }
   }
   
-  class OrdersWorkerSpy: OrdersWorker
-  {
+  class OrdersWorkerSpy: OrdersWorker {
     // MARK: Method call expectations
     var fetchOrdersCalled = false
     
@@ -67,8 +61,7 @@ class ListOrdersInteractorTests: XCTestCase
   
   // MARK: Tests
   
-  func testFetchOrdersShouldAskOrdersWorkerToFetchOrdersAndPresenterToFormatResult()
-  {
+  func testFetchOrdersShouldAskOrdersWorkerToFetchOrdersAndPresenterToFormatResult() {
     // Given
     let listOrdersInteractorOutputSpy = ListOrdersInteractorOutputSpy()
     sut.output = listOrdersInteractorOutputSpy

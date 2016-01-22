@@ -11,19 +11,17 @@
 
 import UIKit
 
-protocol CreateOrderPresenterInput
-{
+protocol CreateOrderPresenterInput {
   func presentExpirationDate(response: CreateOrder_FormatExpirationDate_Response)
 }
 
-protocol CreateOrderPresenterOutput: class
-{
+protocol CreateOrderPresenterOutput: class {
   func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel)
 }
 
-class CreateOrderPresenter: CreateOrderPresenterInput
-{
+class CreateOrderPresenter: CreateOrderPresenterInput {
   weak var output: CreateOrderPresenterOutput!
+  
   let dateFormatter: NSDateFormatter = {
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateStyle = .ShortStyle
@@ -33,8 +31,7 @@ class CreateOrderPresenter: CreateOrderPresenterInput
   
   // MARK: Expiration date
   
-  func presentExpirationDate(response: CreateOrder_FormatExpirationDate_Response)
-  {
+  func presentExpirationDate(response: CreateOrder_FormatExpirationDate_Response) {
     let date = dateFormatter.stringFromDate(response.date)
     let viewModel = CreateOrder_FormatExpirationDate_ViewModel(date: date)
     output.displayExpirationDate(viewModel)

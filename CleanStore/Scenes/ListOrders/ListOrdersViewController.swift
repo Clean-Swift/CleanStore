@@ -11,52 +11,44 @@
 
 import UIKit
 
-protocol ListOrdersViewControllerInput
-{
+protocol ListOrdersViewControllerInput {
   func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
 }
 
-protocol ListOrdersViewControllerOutput
-{
+protocol ListOrdersViewControllerOutput {
   func fetchOrders(request: ListOrders_FetchOrders_Request)
 }
 
-class ListOrdersViewController: UITableViewController, ListOrdersViewControllerInput
-{
+class ListOrdersViewController: UITableViewController, ListOrdersViewControllerInput {
   var output: ListOrdersViewControllerOutput!
   var router: ListOrdersRouter!
   var displayedOrders: [ListOrders_FetchOrders_ViewModel.DisplayedOrder] = []
   
   // MARK: Object lifecycle
   
-  override func awakeFromNib()
-  {
+  override func awakeFromNib() {
     super.awakeFromNib()
     ListOrdersConfigurator.sharedInstance.configure(self)
   }
   
   // MARK: View lifecycle
   
-  override func viewDidLoad()
-  {
+  override func viewDidLoad() {
     super.viewDidLoad()
     fetchOrdersOnLoad()
   }
   
   // MARK: Event handling
   
-  func fetchOrdersOnLoad()
-  {
+  func fetchOrdersOnLoad() {
     let request = ListOrders_FetchOrders_Request()
     output.fetchOrders(request)
   }
   
   // MARK: Display logic
   
-  func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
-  {
+  func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel) {
     displayedOrders = viewModel.displayedOrders
     tableView.reloadData()
   }
-  
 }

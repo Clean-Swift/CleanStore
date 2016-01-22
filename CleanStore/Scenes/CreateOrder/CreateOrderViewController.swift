@@ -11,19 +11,16 @@
 
 import UIKit
 
-protocol CreateOrderViewControllerInput
-{
+protocol CreateOrderViewControllerInput {
   func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel)
 }
 
-protocol CreateOrderViewControllerOutput
-{
+protocol CreateOrderViewControllerOutput {
   var shippingMethods: [String] { get }
   func formatExpirationDate(request: CreateOrder_FormatExpirationDate_Request)
 }
 
-class CreateOrderViewController: UITableViewController, CreateOrderViewControllerInput, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate
-{
+class CreateOrderViewController: UITableViewController, CreateOrderViewControllerInput, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
   var output: CreateOrderViewControllerOutput!
   var router: CreateOrderRouter!
   
@@ -75,29 +72,24 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
   @IBOutlet weak var shippingMethodTextField: UITextField!
   @IBOutlet var shippingMethodPicker: UIPickerView!
   
-  func configurePickers()
-  {
+  func configurePickers() {
     shippingMethodTextField.inputView = shippingMethodPicker
     expirationDateTextField.inputView = expirationDatePicker
   }
   
-  func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int
-  {
+  func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
     return 1
   }
   
-  func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-  {
+  func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
     return output.shippingMethods.count
   }
   
-  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-  {
+  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
     return output.shippingMethods[row]
   }
   
-  func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-  {
+  func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     shippingMethodTextField.text = output.shippingMethods[row]
   }
   
@@ -106,15 +98,13 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
   @IBOutlet weak var expirationDateTextField: UITextField!
   @IBOutlet var expirationDatePicker: UIDatePicker!
   
-  @IBAction func expirationDatePickerValueChanged(sender: AnyObject)
-  {
+  @IBAction func expirationDatePickerValueChanged(sender: AnyObject) {
     let date = expirationDatePicker.date
     let request = CreateOrder_FormatExpirationDate_Request(date: date)
     output.formatExpirationDate(request)
   }
   
-  func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel)
-  {
+  func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel) {
     let date = viewModel.date
     expirationDateTextField.text = date
   }

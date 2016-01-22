@@ -1,7 +1,6 @@
 import Foundation
 
-struct Order: Equatable
-{
+struct Order: Equatable {
   var id: String?
   var date: NSDate?
   var email: String?
@@ -10,8 +9,7 @@ struct Order: Equatable
   var total: NSDecimalNumber?
 }
 
-func ==(lhs: Order, rhs: Order) -> Bool
-{
+func ==(lhs: Order, rhs: Order) -> Bool {
   var dateEqual = false
   if let lhsDate = lhs.date, rhsDate = rhs.date {
     dateEqual = lhsDate.timeIntervalSinceDate(rhsDate) < 1.0
