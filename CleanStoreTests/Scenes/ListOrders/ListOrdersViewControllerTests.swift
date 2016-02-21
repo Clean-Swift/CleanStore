@@ -53,6 +53,8 @@ class ListOrdersViewControllerTests: XCTestCase
   
   class ListOrdersViewControllerOutputSpy: ListOrdersViewControllerOutput
   {
+    var orders: [Order]?
+    
     // MARK: Method call expectations
     var fetchOrdersCalled = false
     

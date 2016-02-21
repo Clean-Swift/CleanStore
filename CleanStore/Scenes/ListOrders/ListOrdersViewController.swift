@@ -19,6 +19,7 @@ protocol ListOrdersViewControllerInput
 protocol ListOrdersViewControllerOutput
 {
   func fetchOrders(request: ListOrders_FetchOrders_Request)
+  var orders: [Order]? { get }
 }
 
 class ListOrdersViewController: UITableViewController, ListOrdersViewControllerInput
