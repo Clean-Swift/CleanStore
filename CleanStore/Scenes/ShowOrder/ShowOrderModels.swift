@@ -11,24 +11,28 @@
 
 import UIKit
 
-struct ShowOrder_GetOrder_Request
+struct ShowOrder
 {
-}
-
-struct ShowOrder_GetOrder_Response
-{
-  var order: Order
-}
-
-struct ShowOrder_GetOrder_ViewModel
-{
-  struct DisplayedOrder
+  struct GetOrder
   {
-    var id: String
-    var date: String
-    var email: String
-    var name: String
-    var total: String
+    struct Request
+    {
+    }
+    struct Response
+    {
+      var order: Order
+    }
+    struct ViewModel
+    {
+      struct DisplayedOrder
+      {
+        var id: String
+        var date: String
+        var email: String
+        var name: String
+        var total: String
+      }
+      var displayedOrder: DisplayedOrder
+    }
   }
-  var displayedOrder: DisplayedOrder
 }

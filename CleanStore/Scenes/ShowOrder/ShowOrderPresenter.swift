@@ -13,12 +13,12 @@ import UIKit
 
 protocol ShowOrderPresenterInput
 {
-  func presentOrder(response: ShowOrder_GetOrder_Response)
+  func presentOrder(response: ShowOrder.GetOrder.Response)
 }
 
 protocol ShowOrderPresenterOutput: class
 {
-  func displayOrder(viewModel: ShowOrder_GetOrder_ViewModel)
+  func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
 }
 
 class ShowOrderPresenter: ShowOrderPresenterInput
@@ -40,15 +40,15 @@ class ShowOrderPresenter: ShowOrderPresenterInput
   
   // MARK: Presentation logic
   
-  func presentOrder(response: ShowOrder_GetOrder_Response)
+  func presentOrder(response: ShowOrder.GetOrder.Response)
   {
     let order = response.order
     
     let date = dateFormatter.stringFromDate(order.date!)
     let total = currencyFormatter.stringFromNumber(order.total!)
-    let displayedOrder = ShowOrder_GetOrder_ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email!, name: "\(order.firstName!) \(order.lastName!)", total: total!)
+    let displayedOrder = ShowOrder.GetOrder.ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email!, name: "\(order.firstName!) \(order.lastName!)", total: total!)
     
-    let viewModel = ShowOrder_GetOrder_ViewModel(displayedOrder: displayedOrder)
+    let viewModel = ShowOrder.GetOrder.ViewModel(displayedOrder: displayedOrder)
     output.displayOrder(viewModel)
   }
 }

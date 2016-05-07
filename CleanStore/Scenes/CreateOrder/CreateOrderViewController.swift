@@ -13,13 +13,13 @@ import UIKit
 
 protocol CreateOrderViewControllerInput
 {
-  func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel)
+  func displayExpirationDate(viewModel: CreateOrder.FormatExpirationDate.ViewModel)
 }
 
 protocol CreateOrderViewControllerOutput
 {
   var shippingMethods: [String] { get }
-  func formatExpirationDate(request: CreateOrder_FormatExpirationDate_Request)
+  func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
 }
 
 class CreateOrderViewController: UITableViewController, CreateOrderViewControllerInput, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate
@@ -109,11 +109,11 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
   @IBAction func expirationDatePickerValueChanged(sender: AnyObject)
   {
     let date = expirationDatePicker.date
-    let request = CreateOrder_FormatExpirationDate_Request(date: date)
+    let request = CreateOrder.FormatExpirationDate.Request(date: date)
     output.formatExpirationDate(request)
   }
   
-  func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel)
+  func displayExpirationDate(viewModel: CreateOrder.FormatExpirationDate.ViewModel)
   {
     let date = viewModel.date
     expirationDateTextField.text = date

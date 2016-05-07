@@ -13,12 +13,12 @@ import UIKit
 
 protocol ShowOrderViewControllerInput
 {
-  func displayOrder(viewModel: ShowOrder_GetOrder_ViewModel)
+  func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
 }
 
 protocol ShowOrderViewControllerOutput
 {
-  func getOrder(request: ShowOrder_GetOrder_Request)
+  func getOrder(request: ShowOrder.GetOrder.Request)
   var order: Order! { get set }
 }
 
@@ -55,13 +55,13 @@ class ShowOrderViewController: UIViewController, ShowOrderViewControllerInput
   {
     // NOTE: Ask the Interactor to do some work
     
-    let request = ShowOrder_GetOrder_Request()
+    let request = ShowOrder.GetOrder.Request()
     output.getOrder(request)
   }
   
   // MARK: Display logic
   
-  func displayOrder(viewModel: ShowOrder_GetOrder_ViewModel)
+  func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
   {
     let displayedOrder = viewModel.displayedOrder
     orderIDLabel.text = displayedOrder.id

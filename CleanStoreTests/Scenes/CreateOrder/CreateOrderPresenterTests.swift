@@ -36,13 +36,13 @@ class CreateOrderPresenterTests: XCTestCase
     var displayExpirationDateCalled = false
     
     // MARK: Argument expectations
-    var createOrder_formatExpirationDate_viewModel: CreateOrder_FormatExpirationDate_ViewModel!
+    var viewModel: CreateOrder.FormatExpirationDate.ViewModel!
     
     // MARK: Spied methods
-    func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel)
+    func displayExpirationDate(viewModel: CreateOrder.FormatExpirationDate.ViewModel)
     {
       displayExpirationDateCalled = true
-      createOrder_formatExpirationDate_viewModel = viewModel
+      self.viewModel = viewModel
     }
   }
   
@@ -52,13 +52,13 @@ class CreateOrderPresenterTests: XCTestCase
     var displayExpirationDateCalled = false
     
     // MARK: Argument expectations
-    var createOrder_formatExpirationDate_viewModel: CreateOrder_FormatExpirationDate_ViewModel!
+    var viewModel: CreateOrder.FormatExpirationDate.ViewModel!
     
     // MARK: Spied methods
-    func displayExpirationDate(viewModel: CreateOrder_FormatExpirationDate_ViewModel)
+    func displayExpirationDate(viewModel: CreateOrder.FormatExpirationDate.ViewModel)
     {
       displayExpirationDateCalled = true
-      createOrder_formatExpirationDate_viewModel = viewModel
+      self.viewModel = viewModel
     }
     
     // MARK: Verifications
@@ -69,7 +69,7 @@ class CreateOrderPresenterTests: XCTestCase
     
     func verifyExpirationDateIsFormattedAs(date: String) -> Bool
     {
-      return createOrder_formatExpirationDate_viewModel.date == date
+      return viewModel.date == date
     }
   }
   
@@ -86,13 +86,13 @@ class CreateOrderPresenterTests: XCTestCase
     dateComponents.month = 6
     dateComponents.day = 29
     let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents)!
-    let response = CreateOrder_FormatExpirationDate_Response(date: date)
+    let response = CreateOrder.FormatExpirationDate.Response(date: date)
     
     // When
     createOrderPresenter.presentExpirationDate(response)
     
     // Then
-    let returnedDate = createOrderPresenterOutputSpy.createOrder_formatExpirationDate_viewModel.date
+    let returnedDate = createOrderPresenterOutputSpy.viewModel.date
     let expectedDate = "6/29/07"
     XCTAssertEqual(returnedDate, expectedDate, "Presenting an expiration date should convert date to string")
   }
@@ -102,7 +102,7 @@ class CreateOrderPresenterTests: XCTestCase
     // Given
     let createOrderPresenterOutputSpy = CreateOrderPresenterOutputSpy()
     createOrderPresenter.output = createOrderPresenterOutputSpy
-    let response = CreateOrder_FormatExpirationDate_Response(date: NSDate())
+    let response = CreateOrder.FormatExpirationDate.Response(date: NSDate())
     
     // When
     createOrderPresenter.presentExpirationDate(response)
@@ -122,7 +122,7 @@ class CreateOrderPresenterTests: XCTestCase
     dateComponents.month = 6
     dateComponents.day = 29
     let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents)!
-    let response = CreateOrder_FormatExpirationDate_Response(date: date)
+    let response = CreateOrder.FormatExpirationDate.Response(date: date)
     
     // When
     createOrderPresenter.presentExpirationDate(response)
@@ -137,7 +137,7 @@ class CreateOrderPresenterTests: XCTestCase
     // Given
     let createOrderPresenterOutputMock = CreateOrderPresenterOutputMock()
     createOrderPresenter.output = createOrderPresenterOutputMock
-    let response = CreateOrder_FormatExpirationDate_Response(date: NSDate())
+    let response = CreateOrder.FormatExpirationDate.Response(date: NSDate())
     
     // When
     createOrderPresenter.presentExpirationDate(response)

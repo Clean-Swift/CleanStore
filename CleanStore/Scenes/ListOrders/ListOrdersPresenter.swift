@@ -13,12 +13,12 @@ import UIKit
 
 protocol ListOrdersPresenterInput
 {
-  func presentFetchedOrders(response: ListOrders_FetchOrders_Response)
+  func presentFetchedOrders(response: ListOrders.FetchOrders.Response)
 }
 
 protocol ListOrdersPresenterOutput: class
 {
-  func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
+  func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
 }
 
 class ListOrdersPresenter: ListOrdersPresenterInput
@@ -38,16 +38,16 @@ class ListOrdersPresenter: ListOrdersPresenterInput
   
   // MARK: Presentation logic
   
-  func presentFetchedOrders(response: ListOrders_FetchOrders_Response)
+  func presentFetchedOrders(response: ListOrders.FetchOrders.Response)
   {
-    var displayedOrders: [ListOrders_FetchOrders_ViewModel.DisplayedOrder] = []
+    var displayedOrders: [ListOrders.FetchOrders.ViewModel.DisplayedOrder] = []
     for order in response.orders {
       let date = dateFormatter.stringFromDate(order.date!)
       let total = currencyFormatter.stringFromNumber(order.total!)
-      let displayedOrder = ListOrders_FetchOrders_ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email!, name: "\(order.firstName!) \(order.lastName!)", total: total!)
+      let displayedOrder = ListOrders.FetchOrders.ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email!, name: "\(order.firstName!) \(order.lastName!)", total: total!)
       displayedOrders.append(displayedOrder)
     }
-    let viewModel = ListOrders_FetchOrders_ViewModel(displayedOrders: displayedOrders)
+    let viewModel = ListOrders.FetchOrders.ViewModel(displayedOrders: displayedOrders)
     output.displayFetchedOrders(viewModel)
   }
 }

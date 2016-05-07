@@ -49,16 +49,16 @@ class CreateOrderViewControllerTests: XCTestCase
     var formatExpirationDateCalled = false
     
     // MARK: Argument expectations
-    var createOrder_formatExpirationDate_request: CreateOrder_FormatExpirationDate_Request!
+    var request: CreateOrder.FormatExpirationDate.Request!
     
     // MARK: Spied variables
     var shippingMethods = [String]()
     
     // MARK: Spied methods
-    func formatExpirationDate(request: CreateOrder_FormatExpirationDate_Request)
+    func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
     {
       formatExpirationDateCalled = true
-      createOrder_formatExpirationDate_request = request
+      self.request = request
     }
   }
   
@@ -67,7 +67,7 @@ class CreateOrderViewControllerTests: XCTestCase
   func testDisplayExpirationDateShouldDisplayDateStringInTextField()
   {
     // Given
-    let viewModel = CreateOrder_FormatExpirationDate_ViewModel(date: "6/29/07")
+    let viewModel = CreateOrder.FormatExpirationDate.ViewModel(date: "6/29/07")
     
     // When
     createOrderViewController.displayExpirationDate(viewModel)
@@ -95,7 +95,7 @@ class CreateOrderViewControllerTests: XCTestCase
     
     // Then
     XCTAssert(createOrderViewControllerOutputSpy.formatExpirationDateCalled, "Changing the expiration date should format the expiration date")
-    let actualDate = createOrderViewControllerOutputSpy.createOrder_formatExpirationDate_request.date
+    let actualDate = createOrderViewControllerOutputSpy.request.date
     XCTAssertEqual(actualDate, selectedDate, "Changing the expiration date should format the date selected in the date picker")
   }
   

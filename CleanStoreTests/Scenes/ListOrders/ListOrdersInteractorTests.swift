@@ -46,7 +46,7 @@ class ListOrdersInteractorTests: XCTestCase
     var presentFetchedOrdersCalled = false
     
     // MARK: Spied methods
-    func presentFetchedOrders(response: ListOrders_FetchOrders_Response)
+    func presentFetchedOrders(response: ListOrders.FetchOrders.Response)
     {
       presentFetchedOrdersCalled = true
     }
@@ -76,7 +76,7 @@ class ListOrdersInteractorTests: XCTestCase
     sut.ordersWorker = ordersWorkerSpy
     
     // When
-    let request = ListOrders_FetchOrders_Request()
+    let request = ListOrders.FetchOrders.Request()
     sut.fetchOrders(request)
     
     // Then

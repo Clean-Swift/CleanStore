@@ -13,12 +13,12 @@ import UIKit
 
 protocol ListOrdersViewControllerInput
 {
-  func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
+  func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
 }
 
 protocol ListOrdersViewControllerOutput
 {
-  func fetchOrders(request: ListOrders_FetchOrders_Request)
+  func fetchOrders(request: ListOrders.FetchOrders.Request)
   var orders: [Order]? { get }
 }
 
@@ -26,7 +26,7 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
 {
   var output: ListOrdersViewControllerOutput!
   var router: ListOrdersRouter!
-  var displayedOrders: [ListOrders_FetchOrders_ViewModel.DisplayedOrder] = []
+  var displayedOrders: [ListOrders.FetchOrders.ViewModel.DisplayedOrder] = []
   
   // MARK: Object lifecycle
   
@@ -48,13 +48,13 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
   
   func fetchOrdersOnLoad()
   {
-    let request = ListOrders_FetchOrders_Request()
+    let request = ListOrders.FetchOrders.Request()
     output.fetchOrders(request)
   }
   
   // MARK: Display logic
   
-  func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
+  func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
   {
     displayedOrders = viewModel.displayedOrders
     tableView.reloadData()

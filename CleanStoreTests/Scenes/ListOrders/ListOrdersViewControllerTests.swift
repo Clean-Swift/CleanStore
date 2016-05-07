@@ -59,7 +59,7 @@ class ListOrdersViewControllerTests: XCTestCase
     var fetchOrdersCalled = false
     
     // MARK: Spied methods
-    func fetchOrders(request: ListOrders_FetchOrders_Request)
+    func fetchOrders(request: ListOrders.FetchOrders.Request)
     {
       fetchOrdersCalled = true
     }
@@ -98,8 +98,8 @@ class ListOrdersViewControllerTests: XCTestCase
     let tableViewSpy = TableViewSpy()
     sut.tableView = tableViewSpy
     
-    let displayedOrders = [ListOrders_FetchOrders_ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]
-    let viewModel = ListOrders_FetchOrders_ViewModel(displayedOrders: displayedOrders)
+    let displayedOrders = [ListOrders.FetchOrders.ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]
+    let viewModel = ListOrders.FetchOrders.ViewModel(displayedOrders: displayedOrders)
     
     // When
     sut.displayFetchedOrders(viewModel)
@@ -124,7 +124,7 @@ class ListOrdersViewControllerTests: XCTestCase
   {
     // Given
     let tableView = sut.tableView
-    let testDisplayedOrders = [ListOrders_FetchOrders_ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]
+    let testDisplayedOrders = [ListOrders.FetchOrders.ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]
     sut.displayedOrders = testDisplayedOrders
     
     // When
@@ -138,7 +138,7 @@ class ListOrdersViewControllerTests: XCTestCase
   {
     // Given
     let tableView = sut.tableView
-    let testDisplayedOrders = [ListOrders_FetchOrders_ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]
+    let testDisplayedOrders = [ListOrders.FetchOrders.ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]
     sut.displayedOrders = testDisplayedOrders
     
     // When

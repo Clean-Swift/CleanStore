@@ -46,13 +46,13 @@ class ListOrdersPresenterTests: XCTestCase
     var displayFetchedOrdersCalled = false
     
     // MARK: Argument expectations
-    var listOrders_fetchOrders_viewModel: ListOrders_FetchOrders_ViewModel!
+    var viewModel: ListOrders.FetchOrders.ViewModel!
     
     // MARK: Spied methods
-    func displayFetchedOrders(viewModel: ListOrders_FetchOrders_ViewModel)
+    func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
     {
       displayFetchedOrdersCalled = true
-      listOrders_fetchOrders_viewModel = viewModel
+      self.viewModel = viewModel
     }
   }
   
@@ -71,13 +71,13 @@ class ListOrdersPresenterTests: XCTestCase
     let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents)!
     
     let orders = [Order(id: "abc123", date: date, email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
-    let response = ListOrders_FetchOrders_Response(orders: orders)
+    let response = ListOrders.FetchOrders.Response(orders: orders)
     
     // When
     sut.presentFetchedOrders(response)
     
     // Then
-    let displayedOrders = listOrdersPresenterOutputSpy.listOrders_fetchOrders_viewModel.displayedOrders
+    let displayedOrders = listOrdersPresenterOutputSpy.viewModel.displayedOrders
     for displayedOrder in displayedOrders{
       XCTAssertEqual(displayedOrder.id, "abc123", "Presenting fetched orders should properly format order ID")
       XCTAssertEqual(displayedOrder.date, "6/29/07", "Presenting fetched orders should properly format order date")
@@ -94,7 +94,7 @@ class ListOrdersPresenterTests: XCTestCase
     sut.output = listOrdersPresenterOutputSpy
     
     let orders = [Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
-    let response = ListOrders_FetchOrders_Response(orders: orders)
+    let response = ListOrders.FetchOrders.Response(orders: orders)
     
     // When
     sut.presentFetchedOrders(response)
