@@ -29,7 +29,7 @@ class ShowOrderInteractor: ShowOrderInteractorInput
   
   var order: Order!
   
-  // MARK: Business logic
+  // MARK: - Fetch order
   
   func getOrder(request: ShowOrder.GetOrder.Request)
   {

@@ -14,12 +14,12 @@ import XCTest
 
 class ListOrdersViewControllerTests: XCTestCase
 {
-  // MARK: Subject under test
+  // MARK: - Subject under test
   
   var sut: ListOrdersViewController!
   var window: UIWindow!
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -34,7 +34,7 @@ class ListOrdersViewControllerTests: XCTestCase
     super.tearDown()
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupListOrdersViewController()
   {
@@ -49,7 +49,7 @@ class ListOrdersViewControllerTests: XCTestCase
     NSRunLoop.currentRunLoop().runUntilDate(NSDate())
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
   class ListOrdersViewControllerOutputSpy: ListOrdersViewControllerOutput
   {
@@ -77,7 +77,7 @@ class ListOrdersViewControllerTests: XCTestCase
     }
   }
   
-  // MARK: Tests
+  // MARK: - Tests
   
   func testShouldFetchOrdersWhenViewIsLoaded()
   {

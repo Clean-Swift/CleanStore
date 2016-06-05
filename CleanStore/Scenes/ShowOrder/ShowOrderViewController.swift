@@ -33,7 +33,7 @@ class ShowOrderViewController: UIViewController, ShowOrderViewControllerInput
   @IBOutlet weak var orderNameLabel: UILabel!
   @IBOutlet weak var orderTotalLabel: UILabel!
   
-  // MARK: Object lifecycle
+  // MARK: - Object lifecycle
   
   override func awakeFromNib()
   {
@@ -41,7 +41,7 @@ class ShowOrderViewController: UIViewController, ShowOrderViewControllerInput
     ShowOrderConfigurator.sharedInstance.configure(self)
   }
   
-  // MARK: View lifecycle
+  // MARK: - View lifecycle
   
   override func viewDidLoad()
   {
@@ -49,17 +49,15 @@ class ShowOrderViewController: UIViewController, ShowOrderViewControllerInput
     getOrderOnLoad()
   }
   
-  // MARK: Event handling
+  // MARK: - Event handling
   
   func getOrderOnLoad()
   {
-    // NOTE: Ask the Interactor to do some work
-    
     let request = ShowOrder.GetOrder.Request()
     output.getOrder(request)
   }
   
-  // MARK: Display logic
+  // MARK: - Display logic
   
   func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
   {

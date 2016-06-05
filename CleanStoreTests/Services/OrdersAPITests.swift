@@ -26,10 +26,8 @@ class OrdersAPITests: XCTestCase
   func setupOrdersAPI()
   {
     sut = OrdersAPI()
-    testOrders = [
-      Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23")),
-      Order(id: "def456", date: NSDate(), email: "bob.battery@clean-swift.com", firstName: "Bob", lastName: "Battery", total: NSDecimalNumber(string: "4.56"))
-    ]
+    
+    testOrders = [Seeds.Orders.amy, Seeds.Orders.bob]
   }
   
   // MARK: - Test CRUD operations - Optional error

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3zf-vf-WGz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3zf-vf-WGz">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -678,13 +678,33 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Create Order" id="jKv-lU-NIL">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="6eX-HZ-vp7"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="6eX-HZ-vp7">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="0kW-S4-ck9" id="IFl-Hr-jB7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="414" height="1010"/>
                     <connections>
+                        <outlet property="billingAddressCityTextField" destination="P4m-gx-Kdr" id="Mtj-CK-eim"/>
+                        <outlet property="billingAddressStateTextField" destination="Xe5-Nk-o7g" id="2Nf-yS-5jK"/>
+                        <outlet property="billingAddressStreet1TextField" destination="dnr-s0-cgm" id="fu2-4S-P9e"/>
+                        <outlet property="billingAddressStreet2TextField" destination="PLP-sQ-Km8" id="lIR-aY-YrT"/>
+                        <outlet property="billingAddressZIPTextField" destination="Dqn-Gx-fXk" id="YOC-Li-Wih"/>
+                        <outlet property="ccvTextField" destination="XyJ-fe-4ME" id="LDR-aq-IWm"/>
+                        <outlet property="creditCardNumberTextField" destination="O3J-dU-zG5" id="LW6-Wb-QmX"/>
+                        <outlet property="emailTextField" destination="yBr-VC-Eb1" id="2qS-o9-Njp"/>
                         <outlet property="expirationDatePicker" destination="MeA-k3-vaX" id="S8e-dc-lOG"/>
                         <outlet property="expirationDateTextField" destination="tvY-pa-rIH" id="Ls9-3k-8tR"/>
+                        <outlet property="firstNameTextField" destination="6AS-fv-Dlp" id="cyo-7A-gzi"/>
+                        <outlet property="lastNameTextField" destination="gbW-mw-Xc0" id="Zpn-SY-7ra"/>
+                        <outlet property="phoneTextField" destination="X6h-kQ-0QC" id="SYH-Hx-Ivr"/>
+                        <outlet property="shipmentAddressCityTextField" destination="Z2S-H9-SSc" id="2z7-cP-1tg"/>
+                        <outlet property="shipmentAddressStateTextField" destination="kLE-gn-mp0" id="WFj-uj-rG8"/>
+                        <outlet property="shipmentAddressStreet1TextField" destination="Exf-fb-QNO" id="ik5-Dd-HFZ"/>
+                        <outlet property="shipmentAddressStreet2TextField" destination="B16-E1-Ld0" id="6fx-BK-lKY"/>
+                        <outlet property="shipmentAddressZIPTextField" destination="LT8-ft-iEl" id="G3z-yi-AwK"/>
                         <outlet property="shippingMethodPicker" destination="vAI-q7-LSR" id="Wm6-Z8-2bT"/>
                         <outlet property="shippingMethodTextField" destination="M4M-BZ-TNQ" id="U38-y6-aNB"/>
                         <outletCollection property="textFields" destination="6AS-fv-Dlp" collectionClass="NSMutableArray" id="11G-UW-VS0"/>
@@ -804,31 +824,31 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Kr-6A-YP2">
                                                 <rect key="frame" x="0.0" y="0.0" width="70" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzH-ki-H7m">
                                                 <rect key="frame" x="0.0" y="31" width="90" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Address:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y0q-Xd-OOg">
                                                 <rect key="frame" x="0.0" y="62" width="113" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9KE-Pl-TCn">
                                                 <rect key="frame" x="0.0" y="93" width="89" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order Total:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tD5-mg-4sF">
                                                 <rect key="frame" x="0.0" y="124" width="91" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>

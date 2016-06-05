@@ -14,11 +14,11 @@ import XCTest
 
 class ListOrdersPresenterTests: XCTestCase
 {
-  // MARK: Subject under test
+  // MARK: - Subject under test
   
   var sut: ListOrdersPresenter!
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -31,14 +31,14 @@ class ListOrdersPresenterTests: XCTestCase
     super.tearDown()
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupListOrdersPresenter()
   {
     sut = ListOrdersPresenter()
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
   class ListOrdersPresenterOutputSpy: ListOrdersPresenterOutput
   {
@@ -56,7 +56,7 @@ class ListOrdersPresenterTests: XCTestCase
     }
   }
   
-  // MARK: Tests
+  // MARK: - Tests
   
   func testPresentFetchedOrdersShouldFormatFetchedOrdersForDisplay()
   {
@@ -70,7 +70,10 @@ class ListOrdersPresenterTests: XCTestCase
     dateComponents.day = 29
     let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents)!
     
-    let orders = [Order(id: "abc123", date: date, email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
+    var amy = Seeds.Orders.amy
+    amy.date = date
+    let orders = [amy]
+    
     let response = ListOrders.FetchOrders.Response(orders: orders)
     
     // When
@@ -79,11 +82,11 @@ class ListOrdersPresenterTests: XCTestCase
     // Then
     let displayedOrders = listOrdersPresenterOutputSpy.viewModel.displayedOrders
     for displayedOrder in displayedOrders{
-      XCTAssertEqual(displayedOrder.id, "abc123", "Presenting fetched orders should properly format order ID")
+      XCTAssertEqual(displayedOrder.id, "aaa111", "Presenting fetched orders should properly format order ID")
       XCTAssertEqual(displayedOrder.date, "6/29/07", "Presenting fetched orders should properly format order date")
       XCTAssertEqual(displayedOrder.email, "amy.apple@clean-swift.com", "Presenting fetched orders should properly format email")
       XCTAssertEqual(displayedOrder.name, "Amy Apple", "Presenting fetched orders should properly format name")
-      XCTAssertEqual(displayedOrder.total, "$1.23", "Presenting fetched orders should properly format total")
+      XCTAssertEqual(displayedOrder.total, "$1.11", "Presenting fetched orders should properly format total")
     }
   }
   
@@ -93,7 +96,7 @@ class ListOrdersPresenterTests: XCTestCase
     let listOrdersPresenterOutputSpy = ListOrdersPresenterOutputSpy()
     sut.output = listOrdersPresenterOutputSpy
     
-    let orders = [Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
+    let orders = [Seeds.Orders.amy]
     let response = ListOrders.FetchOrders.Response(orders: orders)
     
     // When

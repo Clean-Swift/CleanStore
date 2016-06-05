@@ -25,11 +25,11 @@ protocol ListOrdersInteractorOutput
 class ListOrdersInteractor: ListOrdersInteractorInput
 {
   var output: ListOrdersInteractorOutput!
-  var ordersWorker = OrdersWorker(ordersStore: OrdersMemStore())
+  var ordersWorker = OrdersWorker(ordersStore: OrdersCoreDataStore())
   
   var orders: [Order]?
   
-  // MARK: Business logic
+  // MARK: - Fetch orders
   
   func fetchOrders(request: ListOrders.FetchOrders.Request)
   {

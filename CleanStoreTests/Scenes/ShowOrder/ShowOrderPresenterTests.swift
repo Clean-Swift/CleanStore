@@ -14,11 +14,11 @@ import XCTest
 
 class ShowOrderPresenterTests: XCTestCase
 {
-  // MARK: Subject under test
+  // MARK: - Subject under test
   
   var sut: ShowOrderPresenter!
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -31,23 +31,75 @@ class ShowOrderPresenterTests: XCTestCase
     super.tearDown()
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupShowOrderPresenter()
   {
     sut = ShowOrderPresenter()
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
-  // MARK: Tests
+  class ShowOrderPresenterOutputSpy: ShowOrderPresenterOutput
+  {
+    // MARK: Method call expectations
+    var displayOrderCalled = false
+    
+    // MARK: Argument expectations
+    var viewModel: ShowOrder.GetOrder.ViewModel!
+    
+    // MARK: Spied methods
+    func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
+    {
+      displayOrderCalled = true
+      self.viewModel = viewModel
+    }
+  }
   
-  func testSomething()
+  // MARK: - Tests
+  
+  func testPresentOrderShouldFormatOrderForDisplay()
   {
     // Given
+    let showOrderPresenterOutputSpy = ShowOrderPresenterOutputSpy()
+    sut.output = showOrderPresenterOutputSpy
+    
+    let dateComponents = NSDateComponents()
+    dateComponents.year = 2007
+    dateComponents.month = 6
+    dateComponents.day = 29
+    let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents)!
+    
+    var order = Seeds.Orders.amy
+    order.date = date
+    
+    let response = ShowOrder.GetOrder.Response(order: order)
     
     // When
+    sut.presentOrder(response)
     
     // Then
+    let displayedOrder = showOrderPresenterOutputSpy.viewModel.displayedOrder
+    XCTAssertEqual(displayedOrder.id, "aaa111", "Presenting order should properly format order ID")
+    XCTAssertEqual(displayedOrder.date, "6/29/07", "Presenting order should properly format order date")
+    XCTAssertEqual(displayedOrder.email, "amy.apple@clean-swift.com", "Presenting order should properly format email")
+    XCTAssertEqual(displayedOrder.name, "Amy Apple", "Presenting order should properly format name")
+    XCTAssertEqual(displayedOrder.total, "$1.11", "Presenting order should properly format total")
+  }
+  
+  func testPresentOrderShouldAskViewControllerToDisplayOrder()
+  {
+    // Given
+    let showOrderPresenterOutputSpy = ShowOrderPresenterOutputSpy()
+    sut.output = showOrderPresenterOutputSpy
+    
+    let order = Seeds.Orders.amy
+    let response = ShowOrder.GetOrder.Response(order: order)
+    
+    // When
+    sut.presentOrder(response)
+    
+    // Then
+    XCTAssert(showOrderPresenterOutputSpy.displayOrderCalled, "Presenting order should ask view controller to display it")
   }
 }

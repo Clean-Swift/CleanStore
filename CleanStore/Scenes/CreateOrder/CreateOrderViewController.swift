@@ -14,12 +14,14 @@ import UIKit
 protocol CreateOrderViewControllerInput
 {
   func displayExpirationDate(viewModel: CreateOrder.FormatExpirationDate.ViewModel)
+  func displayCreatedOrder(viewModel: CreateOrder.CreateOrder.ViewModel)
 }
 
 protocol CreateOrderViewControllerOutput
 {
   var shippingMethods: [String] { get }
   func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
+  func createOrder(request: CreateOrder.CreateOrder.Request)
 }
 
 class CreateOrderViewController: UITableViewController, CreateOrderViewControllerInput, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate
@@ -27,7 +29,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
   var output: CreateOrderViewControllerOutput!
   var router: CreateOrderRouter!
   
-  // MARK: Object lifecycle
+  // MARK: - Object lifecycle
   
   override func awakeFromNib()
   {
@@ -35,7 +37,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     CreateOrderConfigurator.sharedInstance.configure(self)
   }
   
-  // MARK: View lifecycle
+  // MARK: - View lifecycle
   
   override func viewDidLoad()
   {
@@ -43,7 +45,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     configurePickers()
   }
   
-  // MARK: Text fields
+  // MARK: - Text fields
   
   @IBOutlet var textFields: [UITextField]!
   
@@ -70,7 +72,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     }
   }
   
-  // MARK: Shipping method
+  // MARK: - Shipping method
   
   @IBOutlet weak var shippingMethodTextField: UITextField!
   @IBOutlet var shippingMethodPicker: UIPickerView!
@@ -101,7 +103,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     shippingMethodTextField.text = output.shippingMethods[row]
   }
   
-  // MARK: Expiration date
+  // MARK: - Expiration date
   
   @IBOutlet weak var expirationDateTextField: UITextField!
   @IBOutlet var expirationDatePicker: UIDatePicker!
@@ -117,5 +119,85 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
   {
     let date = viewModel.date
     expirationDateTextField.text = date
+  }
+  
+  // MARK: - Create order
+  
+  // MARK: Contact info
+  @IBOutlet weak var firstNameTextField: UITextField!
+  @IBOutlet weak var lastNameTextField: UITextField!
+  @IBOutlet weak var phoneTextField: UITextField!
+  @IBOutlet weak var emailTextField: UITextField!
+  
+  // MARK: Payment info
+  @IBOutlet weak var billingAddressStreet1TextField: UITextField!
+  @IBOutlet weak var billingAddressStreet2TextField: UITextField!
+  @IBOutlet weak var billingAddressCityTextField: UITextField!
+  @IBOutlet weak var billingAddressStateTextField: UITextField!
+  @IBOutlet weak var billingAddressZIPTextField: UITextField!
+  
+  @IBOutlet weak var creditCardNumberTextField: UITextField!
+  @IBOutlet weak var ccvTextField: UITextField!
+  
+  // MARK: Shipping info
+  @IBOutlet weak var shipmentAddressStreet1TextField: UITextField!
+  @IBOutlet weak var shipmentAddressStreet2TextField: UITextField!
+  @IBOutlet weak var shipmentAddressCityTextField: UITextField!
+  @IBOutlet weak var shipmentAddressStateTextField: UITextField!
+  @IBOutlet weak var shipmentAddressZIPTextField: UITextField!
+  
+  @IBAction func saveButtonTapped(sender: AnyObject)
+  {
+    // MARK: Contact info
+    let firstName = firstNameTextField.text!
+    let lastName = lastNameTextField.text!
+    let phone = phoneTextField.text!
+    let email = emailTextField.text!
+    
+    // MARK: Payment info
+    let billingAddressStreet1 = billingAddressStreet1TextField.text!
+    let billingAddressStreet2 = billingAddressStreet2TextField.text!
+    let billingAddressCity = billingAddressCityTextField.text!
+    let billingAddressState = billingAddressStateTextField.text!
+    let billingAddressZIP = billingAddressZIPTextField.text!
+    
+    let paymentMethodCreditCardNumber = creditCardNumberTextField.text!
+    let paymentMethodExpirationDate = expirationDatePicker.date
+    let paymentMethodCVV = ccvTextField.text!
+    
+    // MARK: Shipping info
+    let shipmentAddressStreet1 = shipmentAddressStreet1TextField.text!
+    let shipmentAddressStreet2 = shipmentAddressStreet2TextField.text!
+    let shipmentAddressCity = shipmentAddressCityTextField.text!
+    let shipmentAddressState = shipmentAddressStateTextField.text!
+    let shipmentAddressZIP = shipmentAddressZIPTextField.text!
+    
+    let shipmentMethodSpeed = shippingMethodPicker.selectedRowInComponent(0)
+    
+    // MARK: Misc
+    let id: String? = nil
+    let date = NSDate()
+    let total = NSDecimalNumber.notANumber()
+    
+    let request = CreateOrder.CreateOrder.Request(firstName: firstName, lastName: lastName, phone: phone, email: email, billingAddressStreet1: billingAddressStreet1, billingAddressStreet2: billingAddressStreet2, billingAddressCity: billingAddressCity, billingAddressState: billingAddressState, billingAddressZIP: billingAddressZIP, paymentMethodCreditCardNumber: paymentMethodCreditCardNumber, paymentMethodExpirationDate: paymentMethodExpirationDate, paymentMethodCVV: paymentMethodCVV, shipmentAddressStreet1: shipmentAddressStreet1, shipmentAddressStreet2: shipmentAddressStreet2, shipmentAddressCity: shipmentAddressCity, shipmentAddressState: shipmentAddressState, shipmentAddressZIP: shipmentAddressZIP, shipmentMethodSpeed: shipmentMethodSpeed, id: id, date: date, total: total)
+    
+    output.createOrder(request)
+  }
+  
+  func displayCreatedOrder(viewModel: CreateOrder.CreateOrder.ViewModel)
+  {
+    if viewModel.success {
+      router.navigateBackToListOrdersScene()
+    } else {
+      showCreateOrderFailureAlert()
+    }
+  }
+  
+  private func showCreateOrderFailureAlert()
+  {
+    let alertController = UIAlertController(title: "Failed to create order", message: "Please correct your order and submit again.", preferredStyle: .Alert)
+    let alertAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+    alertController.addAction(alertAction)
+    presentViewController(alertController, animated: true, completion: nil)
   }
 }

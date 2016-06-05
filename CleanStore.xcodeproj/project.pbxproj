@@ -15,7 +15,6 @@
 		71354B3C1C75462300813F04 /* ShowOrderInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71354B381C75462300813F04 /* ShowOrderInteractorTests.swift */; };
 		71354B3D1C75462300813F04 /* ShowOrderPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71354B391C75462300813F04 /* ShowOrderPresenterTests.swift */; };
 		71354B3E1C75462300813F04 /* ShowOrderViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71354B3A1C75462300813F04 /* ShowOrderViewControllerTests.swift */; };
-		71354B3F1C75462300813F04 /* ShowOrderWorkerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71354B3B1C75462300813F04 /* ShowOrderWorkerTests.swift */; };
 		713919941C7539C90081E47B /* ShowOrderConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139198D1C7539C90081E47B /* ShowOrderConfigurator.swift */; };
 		713919951C7539C90081E47B /* ShowOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139198E1C7539C90081E47B /* ShowOrderInteractor.swift */; };
 		713919961C7539C90081E47B /* ShowOrderModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139198F1C7539C90081E47B /* ShowOrderModels.swift */; };
@@ -56,6 +55,7 @@
 		71B2CD141BE6A04900C734CA /* OrdersCoreDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD131BE6A04900C734CA /* OrdersCoreDataStore.swift */; };
 		71B2CD171BE6A06800C734CA /* OrdersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD161BE6A06800C734CA /* OrdersAPI.swift */; };
 		71DF947A1C00682C003AFED3 /* OrdersAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DF94791C00682C003AFED3 /* OrdersAPITests.swift */; };
+		71F147841D01668F00872BFF /* Seeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F147831D01668F00872BFF /* Seeds.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,7 +81,6 @@
 		71354B381C75462300813F04 /* ShowOrderInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderInteractorTests.swift; path = ShowOrder/ShowOrderInteractorTests.swift; sourceTree = "<group>"; };
 		71354B391C75462300813F04 /* ShowOrderPresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderPresenterTests.swift; path = ShowOrder/ShowOrderPresenterTests.swift; sourceTree = "<group>"; };
 		71354B3A1C75462300813F04 /* ShowOrderViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderViewControllerTests.swift; path = ShowOrder/ShowOrderViewControllerTests.swift; sourceTree = "<group>"; };
-		71354B3B1C75462300813F04 /* ShowOrderWorkerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderWorkerTests.swift; path = ShowOrder/ShowOrderWorkerTests.swift; sourceTree = "<group>"; };
 		7139198D1C7539C90081E47B /* ShowOrderConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderConfigurator.swift; path = ShowOrder/ShowOrderConfigurator.swift; sourceTree = "<group>"; };
 		7139198E1C7539C90081E47B /* ShowOrderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderInteractor.swift; path = ShowOrder/ShowOrderInteractor.swift; sourceTree = "<group>"; };
 		7139198F1C7539C90081E47B /* ShowOrderModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderModels.swift; path = ShowOrder/ShowOrderModels.swift; sourceTree = "<group>"; };
@@ -122,6 +121,7 @@
 		71B2CD131BE6A04900C734CA /* OrdersCoreDataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersCoreDataStore.swift; path = Services/OrdersCoreDataStore.swift; sourceTree = "<group>"; };
 		71B2CD161BE6A06800C734CA /* OrdersAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersAPI.swift; path = Services/OrdersAPI.swift; sourceTree = "<group>"; };
 		71DF94791C00682C003AFED3 /* OrdersAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersAPITests.swift; path = Services/OrdersAPITests.swift; sourceTree = "<group>"; };
+		71F147831D01668F00872BFF /* Seeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seeds.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +193,7 @@
 				71416E9D1B9D678600C6DBE4 /* Scenes */,
 				713B53C31B995C2400C2E152 /* TheLittleMocker.swift */,
 				7104754D1B882CA000D72E3C /* CleanStoreTests.swift */,
+				71F147831D01668F00872BFF /* Seeds.swift */,
 				7104754B1B882CA000D72E3C /* Supporting Files */,
 			);
 			path = CleanStoreTests;
@@ -226,7 +227,6 @@
 				71354B381C75462300813F04 /* ShowOrderInteractorTests.swift */,
 				71354B391C75462300813F04 /* ShowOrderPresenterTests.swift */,
 				71354B3A1C75462300813F04 /* ShowOrderViewControllerTests.swift */,
-				71354B3B1C75462300813F04 /* ShowOrderWorkerTests.swift */,
 			);
 			name = ShowOrder;
 			sourceTree = "<group>";
@@ -499,7 +499,7 @@
 				71B2CD0E1BE68CBF00C734CA /* OrdersWorkerTests.swift in Sources */,
 				71354B3D1C75462300813F04 /* ShowOrderPresenterTests.swift in Sources */,
 				71B2CCFB1BE54B4600C734CA /* ListOrdersViewControllerTests.swift in Sources */,
-				71354B3F1C75462300813F04 /* ShowOrderWorkerTests.swift in Sources */,
+				71F147841D01668F00872BFF /* Seeds.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

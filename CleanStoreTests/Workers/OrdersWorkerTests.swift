@@ -3,11 +3,12 @@ import XCTest
 
 class OrdersWorkerTests: XCTestCase
 {
-  // MARK: Subject under test
+  // MARK: - Subject under test
   
   var sut: OrdersWorker!
+  static var testOrders: [Order]!
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -20,37 +21,48 @@ class OrdersWorkerTests: XCTestCase
     super.tearDown()
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupOrdersWorker()
   {
     sut = OrdersWorker(ordersStore: OrdersMemStoreSpy())
+    
+    OrdersWorkerTests.testOrders = [Seeds.Orders.amy, Seeds.Orders.bob]
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
   class OrdersMemStoreSpy: OrdersMemStore
   {
     // MARK: Method call expectations
-    var fetchedOrdersCalled = false
+    var fetchOrdersCalled = false
+    var createOrderCalled = false
     
     // MARK: Spied methods
     override func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
     {
-      fetchedOrdersCalled = true
+      fetchOrdersCalled = true
       let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
       dispatch_after(oneSecond, dispatch_get_main_queue(), {
         completionHandler {
-          return [
-            Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23")),
-            Order(id: "def456", date: NSDate(), email: "bob.battery@clean-swift.com", firstName: "Bob", lastName: "Battery", total: NSDecimalNumber(string: "4.56"))
-          ]
+          return OrdersWorkerTests.testOrders
+        }
+      })
+    }
+    
+    override func createOrder(orderToCreate: Order, completionHandler: (createdOrder: () throws -> Order?) -> Void)
+    {
+      createOrderCalled = true
+      let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
+      dispatch_after(oneSecond, dispatch_get_main_queue(), {
+        completionHandler {
+          return OrdersWorkerTests.testOrders.first!
         }
       })
     }
   }
   
-  // MARK: Tests
+  // MARK: - Tests
   
   func testFetchOrdersShouldReturnListOfOrders()
   {
@@ -58,15 +70,41 @@ class OrdersWorkerTests: XCTestCase
     let ordersMemStoreSpy = sut.ordersStore as! OrdersMemStoreSpy
     
     // When
+    var fetchedOrders = [Order]()
     let expectation = expectationWithDescription("Wait for fetchOrders() to return")
-    sut.fetchOrders { (orders: [Order]) -> Void in
+    sut.fetchOrders { (orders) in
+      fetchedOrders = orders
       expectation.fulfill()
+    }
+    waitForExpectationsWithTimeout(1.1) { (error: NSError?) -> Void in
     }
     
     // Then
-    XCTAssert(ordersMemStoreSpy.fetchedOrdersCalled, "Calling fetchOrders() should ask the data store for a list of orders")
-    waitForExpectationsWithTimeout(1.1) { (error: NSError?) -> Void in
-      XCTAssert(true, "Calling fetchOrders() should result in the completion handler being called with the fetched orders result")
+    XCTAssert(ordersMemStoreSpy.fetchOrdersCalled, "Calling fetchOrders() should ask the data store for a list of orders")
+    XCTAssertEqual(fetchedOrders.count, OrdersWorkerTests.testOrders.count, "fetchOrders() should return a list of orders")
+    for order in fetchedOrders {
+      XCTAssert(OrdersWorkerTests.testOrders.contains(order), "Fetched orders should match the orders in the data store")
     }
+  }
+  
+  func testCreateOrderShouldReturnTheCreatedOrder()
+  {
+    // Given
+    let ordersMemStoreSpy = sut.ordersStore as! OrdersMemStoreSpy
+    let orderToCreate = OrdersWorkerTests.testOrders.first!
+    
+    // When
+    var createdOrder: Order?
+    let expectation = expectationWithDescription("Wait for createOrder() to return")
+    sut.createOrder(orderToCreate) { (order) in
+      createdOrder = order
+      expectation.fulfill()
+    }
+    waitForExpectationsWithTimeout(1.1) { (error: NSError?) -> Void in
+    }
+    
+    // Then
+    XCTAssert(ordersMemStoreSpy.createOrderCalled, "Calling createOrder() should ask the data store to create the new order")
+    XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
   }
 }

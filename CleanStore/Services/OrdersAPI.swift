@@ -1,26 +1,26 @@
 import Foundation
 
-class OrdersAPI: OrdersStoreProtocol
+class OrdersAPI: OrdersStoreProtocol, OrdersStoreUtilityProtocol
 {
   // MARK: - CRUD operations - Optional error
   
-  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void)
+  func fetchOrders(completionHandler: (fetchedOrders: [Order], error: OrdersStoreError?) -> Void)
   {
   }
   
-  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void)
+  func fetchOrder(id: String, completionHandler: (fetchedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: (createdOrder: Order?, error: OrdersStoreError?) -> Void)
   {
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
   }
   
-  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void)
+  func deleteOrder(id: String, completionHandler: (deletedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
   }
   
@@ -48,23 +48,23 @@ class OrdersAPI: OrdersStoreProtocol
   
   // MARK: - CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
+  func fetchOrders(completionHandler: (fetchedOrders: () throws -> [Order]) -> Void)
   {
   }
   
-  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void)
+  func fetchOrder(id: String, completionHandler: (fetchedOrder: () throws -> Order?) -> Void)
   {
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (done: () throws -> Void) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: (createdOrder: () throws -> Order?) -> Void)
   {
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: () throws -> Order?) -> Void)
   {
   }
   
-  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void)
+  func deleteOrder(id: String, completionHandler: (deletedOrder: () throws -> Order?) -> Void)
   {
   }
 }

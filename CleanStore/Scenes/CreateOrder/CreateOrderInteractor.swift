@@ -15,28 +15,50 @@ protocol CreateOrderInteractorInput
 {
   var shippingMethods: [String] { get }
   func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
+  func createOrder(request: CreateOrder.CreateOrder.Request)
 }
 
 protocol CreateOrderInteractorOutput
 {
   func presentExpirationDate(response: CreateOrder.FormatExpirationDate.Response)
+  func presentCreatedOrder(response: CreateOrder.CreateOrder.Response)
 }
 
 class CreateOrderInteractor: CreateOrderInteractorInput
 {
   var output: CreateOrderInteractorOutput!
-  var worker: CreateOrderWorker!
+  var ordersWorker = OrdersWorker(ordersStore: OrdersCoreDataStore())
   var shippingMethods = [
     "Standard Shipping",
-    "Two-Day Shipping",
-    "One-Day Shipping"
+    "One-Day Shipping",
+    "Two-Day Shipping"
   ]
   
-  // MARK: Expiration date
+  // MARK: - Expiration date
   
   func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
   {
     let response = CreateOrder.FormatExpirationDate.Response(date: request.date)
     output.presentExpirationDate(response)
+  }
+  
+  // MARK: - Create order
+  
+  func createOrder(request: CreateOrder.CreateOrder.Request)
+  {
+    let billingAddress = Address(street1: request.billingAddressStreet1, street2: request.billingAddressStreet2, city: request.billingAddressCity, state: request.billingAddressState, zip: request.billingAddressZIP)
+    
+    let paymentMethod = PaymentMethod(creditCardNumber: request.paymentMethodCreditCardNumber, expirationDate: request.paymentMethodExpirationDate, cvv: request.paymentMethodCVV)
+    
+    let shipmentAddress = Address(street1: request.shipmentAddressStreet1, street2: request.shipmentAddressStreet2, city: request.shipmentAddressCity, state: request.shipmentAddressState, zip: request.shipmentAddressZIP)
+    
+    let shipmentMethod = ShipmentMethod(speed: ShipmentMethod.ShippingSpeed(rawValue: request.shipmentMethodSpeed)!)
+    
+    let orderToCreate = Order(firstName: request.firstName, lastName: request.lastName, phone: request.phone, email: request.email, billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: request.id, date: request.date, total: request.total)
+    
+    ordersWorker.createOrder(orderToCreate) { (order: Order?) in
+      let response = CreateOrder.CreateOrder.Response(order: order)
+      self.output.presentCreatedOrder(response)
+    }
   }
 }

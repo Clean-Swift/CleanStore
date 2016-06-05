@@ -14,11 +14,11 @@ import XCTest
 
 class ListOrdersInteractorTests: XCTestCase
 {
-  // MARK: Subject under test
+  // MARK: - Subject under test
   
   var sut: ListOrdersInteractor!
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -31,14 +31,14 @@ class ListOrdersInteractorTests: XCTestCase
     super.tearDown()
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupListOrdersInteractor()
   {
     sut = ListOrdersInteractor()
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
   class ListOrdersInteractorOutputSpy: ListOrdersInteractorOutput
   {
@@ -61,11 +61,11 @@ class ListOrdersInteractorTests: XCTestCase
     override func fetchOrders(completionHandler: (orders: [Order]) -> Void)
     {
       fetchOrdersCalled = true
-      completionHandler(orders: [])
+      completionHandler(orders: [Seeds.Orders.amy, Seeds.Orders.bob])
     }
   }
   
-  // MARK: Tests
+  // MARK: - Tests
   
   func testFetchOrdersShouldAskOrdersWorkerToFetchOrdersAndPresenterToFormatResult()
   {

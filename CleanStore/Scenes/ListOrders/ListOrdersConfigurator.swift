@@ -11,7 +11,7 @@
 
 import UIKit
 
-// MARK: Connect View, Interactor, and Presenter
+// MARK: - Connect View, Interactor, and Presenter
 
 extension ListOrdersViewController: ListOrdersPresenterOutput
 {
@@ -31,7 +31,7 @@ extension ListOrdersPresenter: ListOrdersInteractorOutput
 
 class ListOrdersConfigurator
 {
-  // MARK: Object lifecycle
+  // MARK: - Object lifecycle
   
   class var sharedInstance: ListOrdersConfigurator
   {
@@ -47,7 +47,7 @@ class ListOrdersConfigurator
     return Static.instance!
   }
   
-  // MARK: Configuration
+  // MARK: - Configuration
   
   func configure(viewController: ListOrdersViewController)
   {

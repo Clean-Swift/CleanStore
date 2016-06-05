@@ -28,17 +28,14 @@ class OrdersMemStoreTests: XCTestCase
   {
     sut = OrdersMemStore()
     
-    testOrders = [
-      Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23")),
-      Order(id: "def456", date: NSDate(), email: "bob.battery@clean-swift.com", firstName: "Bob", lastName: "Battery", total: NSDecimalNumber(string: "4.56"))
-    ]
+    testOrders = [Seeds.Orders.amy, Seeds.Orders.bob]
     
-    sut.orders = testOrders
+    OrdersMemStore.orders = testOrders
   }
   
   func resetOrdersMemStore()
   {
-    sut.orders = []
+    OrdersMemStore.orders = []
     sut = nil
   }
   
@@ -49,20 +46,23 @@ class OrdersMemStoreTests: XCTestCase
     // Given
     
     // When
-    var returnedOrders = [Order]()
+    var fetchedOrders = [Order]()
+    var fetchOrdersError: OrdersStoreError?
     let expectation = expectationWithDescription("Wait for fetchOrders() to return")
     sut.fetchOrders { (orders: [Order], error: OrdersStoreError?) -> Void in
-      returnedOrders = orders
+      fetchedOrders = orders
+      fetchOrdersError = error
       expectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    XCTAssertEqual(returnedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
-    for order in returnedOrders {
-      XCTAssert(testOrders.contains(order), "Returned orders should match the orders in the data store")
+    XCTAssertEqual(fetchedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
+    for order in fetchedOrders {
+      XCTAssert(testOrders.contains(order), "Fetched orders should match the orders in the data store")
     }
+    XCTAssertNil(fetchOrdersError, "fetchOrders() should not return an error")
   }
   
   func testFetchOrderShouldReturnOrder_OptionalError()
@@ -71,44 +71,43 @@ class OrdersMemStoreTests: XCTestCase
     let orderToFetch = testOrders.first!
     
     // When
-    var returnedOrder: Order?
+    var fetchedOrder: Order?
+    var fetchOrderError: OrdersStoreError?
     let expectation = expectationWithDescription("Wait for fetchOrder() to return")
     sut.fetchOrder(orderToFetch.id!) { (order: Order?, error: OrdersStoreError?) -> Void in
-      returnedOrder = order
+      fetchedOrder = order
+      fetchOrderError = error
       expectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    XCTAssertEqual(returnedOrder, orderToFetch, "fetchOrder() should return an order")
+    XCTAssertEqual(fetchedOrder, orderToFetch, "fetchOrder() should return an order")
+    XCTAssertNil(fetchOrderError, "fetchOrder() should not return an error")
   }
   
   func testCreateOrderShouldCreateNewOrder_OptionalError()
   {
     // Given
-    let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
+    let orderToCreate = Seeds.Orders.chris
     
     // When
+    var createdOrder: Order?
+    var creatOrderError: OrdersStoreError?
     let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
-    sut.createOrder(orderToCreate) { (error: OrdersStoreError?) -> Void in
+    sut.createOrder(orderToCreate) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
+      createdOrder = returnedOrder
+      creatOrderError = error
       createOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    var createdOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToCreate.id!) { (order: Order?, error: OrdersStoreError?) -> Void in
-      createdOrder = order
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
-  }
+    XCTAssertNil(creatOrderError, "createOrder() should not return an error")
+}
   
   func testUpdateOrderShouldUpdateExistingOrder_OptionalError()
   {
@@ -118,24 +117,20 @@ class OrdersMemStoreTests: XCTestCase
     orderToUpdate.date = tomorrow
     
     // When
+    var updatedOrder: Order?
+    var updatOrderError: OrdersStoreError?
     let updateOrderExpectation = expectationWithDescription("Wait for updateOrder() to return")
-    sut.updateOrder(orderToUpdate) { (error: OrdersStoreError?) -> Void in
+    sut.updateOrder(orderToUpdate) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
+      updatedOrder = returnedOrder
+      updatOrderError = error
       updateOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    var updatedOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToUpdate.id!) { (order: Order?, error: OrdersStoreError?) -> Void in
-      updatedOrder = order
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
+    XCTAssertNil(updatOrderError, "updateOrder() should not return an error")
   }
   
   func testDeleteOrderShouldDeleteExistingOrder_OptionalError()
@@ -144,27 +139,20 @@ class OrdersMemStoreTests: XCTestCase
     let orderToDelete = testOrders.first!
     
     // When
+    var deletedOrder: Order?
+    var deletOrderError: OrdersStoreError?
     let deleteOrderExpectation = expectationWithDescription("Wait for deleteOrder() to return")
-    sut.deleteOrder(orderToDelete.id!) { (error: OrdersStoreError?) -> Void in
+    sut.deleteOrder(orderToDelete.id!) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
+      deletedOrder = returnedOrder
+      deletOrderError = error
       deleteOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    var deletedOrder: Order?
-    var deleteOrderError: OrdersStoreError?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToDelete.id!) { (order: Order?, error: OrdersStoreError?) -> Void in
-      deletedOrder = order
-      deleteOrderError = error
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
-    XCTAssertNil(deletedOrder, "deleteOrder() should delete an existing order")
-    XCTAssertEqual(deleteOrderError, OrdersStoreError.CannotFetch("Cannot fetch order with id \(orderToDelete.id!)"), "Deleted order should not exist")
+    XCTAssertEqual(deletedOrder, orderToDelete, "deleteOrder() should delete an existing order")
+    XCTAssertNil(deletOrderError, "deleteOrder() should not return an error")
   }
   
   // MARK: - Test CRUD operations - Generic enum result type
@@ -174,13 +162,15 @@ class OrdersMemStoreTests: XCTestCase
     // Given
     
     // When
-    var returnedOrders = [Order]()
+    var fetchedOrders = [Order]()
+    var fetchOrdersError: OrdersStoreError?
     let expectation = expectationWithDescription("Wait for fetchOrders() to return")
     sut.fetchOrders { (result: OrdersStoreResult<[Order]>) -> Void in
       switch (result) {
       case .Success(let orders):
-        returnedOrders = orders
+        fetchedOrders = orders
       case .Failure(let error):
+        fetchOrdersError = error
         XCTFail("fetchOrders() should not return an error: \(error)")
       }
       expectation.fulfill()
@@ -189,10 +179,11 @@ class OrdersMemStoreTests: XCTestCase
     }
     
     // Then
-    XCTAssertEqual(returnedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
-    for order in returnedOrders {
-      XCTAssert(testOrders.contains(order), "Returned orders should match the orders in the data store")
+    XCTAssertEqual(fetchedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
+    for order in fetchedOrders {
+      XCTAssert(testOrders.contains(order), "Fetched orders should match the orders in the data store")
     }
+    XCTAssertNil(fetchOrdersError, "fetchOrders() should not return an error")
   }
   
   func testFetchOrderShouldReturnOrder_GenericEnumResultType()
@@ -201,13 +192,15 @@ class OrdersMemStoreTests: XCTestCase
     let orderToFetch = testOrders.first!
     
     // When
-    var returnedOrder: Order?
+    var fetchedOrder: Order?
+    var fetchOrderError: OrdersStoreError?
     let expectation = expectationWithDescription("Wait for fetchOrder() to return")
     sut.fetchOrder(orderToFetch.id!) { (result: OrdersStoreResult<Order>) -> Void in
       switch (result) {
       case .Success(let order):
-        returnedOrder = order
+        fetchedOrder = order
       case .Failure(let error):
+        fetchOrderError = error
         XCTFail("fetchOrder() should not return an error: \(error)")
       }
       expectation.fulfill()
@@ -216,21 +209,25 @@ class OrdersMemStoreTests: XCTestCase
     }
     
     // Then
-    XCTAssertEqual(returnedOrder, orderToFetch, "fetchOrder() should return an order")
+    XCTAssertEqual(fetchedOrder, orderToFetch, "fetchOrder() should return an order")
+    XCTAssertNil(fetchOrderError, "fetchOrder() should not return an error")
   }
   
   func testCreateOrderShouldCreateNewOrder_GenericEnumResultType()
   {
     // Given
-    let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
+    let orderToCreate = Seeds.Orders.chris
     
     // When
+    var createdOrder: Order?
+    var creatOrderError: OrdersStoreError?
     let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
-    sut.createOrder(orderToCreate) { (result: OrdersStoreResult<Void>) -> Void in
+    sut.createOrder(orderToCreate) { (result: OrdersStoreResult<Order>) -> Void in
       switch (result) {
-      case .Success:
-        break;
+      case .Success(let returnedOrder):
+        createdOrder = returnedOrder
       case .Failure(let error):
+        creatOrderError = error
         XCTFail("createOrder() should not return an error: \(error)")
       }
       createOrderExpectation.fulfill()
@@ -239,21 +236,8 @@ class OrdersMemStoreTests: XCTestCase
     }
     
     // Then
-    var createdOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToCreate.id!) { (result: OrdersStoreResult<Order>) -> Void in
-      switch (result) {
-      case .Success(let order):
-        createdOrder = order
-      case .Failure(let error):
-        XCTFail("fetchOrder() should not return an error: \(error)")
-      }
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
+    XCTAssertNil(creatOrderError, "createOrder() should not return an error")
   }
   
   func testUpdateOrderShouldUpdateExistingOrder_GenericEnumResultType()
@@ -264,12 +248,15 @@ class OrdersMemStoreTests: XCTestCase
     orderToUpdate.date = tomorrow
     
     // When
+    var updatedOrder: Order?
+    var updatOrderError: OrdersStoreError?
     let updateOrderExpectation = expectationWithDescription("Wait for updateOrder() to return")
-    sut.updateOrder(orderToUpdate) { (result: OrdersStoreResult<Void>) -> Void in
+    sut.updateOrder(orderToUpdate) { (result: OrdersStoreResult<Order>) -> Void in
       switch (result) {
-      case .Success:
-        break;
+      case .Success(let returnedOrder):
+        updatedOrder = returnedOrder
       case .Failure(let error):
+        updatOrderError = error
         XCTFail("updateOrder() should not return an error: \(error)")
       }
       updateOrderExpectation.fulfill()
@@ -278,21 +265,8 @@ class OrdersMemStoreTests: XCTestCase
     }
     
     // Then
-    var updatedOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToUpdate.id!) { (result: OrdersStoreResult<Order>) -> Void in
-      switch (result) {
-      case .Success(let order):
-        updatedOrder = order
-      case .Failure(let error):
-        XCTFail("fetchOrder() should not return an error: \(error)")
-      }
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
+    XCTAssertNil(updatOrderError, "updateOrder() should not return an error")
   }
   
   func testDeleteOrderShouldDeleteExistingOrder_GenericEnumResultType()
@@ -301,31 +275,25 @@ class OrdersMemStoreTests: XCTestCase
     let orderToDelete = testOrders.first!
     
     // When
+    var deletedOrder: Order?
+    var deleteOrderError: OrdersStoreError?
     let deleteOrderExpectation = expectationWithDescription("Wait for deleteOrder() to return")
-    sut.deleteOrder(orderToDelete.id!) { (result: OrdersStoreResult<Void>) -> Void in
+    sut.deleteOrder(orderToDelete.id!) { (result: OrdersStoreResult<Order>) -> Void in
+      switch (result) {
+      case .Success(let returnedOrder):
+        deletedOrder = returnedOrder
+        break
+      case .Failure(let error):
+        deleteOrderError = error
+      }
       deleteOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    var deletedOrder: Order?
-    var deleteOrderError: OrdersStoreError?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToDelete.id!) { (result: OrdersStoreResult<Order>) -> Void in
-      switch (result) {
-      case .Success(let order):
-        deletedOrder = order
-      case .Failure(let error):
-        deleteOrderError = error
-      }
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
-    XCTAssertNil(deletedOrder, "deleteOrder() should delete an existing order")
-    XCTAssertEqual(deleteOrderError, OrdersStoreError.CannotFetch("Cannot fetch order with id \(orderToDelete.id!)"), "Deleted order should not exist")
+    XCTAssertEqual(deletedOrder, orderToDelete, "deleteOrder() should delete an existing order")
+    XCTAssertNil(deleteOrderError, "deleteOrder() should not return an error")
   }
   
   // MARK: - Test CRUD operations - Inner closure
@@ -335,20 +303,26 @@ class OrdersMemStoreTests: XCTestCase
     // Given
     
     // When
-    var returnedOrders = [Order]()
+    var fetchedOrders = [Order]()
+    var fetchOrdersError: OrdersStoreError?
     let expectation = expectationWithDescription("Wait for fetchOrders() to return")
     sut.fetchOrders { (orders: () throws -> [Order]) -> Void in
-      returnedOrders = try! orders()
+      do {
+        fetchedOrders = try orders()
+      } catch let error as OrdersStoreError {
+        fetchOrdersError = error
+      } catch {}
       expectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    XCTAssertEqual(returnedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
-    for order in returnedOrders {
-      XCTAssert(testOrders.contains(order), "Returned orders should match the orders in the data store")
+    XCTAssertEqual(fetchedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
+    for order in fetchedOrders {
+      XCTAssert(testOrders.contains(order), "Fetched orders should match the orders in the data store")
     }
+    XCTAssertNil(fetchOrdersError, "fetchOrders() should not return an error")
   }
   
   func testFetchOrderShouldReturnOrder_InnerClosure()
@@ -357,44 +331,49 @@ class OrdersMemStoreTests: XCTestCase
     let orderToFetch = testOrders.first!
     
     // When
-    var returnedOrder: Order?
+    var fetchedOrder: Order?
+    var fetchOrderError: OrdersStoreError?
     let expectation = expectationWithDescription("Wait for fetchOrder() to return")
     sut.fetchOrder(orderToFetch.id!) { (order: () throws -> Order?) -> Void in
-      returnedOrder = try! order()
+      do {
+        fetchedOrder = try order()
+      } catch let error as OrdersStoreError {
+        fetchOrderError = error
+      } catch {}
       expectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    XCTAssertEqual(returnedOrder, orderToFetch, "fetchOrder() should return an order")
+    XCTAssertEqual(fetchedOrder, orderToFetch, "fetchOrder() should return an order")
+    XCTAssertNil(fetchOrderError, "fetchOrder() should not return an error")
   }
   
   func testCreateOrderShouldCreateNewOrder_InnerClosure()
   {
     // Given
-    let orderToCreate = Order(id: "ghi789", date: NSDate(), email: "colin.code@clean-swift.com", firstName: "Colin", lastName: "Code", total: NSDecimalNumber(string: "7.89"))
+    let orderToCreate = Seeds.Orders.chris
     
     // When
+    var createdOrder: Order?
+    var creatOrderError: OrdersStoreError?
     let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
-    sut.createOrder(orderToCreate) { (done: () throws -> Void) -> Void in
-      try! done()
+    sut.createOrder(orderToCreate) { (order: () throws -> Order?) -> Void in
+      try! order()
+      do {
+        createdOrder = try order()
+      } catch let error as OrdersStoreError {
+        creatOrderError = error
+      } catch {}
       createOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    var createdOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToCreate.id!) { (order: () throws -> Order?) -> Void in
-      createdOrder = try! order()
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
+    XCTAssertNil(creatOrderError, "createOrder() should not return an error")
   }
   
   func testUpdateOrderShouldUpdateExistingOrder_InnerClosure()
@@ -405,25 +384,23 @@ class OrdersMemStoreTests: XCTestCase
     orderToUpdate.date = tomorrow
     
     // When
+    var updatedOrder: Order?
+    var updatOrderError: OrdersStoreError?
     let updateOrderExpectation = expectationWithDescription("Wait for updateOrder() to return")
-    sut.updateOrder(orderToUpdate) { (done: () throws -> Void) -> Void in
-      try! done()
+    sut.updateOrder(orderToUpdate) { (order: () throws -> Order?) -> Void in
+      do {
+        updatedOrder = try order()
+      } catch let error as OrdersStoreError {
+        updatOrderError = error
+      } catch {}
       updateOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    var updatedOrder: Order?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToUpdate.id!) { (order: () throws -> Order?) -> Void in
-      updatedOrder = try! order()
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
+    XCTAssertNil(updatOrderError, "updateOrder() should not return an error")
   }
   
   func testDeleteOrderShouldDeleteExistingOrder_InnerClosure()
@@ -432,30 +409,22 @@ class OrdersMemStoreTests: XCTestCase
     let orderToDelete = testOrders.first!
     
     // When
+    var deletedOrder: Order?
+    var deleteOrderError: OrdersStoreError?
     let deleteOrderExpectation = expectationWithDescription("Wait for deleteOrder() to return")
-    sut.deleteOrder(orderToDelete.id!) { (done: () throws -> Void) -> Void in
-      try! done()
+    sut.deleteOrder(orderToDelete.id!) { (order: () throws -> Order?) -> Void in
+      do {
+        deletedOrder = try order()
+      } catch let error as OrdersStoreError {
+        deleteOrderError = error
+      } catch {}
       deleteOrderExpectation.fulfill()
     }
     waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
     }
     
     // Then
-    var deletedOrder: Order?
-    var deleteOrderError: OrdersStoreError?
-    let fetchOrderExpectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToDelete.id!) { (order: () throws -> Order?) -> Void in
-      do {
-        deletedOrder = try order()
-      } catch let error as OrdersStoreError {
-        deleteOrderError = error
-      } catch {}
-      fetchOrderExpectation.fulfill()
-    }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
-    
-    XCTAssertNil(deletedOrder, "deleteOrder() should delete an existing order")
-    XCTAssertEqual(deleteOrderError, OrdersStoreError.CannotFetch("Cannot fetch order with id \(orderToDelete.id!)"), "Deleted order should not exist")
+    XCTAssertEqual(deletedOrder, orderToDelete, "deleteOrder() should delete an existing order")
+    XCTAssertNil(deleteOrderError, "deleteOrder() should not return an error")
   }
 }

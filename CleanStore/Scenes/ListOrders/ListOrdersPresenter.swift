@@ -36,15 +36,15 @@ class ListOrdersPresenter: ListOrdersPresenterInput
     return currencyFormatter
   }()
   
-  // MARK: Presentation logic
+  // MARK: - Fetch orders
   
   func presentFetchedOrders(response: ListOrders.FetchOrders.Response)
   {
     var displayedOrders: [ListOrders.FetchOrders.ViewModel.DisplayedOrder] = []
     for order in response.orders {
-      let date = dateFormatter.stringFromDate(order.date!)
-      let total = currencyFormatter.stringFromNumber(order.total!)
-      let displayedOrder = ListOrders.FetchOrders.ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email!, name: "\(order.firstName!) \(order.lastName!)", total: total!)
+      let date = dateFormatter.stringFromDate(order.date)
+      let total = currencyFormatter.stringFromNumber(order.total)
+      let displayedOrder = ListOrders.FetchOrders.ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email, name: "\(order.firstName) \(order.lastName)", total: total!)
       displayedOrders.append(displayedOrder)
     }
     let viewModel = ListOrders.FetchOrders.ViewModel(displayedOrders: displayedOrders)

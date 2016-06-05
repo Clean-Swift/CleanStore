@@ -38,15 +38,15 @@ class ShowOrderPresenter: ShowOrderPresenterInput
     return currencyFormatter
   }()
   
-  // MARK: Presentation logic
+  // MARK: - Fetch order
   
   func presentOrder(response: ShowOrder.GetOrder.Response)
   {
     let order = response.order
     
-    let date = dateFormatter.stringFromDate(order.date!)
-    let total = currencyFormatter.stringFromNumber(order.total!)
-    let displayedOrder = ShowOrder.GetOrder.ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email!, name: "\(order.firstName!) \(order.lastName!)", total: total!)
+    let date = dateFormatter.stringFromDate(order.date)
+    let total = currencyFormatter.stringFromNumber(order.total)!
+    let displayedOrder = ShowOrder.GetOrder.ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email, name: "\(order.firstName) \(order.lastName)", total: total)
     
     let viewModel = ShowOrder.GetOrder.ViewModel(displayedOrder: displayedOrder)
     output.displayOrder(viewModel)

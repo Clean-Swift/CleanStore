@@ -28,7 +28,7 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
   var router: ListOrdersRouter!
   var displayedOrders: [ListOrders.FetchOrders.ViewModel.DisplayedOrder] = []
   
-  // MARK: Object lifecycle
+  // MARK: - Object lifecycle
   
   override func awakeFromNib()
   {
@@ -36,7 +36,7 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
     ListOrdersConfigurator.sharedInstance.configure(self)
   }
   
-  // MARK: View lifecycle
+  // MARK: - View lifecycle
   
   override func viewDidLoad()
   {
@@ -44,7 +44,13 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
     fetchOrdersOnLoad()
   }
   
-  // MARK: Event handling
+  override func viewDidAppear(animated: Bool)
+  {
+    super.viewDidAppear(animated)
+    fetchOrdersOnLoad()
+  }
+  
+  // MARK: - Event handling
   
   func fetchOrdersOnLoad()
   {
@@ -52,7 +58,7 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
     output.fetchOrders(request)
   }
   
-  // MARK: Display logic
+  // MARK: - Display logic
   
   func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
   {
@@ -60,7 +66,7 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
     tableView.reloadData()
   }
   
-  // MARK: Table view data source
+  // MARK: - Table view data source
   
   override func numberOfSectionsInTableView(tableView: UITableView) -> Int
   {

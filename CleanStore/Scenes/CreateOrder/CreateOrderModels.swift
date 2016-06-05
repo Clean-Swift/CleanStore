@@ -28,4 +28,46 @@ struct CreateOrder
       var date: String
     }
   }
+  struct CreateOrder
+  {
+    struct Request
+    {
+      // MARK: Contact info
+      var firstName: String
+      var lastName: String
+      var phone: String
+      var email: String
+      
+      // MARK: Payment info
+      var billingAddressStreet1: String
+      var billingAddressStreet2: String
+      var billingAddressCity: String
+      var billingAddressState: String
+      var billingAddressZIP: String
+      var paymentMethodCreditCardNumber: String
+      var paymentMethodExpirationDate: NSDate
+      var paymentMethodCVV: String
+      
+      // MARK: Shipping info
+      var shipmentAddressStreet1: String
+      var shipmentAddressStreet2: String
+      var shipmentAddressCity: String
+      var shipmentAddressState: String
+      var shipmentAddressZIP: String
+      var shipmentMethodSpeed: Int
+      
+      // MARK: Misc
+      var id: String?
+      var date: NSDate
+      var total: NSDecimalNumber
+    }
+    struct Response
+    {
+      var order: Order?
+    }
+    struct ViewModel
+    {
+      var success: Bool
+    }
+  }
 }

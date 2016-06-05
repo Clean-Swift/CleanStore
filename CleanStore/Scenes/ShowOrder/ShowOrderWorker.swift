@@ -13,7 +13,7 @@ import UIKit
 
 class ShowOrderWorker
 {
-  // MARK: Business Logic
+  // MARK: - Business Logic
   
   func doSomeWork()
   {

@@ -1,6 +1,6 @@
 import CoreData
 
-class OrdersCoreDataStore: OrdersStoreProtocol
+class OrdersCoreDataStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
 {
   // MARK: - Managed object contexts
   
@@ -52,21 +52,21 @@ class OrdersCoreDataStore: OrdersStoreProtocol
   
   // MARK: - CRUD operations - Optional error
   
-  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void)
+  func fetchOrders(completionHandler: (fetchedOrders: [Order], error: OrdersStoreError?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
         let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
         let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
         let orders = results.map { $0.toOrder() }
-        completionHandler(orders: orders, error: nil)
+        completionHandler(fetchedOrders: orders, error: nil)
       } catch {
-        completionHandler(orders: [], error: OrdersStoreError.CannotFetch("Cannot fetch orders"))
+        completionHandler(fetchedOrders: [], error: OrdersStoreError.CannotFetch("Cannot fetch orders"))
       }
     }
   }
   
-  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void)
+  func fetchOrder(id: String, completionHandler: (fetchedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
@@ -74,36 +74,34 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
         if let order = results.first?.toOrder() {
-          completionHandler(order: order, error: nil)
+          completionHandler(fetchedOrder: order, error: nil)
         } else {
-          completionHandler(order: nil, error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
+          completionHandler(fetchedOrder: nil, error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
         }
       } catch {
-        completionHandler(order: nil, error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
+        completionHandler(fetchedOrder: nil, error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
       }
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: (createdOrder: Order?, error: OrdersStoreError?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
-        managedOrder.id = orderToCreate.id
-        managedOrder.date = orderToCreate.date
-        managedOrder.email = orderToCreate.email
-        managedOrder.firstName = orderToCreate.firstName
-        managedOrder.lastName = orderToCreate.lastName
-        managedOrder.total = orderToCreate.total
+        var order = orderToCreate
+        self.generateOrderID(&order)
+        self.calculateOrderTotal(&order)
+        managedOrder.fromOrder(order)
         try self.privateManagedObjectContext.save()
-        completionHandler(error: nil)
+        completionHandler(createdOrder: order, error: nil)
       } catch {
-        completionHandler(error: OrdersStoreError.CannotCreate("Cannot create order with id \(orderToCreate.id)"))
+        completionHandler(createdOrder: nil, error: OrdersStoreError.CannotCreate("Cannot create order with id \(orderToCreate.id)"))
       }
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
@@ -112,25 +110,21 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
         if let managedOrder = results.first {
           do {
-            managedOrder.id = orderToUpdate.id
-            managedOrder.date = orderToUpdate.date
-            managedOrder.email = orderToUpdate.email
-            managedOrder.firstName = orderToUpdate.firstName
-            managedOrder.lastName = orderToUpdate.lastName
-            managedOrder.total = orderToUpdate.total
+            managedOrder.fromOrder(orderToUpdate)
+            let order = managedOrder.toOrder()
             try self.privateManagedObjectContext.save()
-            completionHandler(error: nil)
+            completionHandler(updatedOrder: order, error: nil)
           } catch {
-            completionHandler(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id)"))
+            completionHandler(updatedOrder: nil, error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id)"))
           }
         }
       } catch {
-        completionHandler(error: OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update"))
+        completionHandler(updatedOrder: nil, error: OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update"))
       }
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void)
+  func deleteOrder(id: String, completionHandler: (deletedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
@@ -138,18 +132,19 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
         if let managedOrder = results.first {
+          let order = managedOrder.toOrder()
           self.privateManagedObjectContext.deleteObject(managedOrder)
           do {
             try self.privateManagedObjectContext.save()
-            completionHandler(error: nil)
+            completionHandler(deletedOrder: order, error: nil)
           } catch {
-            completionHandler(error: OrdersStoreError.CannotDelete("Cannot delete order with id \(id)"))
+            completionHandler(deletedOrder: nil, error: OrdersStoreError.CannotDelete("Cannot delete order with id \(id)"))
           }
         } else {
           throw OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete")
         }
       } catch {
-        completionHandler(error: OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete"))
+        completionHandler(deletedOrder: nil, error: OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete"))
       }
     }
   }
@@ -193,14 +188,12 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     privateManagedObjectContext.performBlock {
       do {
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
-        managedOrder.id = orderToCreate.id
-        managedOrder.date = orderToCreate.date
-        managedOrder.email = orderToCreate.email
-        managedOrder.firstName = orderToCreate.firstName
-        managedOrder.lastName = orderToCreate.lastName
-        managedOrder.total = orderToCreate.total
+        var order = orderToCreate
+        self.generateOrderID(&order)
+        self.calculateOrderTotal(&order)
+        managedOrder.fromOrder(order)
         try self.privateManagedObjectContext.save()
-        completionHandler(result: OrdersStoreResult.Success(result: ()))
+        completionHandler(result: OrdersStoreResult.Success(result: order))
       } catch {
         let error = OrdersStoreError.CannotCreate("Cannot create order with id \(orderToCreate.id)")
         completionHandler(result: OrdersStoreResult.Failure(error: error))
@@ -217,14 +210,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
         if let managedOrder = results.first {
           do {
-            managedOrder.id = orderToUpdate.id
-            managedOrder.date = orderToUpdate.date
-            managedOrder.email = orderToUpdate.email
-            managedOrder.firstName = orderToUpdate.firstName
-            managedOrder.lastName = orderToUpdate.lastName
-            managedOrder.total = orderToUpdate.total
+            managedOrder.fromOrder(orderToUpdate)
+            let order = managedOrder.toOrder()
             try self.privateManagedObjectContext.save()
-            completionHandler(result: OrdersStoreResult.Success(result: ()))
+            completionHandler(result: OrdersStoreResult.Success(result: order))
           } catch {
             completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id)")))
           }
@@ -243,10 +232,11 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
         if let managedOrder = results.first {
+          let order = managedOrder.toOrder()
           self.privateManagedObjectContext.deleteObject(managedOrder)
           do {
             try self.privateManagedObjectContext.save()
-            completionHandler(result: OrdersStoreResult.Success(result: ()))
+            completionHandler(result: OrdersStoreResult.Success(result: order))
           } catch {
             completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotDelete("Cannot delete order with id \(id)")))
           }
@@ -261,7 +251,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
   
   // MARK: - CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
+  func fetchOrders(completionHandler: (fetchedOrders: () throws -> [Order]) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
@@ -275,7 +265,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void)
+  func fetchOrder(id: String, completionHandler: (fetchedOrder: () throws -> Order?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
@@ -293,26 +283,24 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (done: () throws -> Void) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: (createdOrder: () throws -> Order?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
         let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
-        managedOrder.id = orderToCreate.id
-        managedOrder.date = orderToCreate.date
-        managedOrder.email = orderToCreate.email
-        managedOrder.firstName = orderToCreate.firstName
-        managedOrder.lastName = orderToCreate.lastName
-        managedOrder.total = orderToCreate.total
+        var order = orderToCreate
+        self.generateOrderID(&order)
+        self.calculateOrderTotal(&order)
+        managedOrder.fromOrder(order)
         try self.privateManagedObjectContext.save()
-        completionHandler { return }
+        completionHandler { return order }
       } catch {
         completionHandler { throw OrdersStoreError.CannotCreate("Cannot create order with id \(orderToCreate.id)") }
       }
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: () throws -> Order?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
@@ -321,14 +309,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
         if let managedOrder = results.first {
           do {
-            managedOrder.id = orderToUpdate.id
-            managedOrder.date = orderToUpdate.date
-            managedOrder.email = orderToUpdate.email
-            managedOrder.firstName = orderToUpdate.firstName
-            managedOrder.lastName = orderToUpdate.lastName
-            managedOrder.total = orderToUpdate.total
+            managedOrder.fromOrder(orderToUpdate)
+            let order = managedOrder.toOrder()
             try self.privateManagedObjectContext.save()
-            completionHandler { return }
+            completionHandler { return order }
           } catch {
             completionHandler { throw OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id)") }
           }
@@ -339,7 +323,7 @@ class OrdersCoreDataStore: OrdersStoreProtocol
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void)
+  func deleteOrder(id: String, completionHandler: (deletedOrder: () throws -> Order?) -> Void)
   {
     privateManagedObjectContext.performBlock {
       do {
@@ -347,10 +331,11 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
         if let managedOrder = results.first {
+          let order = managedOrder.toOrder()
           self.privateManagedObjectContext.deleteObject(managedOrder)
           do {
             try self.privateManagedObjectContext.save()
-            completionHandler { return }
+            completionHandler { return order }
           } catch {
             completionHandler { throw OrdersStoreError.CannotDelete("Cannot delete order with id \(id)") }
           }

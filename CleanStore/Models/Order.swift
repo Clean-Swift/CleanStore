@@ -2,24 +2,86 @@ import Foundation
 
 struct Order: Equatable
 {
+  // MARK: Contact info
+  var firstName: String
+  var lastName: String
+  var phone: String
+  var email: String
+  
+  // MARK: Payment info
+  var billingAddress: Address
+  var paymentMethod: PaymentMethod
+  
+  // MARK: Shipping info
+  var shipmentAddress: Address
+  var shipmentMethod: ShipmentMethod
+  
+  // MARK: Misc
   var id: String?
-  var date: NSDate?
-  var email: String?
-  var firstName: String?
-  var lastName: String?
-  var total: NSDecimalNumber?
+  var date: NSDate
+  var total: NSDecimalNumber
 }
 
 func ==(lhs: Order, rhs: Order) -> Bool
 {
-  var dateEqual = false
-  if let lhsDate = lhs.date, rhsDate = rhs.date {
-    dateEqual = lhsDate.timeIntervalSinceDate(rhsDate) < 1.0
-  }
-  return lhs.id == rhs.id
-    && dateEqual
-    && lhs.email == rhs.email
-    && lhs.firstName == rhs.firstName
+  return lhs.firstName == rhs.firstName
     && lhs.lastName == rhs.lastName
+    && lhs.phone == rhs.phone
+    && lhs.email == rhs.email
+    && lhs.billingAddress == rhs.billingAddress
+    && lhs.paymentMethod == rhs.paymentMethod
+    && lhs.shipmentAddress == rhs.shipmentAddress
+    && lhs.shipmentMethod == rhs.shipmentMethod
+    && lhs.id == rhs.id
+    && lhs.date.timeIntervalSinceDate(rhs.date) < 1.0
     && lhs.total == rhs.total
+}
+
+// MARK: - Supporting models
+
+struct Address
+{
+  var street1: String
+  var street2: String?
+  var city: String
+  var state: String
+  var zip: String
+}
+
+func ==(lhs: Address, rhs: Address) -> Bool
+{
+  return lhs.street1 == rhs.street1
+    && lhs.street2 == rhs.street2
+    && lhs.city == rhs.city
+    && lhs.state == rhs.state
+    && lhs.zip == rhs.zip
+}
+
+struct ShipmentMethod
+{
+  enum ShippingSpeed: Int {
+    case Standard = 0 // "Standard Shipping"
+    case OneDay = 1 // "One-Day Shipping"
+    case TwoDay = 2 // "Two-Day Shipping"
+  }
+  var speed: ShippingSpeed
+}
+
+func ==(lhs: ShipmentMethod, rhs: ShipmentMethod) -> Bool
+{
+  return lhs.speed == rhs.speed
+}
+
+struct PaymentMethod
+{
+  var creditCardNumber: String
+  var expirationDate: NSDate
+  var cvv: String
+}
+
+func ==(lhs: PaymentMethod, rhs: PaymentMethod) -> Bool
+{
+  return lhs.creditCardNumber == rhs.creditCardNumber
+    && lhs.expirationDate.timeIntervalSinceDate(rhs.expirationDate) < 1.0
+    && lhs.cvv == rhs.cvv
 }

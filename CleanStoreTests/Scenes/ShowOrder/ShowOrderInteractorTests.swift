@@ -14,11 +14,11 @@ import XCTest
 
 class ShowOrderInteractorTests: XCTestCase
 {
-  // MARK: Subject under test
+  // MARK: - Subject under test
   
   var sut: ShowOrderInteractor!
   
-  // MARK: Test lifecycle
+  // MARK: - Test lifecycle
   
   override func setUp()
   {
@@ -31,23 +31,43 @@ class ShowOrderInteractorTests: XCTestCase
     super.tearDown()
   }
   
-  // MARK: Test setup
+  // MARK: - Test setup
   
   func setupShowOrderInteractor()
   {
     sut = ShowOrderInteractor()
   }
   
-  // MARK: Test doubles
+  // MARK: - Test doubles
   
-  // MARK: Tests
+  class ShowOrderInteractorOutputSpy: ShowOrderInteractorOutput
+  {
+    // MARK: Method call expectations
+    var presentOrderCalled = false
+    
+    // MARK: Spied methods
+    func presentOrder(response: ShowOrder.GetOrder.Response)
+    {
+      presentOrderCalled = true
+    }
+  }
   
-  func testSomething()
+  // MARK: - Tests
+  
+  func testGetOrderShouldAskPresenterToFormatResult()
   {
     // Given
+    let showOrderInteractorOutputSpy = ShowOrderInteractorOutputSpy()
+    sut.output = showOrderInteractorOutputSpy
+    
+    sut.order = Seeds.Orders.amy
+    
+    let request = ShowOrder.GetOrder.Request()
     
     // When
+    sut.getOrder(request)
     
     // Then
+    XCTAssert(showOrderInteractorOutputSpy.presentOrderCalled, "GetOrder() should ask presenter to format the order")
   }
 }
