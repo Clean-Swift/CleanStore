@@ -2,7 +2,7 @@
 import UIKit
 import XCTest
 
-class TestDisplayCreateOrderFailureShouldShowAnAlert
+class TestDisplaySaveOrderFailure
 {
   static var presentViewControllerAnimatedCompletionCalled = false
   static var viewControllerToPresent: UIViewController?
@@ -13,8 +13,8 @@ extension CreateOrderViewController
   
   override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?)
   {
-    TestDisplayCreateOrderFailureShouldShowAnAlert.presentViewControllerAnimatedCompletionCalled = true
-    TestDisplayCreateOrderFailureShouldShowAnAlert.viewControllerToPresent = viewControllerToPresent
+    TestDisplaySaveOrderFailure.presentViewControllerAnimatedCompletionCalled = true
+    TestDisplaySaveOrderFailure.viewControllerToPresent = viewControllerToPresent
   }
 }
 
@@ -64,13 +64,18 @@ class CreateOrderViewControllerTests: XCTestCase
     // MARK: Method call expectations
     var formatExpirationDateCalled = false
     var createOrderCalled = false
+    var showOrderToEditCalled = false
+    var updateOrderCalled = false
     
     // MARK: Argument expectations
     var formatExpirationDateRequest: CreateOrder.FormatExpirationDate.Request!
     var createOrderRequest: CreateOrder.CreateOrder.Request!
+    var editOrderRequest: CreateOrder.EditOrder.Request!
+    var updateOrderRequest: CreateOrder.UpdateOrder.Request!
     
     // MARK: Spied variables
     var shippingMethods = [String]()
+    var orderToEdit: Order?
     
     // MARK: Spied methods
     func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
@@ -84,17 +89,35 @@ class CreateOrderViewControllerTests: XCTestCase
       createOrderCalled = true
       self.createOrderRequest = request
     }
+    
+    func showOrderToEdit(request: CreateOrder.EditOrder.Request)
+    {
+      showOrderToEditCalled = true
+      self.editOrderRequest = request
+    }
+    
+    func updateOrder(request: CreateOrder.UpdateOrder.Request)
+    {
+      updateOrderCalled = true
+      self.updateOrderRequest = request
+    }
   }
   
   class CreateOrderRouterSpy: CreateOrderRouter
   {
     // MARK: Method call expectations
     var navigateBackToListOrdersSceneCalled = false
+    var navigateBackToShowOrderSceneCalled = false
     
     // MARK: Spied methods
     override func navigateBackToListOrdersScene()
     {
       navigateBackToListOrdersSceneCalled = true
+    }
+    
+    override func navigateBackToShowOrderScene()
+    {
+      navigateBackToShowOrderSceneCalled = true
     }
   }
   
@@ -269,6 +292,7 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     let createOrderViewControllerOutputSpy = CreateOrderViewControllerOutputSpy()
+    createOrderViewControllerOutputSpy.orderToEdit = nil
     sut.output = createOrderViewControllerOutputSpy
     
     // When
@@ -278,7 +302,7 @@ class CreateOrderViewControllerTests: XCTestCase
     XCTAssert(createOrderViewControllerOutputSpy.createOrderCalled, "It should create a new order when the user taps the Save button")
   }
   
-  func testDisplaySuccessfullyCreatedOrderShouldNavigateBackToListOrdersScene()
+  func testSuccessfullyCreatedOrderShouldNavigateBackToListOrdersScene()
   {
     // Given
     let createOrderRouterSpy = CreateOrderRouterSpy()
@@ -293,7 +317,7 @@ class CreateOrderViewControllerTests: XCTestCase
     XCTAssert(createOrderRouterSpy.navigateBackToListOrdersSceneCalled, "Displaying a successfully created order should navigate back to the List Orders scene")
   }
   
-  func testDisplayCreateOrderFailureShouldShowAnAlert()
+  func testCreateOrderFailureShouldShowAnAlert()
   {
     // Given
     let viewModel = CreateOrder.CreateOrder.ViewModel(success: false)
@@ -302,9 +326,55 @@ class CreateOrderViewControllerTests: XCTestCase
     sut.displayCreatedOrder(viewModel)
     
     // Then
-    let alertController = TestDisplayCreateOrderFailureShouldShowAnAlert.viewControllerToPresent as! UIAlertController
-    XCTAssert(TestDisplayCreateOrderFailureShouldShowAnAlert.presentViewControllerAnimatedCompletionCalled, "Displaying create order failure should show an alert")
+    let alertController = TestDisplaySaveOrderFailure.viewControllerToPresent as! UIAlertController
+    XCTAssert(TestDisplaySaveOrderFailure.presentViewControllerAnimatedCompletionCalled, "Displaying create order failure should show an alert")
     XCTAssertEqual(alertController.title, "Failed to create order", "Displaying create order failure should display proper title")
     XCTAssertEqual(alertController.message, "Please correct your order and submit again.", "Displaying create order failure should display proper message")
+  }
+  
+  // MARK: - Test updating an existing order
+  
+  func testSaveButtonTappedShouldUpdateOrder()
+  {
+    // Given
+    let createOrderViewControllerOutputSpy = CreateOrderViewControllerOutputSpy()
+    createOrderViewControllerOutputSpy.orderToEdit = Seeds.Orders.amy
+    sut.output = createOrderViewControllerOutputSpy
+    
+    // When
+    sut.saveButtonTapped(self)
+    
+    // Then
+    XCTAssert(createOrderViewControllerOutputSpy.updateOrderCalled, "It should update an existing order when the user taps the Save button")
+  }
+  
+  func testSuccessfullyUpdatedOrderShouldNavigateBackToShowOrderScene()
+  {
+    // Given
+    let createOrderRouterSpy = CreateOrderRouterSpy()
+    sut.router = createOrderRouterSpy
+    
+    let viewModel = CreateOrder.UpdateOrder.ViewModel(success: true)
+    
+    // When
+    sut.displayUpdatedOrder(viewModel)
+    
+    // Then
+    XCTAssert(createOrderRouterSpy.navigateBackToShowOrderSceneCalled, "Displaying a successfully updated order should navigate back to the Show Order scene")
+  }
+  
+  func testUpdateOrderFailureShouldShowAnAlert()
+  {
+    // Given
+    let viewModel = CreateOrder.UpdateOrder.ViewModel(success: false)
+    
+    // When
+    sut.displayUpdatedOrder(viewModel)
+    
+    // Then
+    let alertController = TestDisplaySaveOrderFailure.viewControllerToPresent as! UIAlertController
+    XCTAssert(TestDisplaySaveOrderFailure.presentViewControllerAnimatedCompletionCalled, "Displaying update order failure should show an alert")
+    XCTAssertEqual(alertController.title, "Failed to update order", "Displaying update order failure should display proper title")
+    XCTAssertEqual(alertController.message, "Please correct your order and submit again.", "Displaying update order failure should display proper message")
   }
 }

@@ -15,23 +15,33 @@ protocol CreateOrderInteractorInput
 {
   var shippingMethods: [String] { get }
   func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
+  
   func createOrder(request: CreateOrder.CreateOrder.Request)
+  
+  var orderToEdit: Order? { get set }
+  func showOrderToEdit(request: CreateOrder.EditOrder.Request)
+  func updateOrder(request: CreateOrder.UpdateOrder.Request)
 }
 
 protocol CreateOrderInteractorOutput
 {
   func presentExpirationDate(response: CreateOrder.FormatExpirationDate.Response)
+  
   func presentCreatedOrder(response: CreateOrder.CreateOrder.Response)
+  
+  func presentOrderToEdit(response: CreateOrder.EditOrder.Response)
+  func presentUpdatedOrder(response: CreateOrder.UpdateOrder.Response)
 }
 
 class CreateOrderInteractor: CreateOrderInteractorInput
 {
   var output: CreateOrderInteractorOutput!
-  var ordersWorker = OrdersWorker(ordersStore: OrdersCoreDataStore())
+  var ordersWorker = OrdersWorker(ordersStore: OrdersMemStore())
+  var orderToEdit: Order?
   var shippingMethods = [
-    "Standard Shipping",
-    "One-Day Shipping",
-    "Two-Day Shipping"
+    ShipmentMethod(speed: .Standard).toString(),
+    ShipmentMethod(speed: .OneDay).toString(),
+    ShipmentMethod(speed: .TwoDay).toString()
   ]
   
   // MARK: - Expiration date
@@ -46,19 +56,44 @@ class CreateOrderInteractor: CreateOrderInteractorInput
   
   func createOrder(request: CreateOrder.CreateOrder.Request)
   {
-    let billingAddress = Address(street1: request.billingAddressStreet1, street2: request.billingAddressStreet2, city: request.billingAddressCity, state: request.billingAddressState, zip: request.billingAddressZIP)
-    
-    let paymentMethod = PaymentMethod(creditCardNumber: request.paymentMethodCreditCardNumber, expirationDate: request.paymentMethodExpirationDate, cvv: request.paymentMethodCVV)
-    
-    let shipmentAddress = Address(street1: request.shipmentAddressStreet1, street2: request.shipmentAddressStreet2, city: request.shipmentAddressCity, state: request.shipmentAddressState, zip: request.shipmentAddressZIP)
-    
-    let shipmentMethod = ShipmentMethod(speed: ShipmentMethod.ShippingSpeed(rawValue: request.shipmentMethodSpeed)!)
-    
-    let orderToCreate = Order(firstName: request.firstName, lastName: request.lastName, phone: request.phone, email: request.email, billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: request.id, date: request.date, total: request.total)
+    let orderToCreate = buildOrderFromOrderFormFields(request.orderFormFields)
     
     ordersWorker.createOrder(orderToCreate) { (order: Order?) in
       let response = CreateOrder.CreateOrder.Response(order: order)
       self.output.presentCreatedOrder(response)
     }
+  }
+  
+  // MARK: - Edit order
+  
+  func showOrderToEdit(request: CreateOrder.EditOrder.Request)
+  {
+    if let orderToEdit = orderToEdit {
+      let response = CreateOrder.EditOrder.Response(order: orderToEdit)
+      output.presentOrderToEdit(response)
+    }
+  }
+  
+  func updateOrder(request: CreateOrder.UpdateOrder.Request)
+  {
+    let orderToUpdate = buildOrderFromOrderFormFields(request.orderFormFields)
+    
+    ordersWorker.updateOrder(orderToUpdate) { (order) in
+      let response = CreateOrder.UpdateOrder.Response(order: order)
+      self.output.presentUpdatedOrder(response)
+    }
+  }
+  
+  private func buildOrderFromOrderFormFields(orderFormFields: CreateOrder.OrderFormFields) -> Order
+  {
+    let billingAddress = Address(street1: orderFormFields.billingAddressStreet1, street2: orderFormFields.billingAddressStreet2, city: orderFormFields.billingAddressCity, state: orderFormFields.billingAddressState, zip: orderFormFields.billingAddressZIP)
+    
+    let paymentMethod = PaymentMethod(creditCardNumber: orderFormFields.paymentMethodCreditCardNumber, expirationDate: orderFormFields.paymentMethodExpirationDate, cvv: orderFormFields.paymentMethodCVV)
+    
+    let shipmentAddress = Address(street1: orderFormFields.shipmentAddressStreet1, street2: orderFormFields.shipmentAddressStreet2, city: orderFormFields.shipmentAddressCity, state: orderFormFields.shipmentAddressState, zip: orderFormFields.shipmentAddressZIP)
+    
+    let shipmentMethod = ShipmentMethod(speed: ShipmentMethod.ShippingSpeed(rawValue: orderFormFields.shipmentMethodSpeed)!)
+    
+    return Order(firstName: orderFormFields.firstName, lastName: orderFormFields.lastName, phone: orderFormFields.phone, email: orderFormFields.email, billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: orderFormFields.id, date: orderFormFields.date, total: orderFormFields.total)
   }
 }

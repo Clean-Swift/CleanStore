@@ -65,6 +65,18 @@ struct ShipmentMethod
     case TwoDay = 2 // "Two-Day Shipping"
   }
   var speed: ShippingSpeed
+  
+  func toString() -> String
+  {
+    switch speed {
+    case .Standard:
+      return "Standard Shipping"
+    case .OneDay:
+      return "One-Day Shipping"
+    case .TwoDay:
+      return "Two-Day Shipping"
+    }
+  }
 }
 
 func ==(lhs: ShipmentMethod, rhs: ShipmentMethod) -> Bool

@@ -37,6 +37,7 @@ class OrdersWorkerTests: XCTestCase
     // MARK: Method call expectations
     var fetchOrdersCalled = false
     var createOrderCalled = false
+    var updateOrderCalled = false
     
     // MARK: Spied methods
     override func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
@@ -53,6 +54,17 @@ class OrdersWorkerTests: XCTestCase
     override func createOrder(orderToCreate: Order, completionHandler: (createdOrder: () throws -> Order?) -> Void)
     {
       createOrderCalled = true
+      let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
+      dispatch_after(oneSecond, dispatch_get_main_queue(), {
+        completionHandler {
+          return OrdersWorkerTests.testOrders.first!
+        }
+      })
+    }
+    
+    override func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: () throws -> Order?) -> Void)
+    {
+      updateOrderCalled = true
       let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
       dispatch_after(oneSecond, dispatch_get_main_queue(), {
         completionHandler {
@@ -105,6 +117,29 @@ class OrdersWorkerTests: XCTestCase
     
     // Then
     XCTAssert(ordersMemStoreSpy.createOrderCalled, "Calling createOrder() should ask the data store to create the new order")
-    XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
+    XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create the new order")
+  }
+  
+  func testUpdateOrderShouldReturnTheUpdatedOrder()
+  {
+    // Given
+    let ordersMemStoreSpy = sut.ordersStore as! OrdersMemStoreSpy
+    var orderToUpdate = OrdersWorkerTests.testOrders.first!
+    let tomorrow = NSDate(timeIntervalSinceNow: 24*60*60)
+    orderToUpdate.date = tomorrow
+    
+    // When
+    var updatedOrder: Order?
+    let expectation = expectationWithDescription("Wait for updateOrder() to return")
+    sut.updateOrder(orderToUpdate) { (order) in
+      updatedOrder = order
+      expectation.fulfill()
+    }
+    waitForExpectationsWithTimeout(1.1) { (error: NSError?) -> Void in
+    }
+    
+    // Then
+    XCTAssert(ordersMemStoreSpy.updateOrderCalled, "Calling updateOrder() should ask the data store to update the existing order")
+    XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update the existing order")
   }
 }

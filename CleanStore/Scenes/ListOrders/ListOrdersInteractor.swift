@@ -25,7 +25,7 @@ protocol ListOrdersInteractorOutput
 class ListOrdersInteractor: ListOrdersInteractorInput
 {
   var output: ListOrdersInteractorOutput!
-  var ordersWorker = OrdersWorker(ordersStore: OrdersCoreDataStore())
+  var ordersWorker = OrdersWorker(ordersStore: OrdersMemStore())
   
   var orders: [Order]?
   

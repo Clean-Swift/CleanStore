@@ -13,6 +13,41 @@ import UIKit
 
 struct CreateOrder
 {
+  struct OrderFormFields
+  {
+    // MARK: Contact info
+    var firstName: String
+    var lastName: String
+    var phone: String
+    var email: String
+    
+    // MARK: Payment info
+    var billingAddressStreet1: String
+    var billingAddressStreet2: String
+    var billingAddressCity: String
+    var billingAddressState: String
+    var billingAddressZIP: String
+    
+    var paymentMethodCreditCardNumber: String
+    var paymentMethodCVV: String
+    var paymentMethodExpirationDate: NSDate
+    var paymentMethodExpirationDateString: String
+    
+    // MARK: Shipping info
+    var shipmentAddressStreet1: String
+    var shipmentAddressStreet2: String
+    var shipmentAddressCity: String
+    var shipmentAddressState: String
+    var shipmentAddressZIP: String
+    
+    var shipmentMethodSpeed: Int
+    var shipmentMethodSpeedString: String
+    
+    // MARK: Misc
+    var id: String?
+    var date: NSDate
+    var total: NSDecimalNumber
+  }
   struct FormatExpirationDate
   {
     struct Request
@@ -28,38 +63,40 @@ struct CreateOrder
       var date: String
     }
   }
+  struct EditOrder
+  {
+    struct Request
+    {
+    }
+    struct Response
+    {
+      var order: Order
+    }
+    struct ViewModel
+    {
+      var orderFormFields: OrderFormFields
+    }
+  }
   struct CreateOrder
   {
     struct Request
     {
-      // MARK: Contact info
-      var firstName: String
-      var lastName: String
-      var phone: String
-      var email: String
-      
-      // MARK: Payment info
-      var billingAddressStreet1: String
-      var billingAddressStreet2: String
-      var billingAddressCity: String
-      var billingAddressState: String
-      var billingAddressZIP: String
-      var paymentMethodCreditCardNumber: String
-      var paymentMethodExpirationDate: NSDate
-      var paymentMethodCVV: String
-      
-      // MARK: Shipping info
-      var shipmentAddressStreet1: String
-      var shipmentAddressStreet2: String
-      var shipmentAddressCity: String
-      var shipmentAddressState: String
-      var shipmentAddressZIP: String
-      var shipmentMethodSpeed: Int
-      
-      // MARK: Misc
-      var id: String?
-      var date: NSDate
-      var total: NSDecimalNumber
+      var orderFormFields: OrderFormFields
+    }
+    struct Response
+    {
+      var order: Order?
+    }
+    struct ViewModel
+    {
+      var success: Bool
+    }
+  }
+  struct UpdateOrder
+  {
+    struct Request
+    {
+      var orderFormFields: OrderFormFields
     }
     struct Response
     {

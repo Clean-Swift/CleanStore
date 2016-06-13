@@ -42,6 +42,22 @@ class OrdersWorker
       }
     }
   }
+  
+  func updateOrder(orderToUpdate: Order, completionHandler: (order: Order?) -> Void)
+  {
+    ordersStore.updateOrder(orderToUpdate) { (order: () throws -> Order?) in
+      do {
+        let order = try order()
+        dispatch_async(dispatch_get_main_queue()) {
+          completionHandler(order: order)
+        }
+      } catch {
+        dispatch_async(dispatch_get_main_queue()) {
+          completionHandler(order: nil)
+        }
+      }
+    }
+  }
 }
 
 // MARK: - Orders store API

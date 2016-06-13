@@ -14,6 +14,7 @@ import UIKit
 protocol CreateOrderRouterInput
 {
   func navigateBackToListOrdersScene()
+  func navigateBackToShowOrderScene()
 }
 
 class CreateOrderRouter: CreateOrderRouterInput
@@ -28,6 +29,12 @@ class CreateOrderRouter: CreateOrderRouterInput
     viewController.navigationController?.popViewControllerAnimated(true)
   }
   
+  func navigateBackToShowOrderScene()
+  {
+    passDataBackToShowOrderScene()
+    viewController.navigationController?.popViewControllerAnimated(true)
+  }
+  
   // MARK: - Communication
   
   func passDataToNextScene(segue: UIStoryboardSegue)
@@ -35,6 +42,10 @@ class CreateOrderRouter: CreateOrderRouterInput
   }
   
   func passDataBackToListOrdersScene()
+  {
+  }
+  
+  func passDataBackToShowOrderScene()
   {
   }
 }

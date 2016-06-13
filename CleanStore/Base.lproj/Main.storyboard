@@ -678,7 +678,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Create Order" id="jKv-lU-NIL">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="6eX-HZ-vp7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="6eX-HZ-vp7">
                             <connections>
                                 <action selector="saveButtonTapped:" destination="0kW-S4-ck9" id="IFl-Hr-jB7"/>
                             </connections>
@@ -897,7 +897,13 @@
                             <constraint firstItem="VeH-50-FPB" firstAttribute="centerX" secondItem="6dW-Yj-Zjm" secondAttribute="centerX" id="AvB-Fw-9u4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Show Order" id="MlT-XT-whS"/>
+                    <navigationItem key="navigationItem" title="Show Order" id="MlT-XT-whS">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="5av-h8-z0p">
+                            <connections>
+                                <segue destination="0kW-S4-ck9" kind="show" identifier="ShowEditOrderScene" id="q9K-R0-K1R"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="orderDateLabel" destination="bDd-Xt-bfX" id="yjz-Eg-XIq"/>
                         <outlet property="orderEmailLabel" destination="cPM-dG-WYc" id="H6D-NE-D2q"/>
@@ -929,4 +935,7 @@
             <point key="canvasLocation" x="1407" y="542"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="q9K-R0-K1R"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -4,12 +4,10 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
 {
   // MARK: - Data
   
-  static let billingAddress = Address(street1: "1 Infinite Loop", street2: "", city: "Cupertino", state: "CA", zip: "95014")
-  static let shipmentAddress = Address(street1: "One Microsoft Way", street2: "", city: "Redmond", state: "WA", zip: "98052-7329")
-  static let paymentMethod = PaymentMethod(creditCardNumber: "1234-123456-1234", expirationDate: NSDate(), cvv: "999")
-  static let shipmentMethod = ShipmentMethod(speed: .Standard)
-  
-  static var asdf: Int = 911
+  static var billingAddress = Address(street1: "1 Infinite Loop", street2: "", city: "Cupertino", state: "CA", zip: "95014")
+  static var shipmentAddress = Address(street1: "One Microsoft Way", street2: "", city: "Redmond", state: "WA", zip: "98052-7329")
+  static var paymentMethod = PaymentMethod(creditCardNumber: "1234-123456-1234", expirationDate: NSDate(), cvv: "999")
+  static var shipmentMethod = ShipmentMethod(speed: .OneDay)
   
   static var orders = [
     Order(firstName: "Amy", lastName: "Apple", phone: "111-111-1111", email: "amy.apple@clean-swift.com", billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: "abc123", date: NSDate(), total: NSDecimalNumber(string: "1.23")),
@@ -25,10 +23,8 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   func fetchOrder(id: String, completionHandler: (fetchedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
-    let order = self.dynamicType.orders.filter { (order: Order) -> Bool in
-      return order.id == id
-    }.first
-    if let _ = order {
+    if let index = indexOfOrderWithID(id) {
+      let order = self.dynamicType.orders[index]
       completionHandler(fetchedOrder: order, error: nil)
     } else {
       completionHandler(fetchedOrder: nil, error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
@@ -46,22 +42,18 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
-    for var order in self.dynamicType.orders {
-      if order.id == orderToUpdate.id {
-        order = orderToUpdate
-        completionHandler(updatedOrder: order, error: nil)
-        return
-      }
+    if let index = indexOfOrderWithID(orderToUpdate.id) {
+      self.dynamicType.orders[index] = orderToUpdate
+      let order = self.dynamicType.orders[index]
+      completionHandler(updatedOrder: order, error: nil)
+    } else {
+      completionHandler(updatedOrder: nil, error: OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update"))
     }
-    completionHandler(updatedOrder: nil, error: OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update"))
   }
   
   func deleteOrder(id: String, completionHandler: (deletedOrder: Order?, error: OrdersStoreError?) -> Void)
   {
-    let index = self.dynamicType.orders.indexOf { (order: Order) -> Bool in
-      return order.id == id
-    }
-    if let index = index {
+    if let index = indexOfOrderWithID(id) {
       let order = self.dynamicType.orders.removeAtIndex(index)
       completionHandler(deletedOrder: order, error: nil)
       return
@@ -99,22 +91,18 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler)
   {
-    for var order in self.dynamicType.orders {
-      if order.id == orderToUpdate.id {
-        order = orderToUpdate
-        completionHandler(result: OrdersStoreResult.Success(result: order))
-        return
-      }
+    if let index = indexOfOrderWithID(orderToUpdate.id) {
+      self.dynamicType.orders[index] = orderToUpdate
+      let order = self.dynamicType.orders[index]
+      completionHandler(result: OrdersStoreResult.Success(result: order))
+    } else {
+      completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id) to update")))
     }
-    completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id) to update")))
   }
   
   func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler)
   {
-    let index = self.dynamicType.orders.indexOf { (order: Order) -> Bool in
-      return order.id == id
-    }
-    if let index = index {
+    if let index = indexOfOrderWithID(id) {
       let order = self.dynamicType.orders.removeAtIndex(index)
       completionHandler(result: OrdersStoreResult.Success(result: order))
       return
@@ -131,10 +119,7 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   func fetchOrder(id: String, completionHandler: (fetchedOrder: () throws -> Order?) -> Void)
   {
-    let index = self.dynamicType.orders.indexOf { (order: Order) -> Bool in
-      return order.id == id
-    }
-    if let index = index {
+    if let index = indexOfOrderWithID(id) {
       completionHandler { return self.dynamicType.orders[index] }
     } else {
       completionHandler { throw OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)") }
@@ -152,12 +137,9 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: () throws -> Order?) -> Void)
   {
-    let index = self.dynamicType.orders.indexOf { (order: Order) -> Bool in
-      return order.id == orderToUpdate.id
-    }
-    if let index = index {
-      var order = self.dynamicType.orders[index]
-      order = orderToUpdate
+    if let index = indexOfOrderWithID(orderToUpdate.id) {
+      self.dynamicType.orders[index] = orderToUpdate
+      let order = self.dynamicType.orders[index]
       completionHandler { return order }
     } else {
       completionHandler { throw OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update") }
@@ -166,14 +148,18 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   func deleteOrder(id: String, completionHandler: (deletedOrder: () throws -> Order?) -> Void)
   {
-    let index = self.dynamicType.orders.indexOf { (order: Order) -> Bool in
-      return order.id == id
-    }
-    if let index = index {
+    if let index = indexOfOrderWithID(id) {
       let order = self.dynamicType.orders.removeAtIndex(index)
       completionHandler { return order }
     } else {
       completionHandler { throw OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete") }
     }
+  }
+  
+  // MARK: - Convenience methods
+  
+  private func indexOfOrderWithID(id: String?) -> Int?
+  {
+    return self.dynamicType.orders.indexOf { return $0.id == id }
   }
 }

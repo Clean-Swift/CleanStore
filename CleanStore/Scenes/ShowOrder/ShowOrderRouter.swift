@@ -25,5 +25,15 @@ class ShowOrderRouter: ShowOrderRouterInput
   
   func passDataToNextScene(segue: UIStoryboardSegue)
   {
+    // NOTE: Teach the router which scenes it can communicate with
+    if segue.identifier == "ShowEditOrderScene" {
+      passDataToEditOrderScene(segue)
+    }
+  }
+  
+  func passDataToEditOrderScene(segue: UIStoryboardSegue)
+  {
+    let createOrderViewController = segue.destinationViewController as! CreateOrderViewController
+    createOrderViewController.output.orderToEdit = viewController.output.order
   }
 }
