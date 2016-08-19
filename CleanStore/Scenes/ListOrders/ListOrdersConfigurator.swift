@@ -33,19 +33,7 @@ class ListOrdersConfigurator
 {
   // MARK: Object lifecycle
   
-  class var sharedInstance: ListOrdersConfigurator
-  {
-    struct Static {
-      static var instance: ListOrdersConfigurator?
-      static var token: dispatch_once_t = 0
-    }
-    
-    dispatch_once(&Static.token) {
-      Static.instance = ListOrdersConfigurator()
-    }
-    
-    return Static.instance!
-  }
+  class let sharedInstance = ListOrdersConfigurator()
   
   // MARK: Configuration
   
