@@ -33,19 +33,7 @@ class CreateOrderConfigurator
 {
   // MARK: Object lifecycle
   
-  class var sharedInstance: CreateOrderConfigurator
-  {
-    struct Static {
-      static var instance: CreateOrderConfigurator?
-      static var token: dispatch_once_t = 0
-    }
-    
-    dispatch_once(&Static.token) {
-      Static.instance = CreateOrderConfigurator()
-    }
-    
-    return Static.instance!
-  }
+  class let sharedInstance = CreateOrderConfigurator()
   
   // MARK: Configuration
   
