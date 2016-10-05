@@ -35,15 +35,15 @@ class OrdersWorkerTests: XCTestCase
     var fetchedOrdersCalled = false
     
     // MARK: Spied methods
-    override func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
+    override func fetchOrders(_ completionHandler: @escaping (_ orders: () throws -> [Order]) -> Void)
     {
       fetchedOrdersCalled = true
-      let oneSecond = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), 1 * Int64(NSEC_PER_SEC))
-      dispatch_after(oneSecond, dispatch_get_main_queue(), {
+      let oneSecond = DispatchTime.now() + Double(1 * Int64(NSEC_PER_SEC)) / Double(NSEC_PER_SEC)
+      DispatchQueue.main.asyncAfter(deadline: oneSecond, execute: {
         completionHandler {
           return [
-            Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23")),
-            Order(id: "def456", date: NSDate(), email: "bob.battery@clean-swift.com", firstName: "Bob", lastName: "Battery", total: NSDecimalNumber(string: "4.56"))
+            Order(id: "abc123", date: Date(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23")),
+            Order(id: "def456", date: Date(), email: "bob.battery@clean-swift.com", firstName: "Bob", lastName: "Battery", total: NSDecimalNumber(string: "4.56"))
           ]
         }
       })
@@ -58,14 +58,14 @@ class OrdersWorkerTests: XCTestCase
     let ordersMemStoreSpy = sut.ordersStore as! OrdersMemStoreSpy
     
     // When
-    let expectation = expectationWithDescription("Wait for fetchOrders() to return")
+    let expectation = self.expectation(description: "Wait for fetchOrders() to return")
     sut.fetchOrders { (orders: [Order]) -> Void in
       expectation.fulfill()
     }
     
     // Then
     XCTAssert(ordersMemStoreSpy.fetchedOrdersCalled, "Calling fetchOrders() should ask the data store for a list of orders")
-    waitForExpectationsWithTimeout(1.1) { (error: NSError?) -> Void in
+    waitForExpectations(timeout: 1.1) { _ in
       XCTAssert(true, "Calling fetchOrders() should result in the completion handler being called with the fetched orders result")
     }
   }

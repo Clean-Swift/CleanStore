@@ -12,33 +12,33 @@ class OrdersCoreDataStore: OrdersStoreProtocol
   init()
   {
     // This resource is the same name as your xcdatamodeld contained in your project.
-    guard let modelURL = NSBundle.mainBundle().URLForResource("CleanStore", withExtension:"momd") else {
+    guard let modelURL = Bundle.main.url(forResource: "CleanStore", withExtension:"momd") else {
       fatalError("Error loading model from bundle")
     }
     
     // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
-    guard let mom = NSManagedObjectModel(contentsOfURL: modelURL) else {
+    guard let mom = NSManagedObjectModel(contentsOf: modelURL) else {
       fatalError("Error initializing mom from: \(modelURL)")
     }
     
     let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
-    mainManagedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+    mainManagedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     mainManagedObjectContext.persistentStoreCoordinator = psc
     
-    let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     let docURL = urls[urls.endIndex-1]
     /* The directory the application uses to store the Core Data store file.
     This code uses a file named "DataModel.sqlite" in the application's documents directory.
     */
-    let storeURL = docURL.URLByAppendingPathComponent("CleanStore.sqlite")
+    let storeURL = docURL.appendingPathComponent("CleanStore.sqlite")
     do {
-      try psc.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: storeURL, options: nil)
+      try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
     } catch {
       fatalError("Error migrating store: \(error)")
     }
   
-    privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
-    privateManagedObjectContext.parentContext = mainManagedObjectContext
+    privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+    privateManagedObjectContext.parent = mainManagedObjectContext
   }
   
   deinit
@@ -51,44 +51,44 @@ class OrdersCoreDataStore: OrdersStoreProtocol
   }
   
   // MARK: - CRUD operations - Optional error
-  
-  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void)
+
+  func fetchOrders(_ completionHandler: @escaping (_ orders: [Order], _ error: OrdersStoreError?) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         let orders = results.map { $0.toOrder() }
-        completionHandler(orders: orders, error: nil)
+        completionHandler(orders, nil)
       } catch {
-        completionHandler(orders: [], error: OrdersStoreError.CannotFetch("Cannot fetch orders"))
+        completionHandler([], OrdersStoreError.cannotFetch("Cannot fetch orders"))
       }
     }
   }
   
-  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void)
+  func fetchOrder(_ id: String, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let order = results.first?.toOrder() {
-          completionHandler(order: order, error: nil)
+          completionHandler(order, nil)
         } else {
-          completionHandler(order: nil, error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
+          completionHandler(nil, OrdersStoreError.cannotFetch("Cannot fetch order with id \(id)"))
         }
       } catch {
-        completionHandler(order: nil, error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
+        completionHandler(nil, OrdersStoreError.cannotFetch("Cannot fetch order with id \(id)"))
       }
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping (_ error: OrdersStoreError?) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
+        let managedOrder = NSEntityDescription.insertNewObject(forEntityName: "ManagedOrder", into: self.privateManagedObjectContext) as! ManagedOrder
         managedOrder.id = orderToCreate.id
         managedOrder.date = orderToCreate.date
         managedOrder.email = orderToCreate.email
@@ -96,20 +96,20 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         managedOrder.lastName = orderToCreate.lastName
         managedOrder.total = orderToCreate.total
         try self.privateManagedObjectContext.save()
-        completionHandler(error: nil)
+        completionHandler(nil)
       } catch {
-        completionHandler(error: OrdersStoreError.CannotCreate("Cannot create order with id \(orderToCreate.id)"))
+        completionHandler(OrdersStoreError.cannotCreate("Cannot create order with id \(orderToCreate.id)"))
       }
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping (OrdersStoreError?) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", orderToUpdate.id!)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let managedOrder = results.first {
           do {
             managedOrder.id = orderToUpdate.id
@@ -119,80 +119,80 @@ class OrdersCoreDataStore: OrdersStoreProtocol
             managedOrder.lastName = orderToUpdate.lastName
             managedOrder.total = orderToUpdate.total
             try self.privateManagedObjectContext.save()
-            completionHandler(error: nil)
+            completionHandler(nil)
           } catch {
-            completionHandler(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id)"))
+            completionHandler(OrdersStoreError.cannotUpdate("Cannot update order with id \(orderToUpdate.id)"))
           }
         }
       } catch {
-        completionHandler(error: OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update"))
+        completionHandler(OrdersStoreError.cannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update"))
       }
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void)
+  func deleteOrder(_ id: String, completionHandler: @escaping (OrdersStoreError?) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let managedOrder = results.first {
-          self.privateManagedObjectContext.deleteObject(managedOrder)
+          self.privateManagedObjectContext.delete(managedOrder)
           do {
             try self.privateManagedObjectContext.save()
-            completionHandler(error: nil)
+            completionHandler(nil)
           } catch {
-            completionHandler(error: OrdersStoreError.CannotDelete("Cannot delete order with id \(id)"))
+            completionHandler(OrdersStoreError.cannotDelete("Cannot delete order with id \(id)"))
           }
         } else {
-          throw OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete")
+          throw OrdersStoreError.cannotDelete("Cannot fetch order with id \(id) to delete")
         }
       } catch {
-        completionHandler(error: OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete"))
+        completionHandler(OrdersStoreError.cannotDelete("Cannot fetch order with id \(id) to delete"))
       }
     }
   }
   
   // MARK: - CRUD operations - Generic enum result type
   
-  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler)
+  func fetchOrders(_ completionHandler: @escaping OrdersStoreFetchOrdersCompletionHandler)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         let orders = results.map { $0.toOrder() }
-        completionHandler(result: OrdersStoreResult.Success(result: orders))
+        completionHandler(OrdersStoreResult.success(result: orders))
       } catch {
-        completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotFetch("Cannot fetch orders")))
+        completionHandler(OrdersStoreResult.failure(error: OrdersStoreError.cannotFetch("Cannot fetch orders")))
       }
     }
   }
   
-  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler)
+  func fetchOrder(_ id: String, completionHandler: @escaping OrdersStoreFetchOrderCompletionHandler)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let order = results.first?.toOrder() {
-          completionHandler(result: OrdersStoreResult.Success(result: order))
+          completionHandler(OrdersStoreResult.success(result: order))
         } else {
-          completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)")))
+          completionHandler(OrdersStoreResult.failure(error: OrdersStoreError.cannotFetch("Cannot fetch order with id \(id)")))
         }
       } catch {
-        completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)")))
+        completionHandler(OrdersStoreResult.failure(error: OrdersStoreError.cannotFetch("Cannot fetch order with id \(id)")))
       }
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping OrdersStoreCreateOrderCompletionHandler)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
+        let managedOrder = NSEntityDescription.insertNewObject(forEntityName: "ManagedOrder", into: self.privateManagedObjectContext) as! ManagedOrder
         managedOrder.id = orderToCreate.id
         managedOrder.date = orderToCreate.date
         managedOrder.email = orderToCreate.email
@@ -200,21 +200,21 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         managedOrder.lastName = orderToCreate.lastName
         managedOrder.total = orderToCreate.total
         try self.privateManagedObjectContext.save()
-        completionHandler(result: OrdersStoreResult.Success(result: ()))
+        completionHandler(OrdersStoreResult.success(result: ()))
       } catch {
-        let error = OrdersStoreError.CannotCreate("Cannot create order with id \(orderToCreate.id)")
-        completionHandler(result: OrdersStoreResult.Failure(error: error))
+        let error = OrdersStoreError.cannotCreate("Cannot create order with id \(orderToCreate.id)")
+        completionHandler(OrdersStoreResult.failure(error: error))
       }
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping OrdersStoreUpdateOrderCompletionHandler)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", orderToUpdate.id!)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let managedOrder = results.first {
           do {
             managedOrder.id = orderToUpdate.id
@@ -224,80 +224,80 @@ class OrdersCoreDataStore: OrdersStoreProtocol
             managedOrder.lastName = orderToUpdate.lastName
             managedOrder.total = orderToUpdate.total
             try self.privateManagedObjectContext.save()
-            completionHandler(result: OrdersStoreResult.Success(result: ()))
+            completionHandler(OrdersStoreResult.success(result: ()))
           } catch {
-            completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id)")))
+            completionHandler(OrdersStoreResult.failure(error: OrdersStoreError.cannotUpdate("Cannot update order with id \(orderToUpdate.id)")))
           }
         }
       } catch {
-        completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update")))
+        completionHandler(OrdersStoreResult.failure(error: OrdersStoreError.cannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update")))
       }
     }
   }
   
-  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler)
+  func deleteOrder(_ id: String, completionHandler: @escaping OrdersStoreDeleteOrderCompletionHandler)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let managedOrder = results.first {
-          self.privateManagedObjectContext.deleteObject(managedOrder)
+          self.privateManagedObjectContext.delete(managedOrder)
           do {
             try self.privateManagedObjectContext.save()
-            completionHandler(result: OrdersStoreResult.Success(result: ()))
+            completionHandler(OrdersStoreResult.success(result: ()))
           } catch {
-            completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotDelete("Cannot delete order with id \(id)")))
+            completionHandler(OrdersStoreResult.failure(error: OrdersStoreError.cannotDelete("Cannot delete order with id \(id)")))
           }
         } else {
-          completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete")))
+          completionHandler(OrdersStoreResult.failure(error: OrdersStoreError.cannotDelete("Cannot fetch order with id \(id) to delete")))
         }
       } catch {
-        completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete")))
+        completionHandler(OrdersStoreResult.failure(error: OrdersStoreError.cannotDelete("Cannot fetch order with id \(id) to delete")))
       }
     }
   }
   
   // MARK: - CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
+  func fetchOrders(_ completionHandler: @escaping (_ orders: () throws -> [Order]) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         let orders = results.map { $0.toOrder() }
         completionHandler { return orders }
       } catch {
-        completionHandler { throw OrdersStoreError.CannotFetch("Cannot fetch orders") }
+        completionHandler { throw OrdersStoreError.cannotFetch("Cannot fetch orders") }
       }
     }
   }
   
-  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void)
+  func fetchOrder(_ id: String, completionHandler: @escaping (_ order: () throws -> Order?) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let order = results.first?.toOrder() {
           completionHandler { return order }
         } else {
-          throw OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)")
+          throw OrdersStoreError.cannotFetch("Cannot fetch order with id \(id)")
         }
       } catch {
-        completionHandler { throw OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)") }
+        completionHandler { throw OrdersStoreError.cannotFetch("Cannot fetch order with id \(id)") }
       }
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (done: () throws -> Void) -> Void)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let managedOrder = NSEntityDescription.insertNewObjectForEntityForName("ManagedOrder", inManagedObjectContext: self.privateManagedObjectContext) as! ManagedOrder
+        let managedOrder = NSEntityDescription.insertNewObject(forEntityName: "ManagedOrder", into: self.privateManagedObjectContext) as! ManagedOrder
         managedOrder.id = orderToCreate.id
         managedOrder.date = orderToCreate.date
         managedOrder.email = orderToCreate.email
@@ -307,18 +307,18 @@ class OrdersCoreDataStore: OrdersStoreProtocol
         try self.privateManagedObjectContext.save()
         completionHandler { return }
       } catch {
-        completionHandler { throw OrdersStoreError.CannotCreate("Cannot create order with id \(orderToCreate.id)") }
+        completionHandler { throw OrdersStoreError.cannotCreate("Cannot create order with id \(orderToCreate.id)") }
       }
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", orderToUpdate.id!)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let managedOrder = results.first {
           do {
             managedOrder.id = orderToUpdate.id
@@ -330,35 +330,35 @@ class OrdersCoreDataStore: OrdersStoreProtocol
             try self.privateManagedObjectContext.save()
             completionHandler { return }
           } catch {
-            completionHandler { throw OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id)") }
+            completionHandler { throw OrdersStoreError.cannotUpdate("Cannot update order with id \(orderToUpdate.id)") }
           }
         }
       } catch {
-        completionHandler { throw OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update") }
+        completionHandler { throw OrdersStoreError.cannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update") }
       }
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void)
+  func deleteOrder(_ id: String, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
   {
-    privateManagedObjectContext.performBlock {
+    privateManagedObjectContext.perform {
       do {
-        let fetchRequest = NSFetchRequest(entityName: "ManagedOrder")
+        let fetchRequest = NSFetchRequest<ManagedOrder>(entityName: "ManagedOrder")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        let results = try self.privateManagedObjectContext.executeFetchRequest(fetchRequest) as! [ManagedOrder]
+        let results = try self.privateManagedObjectContext.fetch(fetchRequest)
         if let managedOrder = results.first {
-          self.privateManagedObjectContext.deleteObject(managedOrder)
+          self.privateManagedObjectContext.delete(managedOrder)
           do {
             try self.privateManagedObjectContext.save()
             completionHandler { return }
           } catch {
-            completionHandler { throw OrdersStoreError.CannotDelete("Cannot delete order with id \(id)") }
+            completionHandler { throw OrdersStoreError.cannotDelete("Cannot delete order with id \(id)") }
           }
         } else {
-          throw OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete")
+          throw OrdersStoreError.cannotDelete("Cannot fetch order with id \(id) to delete")
         }
       } catch {
-        completionHandler { throw OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete") }
+        completionHandler { throw OrdersStoreError.cannotDelete("Cannot fetch order with id \(id) to delete") }
       }
     }
   }

@@ -13,13 +13,13 @@ import UIKit
 
 protocol CreateOrderViewControllerInput
 {
-  func displayExpirationDate(viewModel: CreateOrder.FormatExpirationDate.ViewModel)
+  func displayExpirationDate(_ viewModel: CreateOrder.FormatExpirationDate.ViewModel)
 }
 
 protocol CreateOrderViewControllerOutput
 {
   var shippingMethods: [String] { get }
-  func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
+  func formatExpirationDate(_ request: CreateOrder.FormatExpirationDate.Request)
 }
 
 class CreateOrderViewController: UITableViewController, CreateOrderViewControllerInput, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate
@@ -47,10 +47,10 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
   
   @IBOutlet var textFields: [UITextField]!
   
-  func textFieldShouldReturn(textField: UITextField) -> Bool
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool
   {
     textField.resignFirstResponder()
-    if let index = textFields.indexOf(textField) {
+    if let index = textFields.index(of: textField) {
       if index < textFields.count - 1 {
         let nextTextField = textFields[index + 1]
         nextTextField.becomeFirstResponder()
@@ -59,11 +59,11 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     return true
   }
   
-  override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
   {
-    if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+    if let cell = tableView.cellForRow(at: indexPath) {
       for textField in textFields {
-        if textField.isDescendantOfView(cell) {
+        if textField.isDescendant(of: cell) {
           textField.becomeFirstResponder()
         }
       }
@@ -81,22 +81,22 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
     expirationDateTextField.inputView = expirationDatePicker
   }
   
-  func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int
+  func numberOfComponents(in pickerView: UIPickerView) -> Int
   {
     return 1
   }
   
-  func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
   {
     return output.shippingMethods.count
   }
   
-  func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
   {
     return output.shippingMethods[row]
   }
   
-  func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
     shippingMethodTextField.text = output.shippingMethods[row]
   }
@@ -106,14 +106,14 @@ class CreateOrderViewController: UITableViewController, CreateOrderViewControlle
   @IBOutlet weak var expirationDateTextField: UITextField!
   @IBOutlet var expirationDatePicker: UIDatePicker!
   
-  @IBAction func expirationDatePickerValueChanged(sender: AnyObject)
+  @IBAction func expirationDatePickerValueChanged(_ sender: AnyObject)
   {
     let date = expirationDatePicker.date
     let request = CreateOrder.FormatExpirationDate.Request(date: date)
     output.formatExpirationDate(request)
   }
   
-  func displayExpirationDate(viewModel: CreateOrder.FormatExpirationDate.ViewModel)
+  func displayExpirationDate(_ viewModel: CreateOrder.FormatExpirationDate.ViewModel)
   {
     let date = viewModel.date
     expirationDateTextField.text = date

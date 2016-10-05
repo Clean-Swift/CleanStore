@@ -15,7 +15,7 @@ import UIKit
 
 extension ShowOrderViewController: ShowOrderPresenterOutput
 {
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
     router.passDataToNextScene(segue)
   }
@@ -31,25 +31,11 @@ extension ShowOrderPresenter: ShowOrderInteractorOutput
 
 class ShowOrderConfigurator
 {
-  // MARK: Object lifecycle
-  
-  class var sharedInstance: ShowOrderConfigurator
-  {
-    struct Static {
-      static var instance: ShowOrderConfigurator?
-      static var token: dispatch_once_t = 0
-    }
-    
-    dispatch_once(&Static.token) {
-      Static.instance = ShowOrderConfigurator()
-    }
-    
-    return Static.instance!
-  }
+  static let sharedInstance = ShowOrderConfigurator()
   
   // MARK: Configuration
   
-  func configure(viewController: ShowOrderViewController)
+  func configure(_ viewController: ShowOrderViewController)
   {
     let router = ShowOrderRouter()
     router.viewController = viewController

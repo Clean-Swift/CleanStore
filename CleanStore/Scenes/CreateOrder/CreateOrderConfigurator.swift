@@ -15,7 +15,7 @@ import UIKit
 
 extension CreateOrderViewController: CreateOrderPresenterOutput
 {
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
   {
     router.passDataToNextScene(segue)
   }
@@ -31,25 +31,11 @@ extension CreateOrderPresenter: CreateOrderInteractorOutput
 
 class CreateOrderConfigurator
 {
-  // MARK: Object lifecycle
-  
-  class var sharedInstance: CreateOrderConfigurator
-  {
-    struct Static {
-      static var instance: CreateOrderConfigurator?
-      static var token: dispatch_once_t = 0
-    }
-    
-    dispatch_once(&Static.token) {
-      Static.instance = CreateOrderConfigurator()
-    }
-    
-    return Static.instance!
-  }
+  static let sharedInstance = CreateOrderConfigurator()
   
   // MARK: Configuration
   
-  func configure(viewController: CreateOrderViewController)
+  func configure(_ viewController: CreateOrderViewController)
   {
     let router = CreateOrderRouter()
     router.viewController = viewController

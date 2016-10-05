@@ -49,7 +49,7 @@ class ListOrdersPresenterTests: XCTestCase
     var viewModel: ListOrders.FetchOrders.ViewModel!
     
     // MARK: Spied methods
-    func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
+    func displayFetchedOrders(_ viewModel: ListOrders.FetchOrders.ViewModel)
     {
       displayFetchedOrdersCalled = true
       self.viewModel = viewModel
@@ -64,11 +64,11 @@ class ListOrdersPresenterTests: XCTestCase
     let listOrdersPresenterOutputSpy = ListOrdersPresenterOutputSpy()
     sut.output = listOrdersPresenterOutputSpy
     
-    let dateComponents = NSDateComponents()
+    var dateComponents = DateComponents()
     dateComponents.year = 2007
     dateComponents.month = 6
     dateComponents.day = 29
-    let date = NSCalendar.currentCalendar().dateFromComponents(dateComponents)!
+    let date = Calendar.current.date(from: dateComponents)!
     
     let orders = [Order(id: "abc123", date: date, email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
     let response = ListOrders.FetchOrders.Response(orders: orders)
@@ -93,7 +93,7 @@ class ListOrdersPresenterTests: XCTestCase
     let listOrdersPresenterOutputSpy = ListOrdersPresenterOutputSpy()
     sut.output = listOrdersPresenterOutputSpy
     
-    let orders = [Order(id: "abc123", date: NSDate(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
+    let orders = [Order(id: "abc123", date: Date(), email: "amy.apple@clean-swift.com", firstName: "Amy", lastName: "Apple", total: NSDecimalNumber(string: "1.23"))]
     let response = ListOrders.FetchOrders.Response(orders: orders)
     
     // When

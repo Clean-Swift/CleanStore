@@ -13,12 +13,12 @@ import UIKit
 
 protocol ListOrdersViewControllerInput
 {
-  func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
+  func displayFetchedOrders(_ viewModel: ListOrders.FetchOrders.ViewModel)
 }
 
 protocol ListOrdersViewControllerOutput
 {
-  func fetchOrders(request: ListOrders.FetchOrders.Request)
+  func fetchOrders(_ request: ListOrders.FetchOrders.Request)
   var orders: [Order]? { get }
 }
 
@@ -54,7 +54,7 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
   
   // MARK: Display logic
   
-  func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
+  func displayFetchedOrders(_ viewModel: ListOrders.FetchOrders.ViewModel)
   {
     displayedOrders = viewModel.displayedOrders
     tableView.reloadData()
@@ -62,22 +62,22 @@ class ListOrdersViewController: UITableViewController, ListOrdersViewControllerI
   
   // MARK: Table view data source
   
-  override func numberOfSectionsInTableView(tableView: UITableView) -> Int
+  override func numberOfSections(in tableView: UITableView) -> Int
   {
     return 1
   }
   
-  override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
   {
     return displayedOrders.count
   }
   
-  override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
   {
-    let displayedOrder = displayedOrders[indexPath.row]
-    var cell = tableView.dequeueReusableCellWithIdentifier("OrderTableViewCell")
+    let displayedOrder = displayedOrders[(indexPath as NSIndexPath).row]
+    var cell = tableView.dequeueReusableCell(withIdentifier: "OrderTableViewCell")
     if cell == nil {
-      cell = UITableViewCell(style: .Value1, reuseIdentifier: "OrderTableViewCell")
+      cell = UITableViewCell(style: .value1, reuseIdentifier: "OrderTableViewCell")
     }
     cell?.textLabel?.text = displayedOrder.date
     cell?.detailTextLabel?.text = displayedOrder.total

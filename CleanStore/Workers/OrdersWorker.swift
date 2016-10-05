@@ -11,14 +11,14 @@ class OrdersWorker
     self.ordersStore = ordersStore
   }
   
-  func fetchOrders(completionHandler: (orders: [Order]) -> Void)
+  func fetchOrders(_ completionHandler: @escaping (_ orders: [Order]) -> Void)
   {
     ordersStore.fetchOrders { (orders: () throws -> [Order]) -> Void in
       do {
         let orders = try orders()
-        completionHandler(orders: orders)
+        completionHandler(orders)
       } catch {
-        completionHandler(orders: [])
+        completionHandler([])
       }
     }
   }
@@ -30,60 +30,60 @@ protocol OrdersStoreProtocol
 {
   // MARK: CRUD operations - Optional error
   
-  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void)
-  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void)
-  func createOrder(orderToCreate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
-  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
-  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void)
+  func fetchOrders(_ completionHandler: @escaping (_ orders: [Order], _ error: OrdersStoreError?) -> Void)
+  func fetchOrder(_ id: String, completionHandler: @escaping (_ order: Order?, _ error: OrdersStoreError?) -> Void)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping (_ error: OrdersStoreError?) -> Void)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping (_ error: OrdersStoreError?) -> Void)
+  func deleteOrder(_ id: String, completionHandler: @escaping (_ error: OrdersStoreError?) -> Void)
   
   // MARK: CRUD operations - Generic enum result type
   
-  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler)
-  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler)
-  func createOrder(orderToCreate: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler)
-  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler)
-  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler)
+  func fetchOrders(_ completionHandler: @escaping OrdersStoreFetchOrdersCompletionHandler)
+  func fetchOrder(_ id: String, completionHandler: @escaping OrdersStoreFetchOrderCompletionHandler)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping OrdersStoreCreateOrderCompletionHandler)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping OrdersStoreUpdateOrderCompletionHandler)
+  func deleteOrder(_ id: String, completionHandler: @escaping OrdersStoreDeleteOrderCompletionHandler)
   
   // MARK: CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
-  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void)
-  func createOrder(orderToCreate: Order, completionHandler: (done: () throws -> Void) -> Void)
-  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void)
-  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void)
+  func fetchOrders(_ completionHandler: @escaping (_ orders: () throws -> [Order]) -> Void)
+  func fetchOrder(_ id: String, completionHandler: @escaping (_ order: () throws -> Order?) -> Void)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
+  func deleteOrder(_ id: String, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
 }
 
 // MARK: - Orders store CRUD operation results
 
-typealias OrdersStoreFetchOrdersCompletionHandler = (result: OrdersStoreResult<[Order]>) -> Void
-typealias OrdersStoreFetchOrderCompletionHandler = (result: OrdersStoreResult<Order>) -> Void
-typealias OrdersStoreCreateOrderCompletionHandler = (result: OrdersStoreResult<Void>) -> Void
-typealias OrdersStoreUpdateOrderCompletionHandler = (result: OrdersStoreResult<Void>) -> Void
-typealias OrdersStoreDeleteOrderCompletionHandler = (result: OrdersStoreResult<Void>) -> Void
+typealias OrdersStoreFetchOrdersCompletionHandler = (_ result: OrdersStoreResult<[Order]>) -> Void
+typealias OrdersStoreFetchOrderCompletionHandler = (_ result: OrdersStoreResult<Order>) -> Void
+typealias OrdersStoreCreateOrderCompletionHandler = (_ result: OrdersStoreResult<Void>) -> Void
+typealias OrdersStoreUpdateOrderCompletionHandler = (_ result: OrdersStoreResult<Void>) -> Void
+typealias OrdersStoreDeleteOrderCompletionHandler = (_ result: OrdersStoreResult<Void>) -> Void
 
 enum OrdersStoreResult<U>
 {
-  case Success(result: U)
-  case Failure(error: OrdersStoreError)
+  case success(result: U)
+  case failure(error: OrdersStoreError)
 }
 
 // MARK: - Orders store CRUD operation errors
 
-enum OrdersStoreError: Equatable, ErrorType
+enum OrdersStoreError: Equatable, Error
 {
-  case CannotFetch(String)
-  case CannotCreate(String)
-  case CannotUpdate(String)
-  case CannotDelete(String)
+  case cannotFetch(String)
+  case cannotCreate(String)
+  case cannotUpdate(String)
+  case cannotDelete(String)
 }
 
 func ==(lhs: OrdersStoreError, rhs: OrdersStoreError) -> Bool
 {
   switch (lhs, rhs) {
-  case (.CannotFetch(let a), .CannotFetch(let b)) where a == b: return true
-  case (.CannotCreate(let a), .CannotCreate(let b)) where a == b: return true
-  case (.CannotUpdate(let a), .CannotUpdate(let b)) where a == b: return true
-  case (.CannotDelete(let a), .CannotDelete(let b)) where a == b: return true
+  case (.cannotFetch(let a), .cannotFetch(let b)) where a == b: return true
+  case (.cannotCreate(let a), .cannotCreate(let b)) where a == b: return true
+  case (.cannotUpdate(let a), .cannotUpdate(let b)) where a == b: return true
+  case (.cannotDelete(let a), .cannotDelete(let b)) where a == b: return true
   default: return false
   }
 }
