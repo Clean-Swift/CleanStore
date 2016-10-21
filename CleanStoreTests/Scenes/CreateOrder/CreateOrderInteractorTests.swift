@@ -34,7 +34,7 @@ class CreateOrderInteractorTests: XCTestCase
   {
     var presentExpirationDateCalled = false
     
-    func presentExpirationDate(response: CreateOrder.FormatExpirationDate.Response)
+    func presentExpirationDate(_ response: CreateOrder.FormatExpirationDate.Response)
     {
       presentExpirationDateCalled = true
     }
@@ -47,7 +47,7 @@ class CreateOrderInteractorTests: XCTestCase
     // Given
     let createOrderInteractorOutputSpy = CreateOrderInteractorOutputSpy()
     createOrderInteractor.output = createOrderInteractorOutputSpy
-    let request = CreateOrder.FormatExpirationDate.Request(date: NSDate())
+    let request = CreateOrder.FormatExpirationDate.Request(date: Date())
     
     // When
     createOrderInteractor.formatExpirationDate(request)

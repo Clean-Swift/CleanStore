@@ -14,12 +14,12 @@ import UIKit
 protocol CreateOrderInteractorInput
 {
   var shippingMethods: [String] { get }
-  func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
+  func formatExpirationDate(_ request: CreateOrder.FormatExpirationDate.Request)
 }
 
 protocol CreateOrderInteractorOutput
 {
-  func presentExpirationDate(response: CreateOrder.FormatExpirationDate.Response)
+  func presentExpirationDate(_ response: CreateOrder.FormatExpirationDate.Response)
 }
 
 class CreateOrderInteractor: CreateOrderInteractorInput
@@ -34,7 +34,7 @@ class CreateOrderInteractor: CreateOrderInteractorInput
   
   // MARK: Expiration date
   
-  func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
+  func formatExpirationDate(_ request: CreateOrder.FormatExpirationDate.Request)
   {
     let response = CreateOrder.FormatExpirationDate.Response(date: request.date)
     output.presentExpirationDate(response)

@@ -4,67 +4,67 @@ class OrdersAPI: OrdersStoreProtocol
 {
   // MARK: - CRUD operations - Optional error
   
-  func fetchOrders(completionHandler: (orders: [Order], error: OrdersStoreError?) -> Void)
+  func fetchOrders(_ completionHandler: @escaping (_ orders: [Order], _ error: OrdersStoreError?) -> Void)
   {
   }
   
-  func fetchOrder(id: String, completionHandler: (order: Order?, error: OrdersStoreError?) -> Void)
+  func fetchOrder(_ id: String, completionHandler: @escaping (_ order: Order?, _ error: OrdersStoreError?) -> Void)
   {
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping (_ error: OrdersStoreError?) -> Void)
   {
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (error: OrdersStoreError?) -> Void)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping (_ error: OrdersStoreError?) -> Void)
   {
   }
   
-  func deleteOrder(id: String, completionHandler: (error: OrdersStoreError?) -> Void)
+  func deleteOrder(_ id: String, completionHandler: @escaping (_ error: OrdersStoreError?) -> Void)
   {
   }
   
   // MARK: - CRUD operations - Generic enum result type
   
-  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler)
+  func fetchOrders(_ completionHandler: @escaping OrdersStoreFetchOrdersCompletionHandler)
   {
   }
   
-  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler)
+  func fetchOrder(_ id: String, completionHandler: @escaping OrdersStoreFetchOrderCompletionHandler)
   {
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping OrdersStoreCreateOrderCompletionHandler)
   {
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping OrdersStoreUpdateOrderCompletionHandler)
   {
   }
   
-  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler)
+  func deleteOrder(_ id: String, completionHandler: @escaping OrdersStoreDeleteOrderCompletionHandler)
   {
   }
   
   // MARK: - CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (orders: () throws -> [Order]) -> Void)
+  func fetchOrders(_ completionHandler: @escaping (_ orders: () throws -> [Order]) -> Void)
   {
   }
   
-  func fetchOrder(id: String, completionHandler: (order: () throws -> Order?) -> Void)
+  func fetchOrder(_ id: String, completionHandler: @escaping (_ order: () throws -> Order?) -> Void)
   {
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (done: () throws -> Void) -> Void)
+  func createOrder(_ orderToCreate: Order, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
   {
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (done: () throws -> Void) -> Void)
+  func updateOrder(_ orderToUpdate: Order, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
   {
   }
   
-  func deleteOrder(id: String, completionHandler: (done: () throws -> Void) -> Void)
+  func deleteOrder(_ id: String, completionHandler: @escaping (_ done: () throws -> Void) -> Void)
   {
   }
 }

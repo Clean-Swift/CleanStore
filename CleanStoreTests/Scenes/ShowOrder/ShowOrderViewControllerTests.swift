@@ -38,15 +38,15 @@ class ShowOrderViewControllerTests: XCTestCase
   
   func setupShowOrderViewController()
   {
-    let bundle = NSBundle.mainBundle()
+    let bundle = Bundle.main
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-    sut = storyboard.instantiateViewControllerWithIdentifier("ShowOrderViewController") as! ShowOrderViewController
+    sut = storyboard.instantiateViewController(withIdentifier: "ShowOrderViewController") as! ShowOrderViewController
   }
   
   func loadView()
   {
     window.addSubview(sut.view)
-    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    RunLoop.current.run(until: Date())
   }
   
   // MARK: Test doubles

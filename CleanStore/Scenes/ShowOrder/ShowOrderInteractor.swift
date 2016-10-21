@@ -13,13 +13,13 @@ import UIKit
 
 protocol ShowOrderInteractorInput
 {
-  func getOrder(request: ShowOrder.GetOrder.Request)
+  func getOrder(_ request: ShowOrder.GetOrder.Request)
   var order: Order! { get set }
 }
 
 protocol ShowOrderInteractorOutput
 {
-  func presentOrder(response: ShowOrder.GetOrder.Response)
+  func presentOrder(_ response: ShowOrder.GetOrder.Response)
 }
 
 class ShowOrderInteractor: ShowOrderInteractorInput
@@ -31,7 +31,7 @@ class ShowOrderInteractor: ShowOrderInteractorInput
   
   // MARK: Business logic
   
-  func getOrder(request: ShowOrder.GetOrder.Request)
+  func getOrder(_ request: ShowOrder.GetOrder.Request)
   {
     let response = ShowOrder.GetOrder.Response(order: order)
     output.presentOrder(response)

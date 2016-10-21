@@ -43,7 +43,7 @@ class ListOrdersRouter
   
   // MARK: Communication
   
-  func passDataToNextScene(segue: UIStoryboardSegue)
+  func passDataToNextScene(_ segue: UIStoryboardSegue)
   {
     // NOTE: Teach the router which scenes it can communicate with
     
@@ -54,7 +54,7 @@ class ListOrdersRouter
     }
   }
   
-  func passDataToSomewhereScene(segue: UIStoryboardSegue)
+  func passDataToSomewhereScene(_ segue: UIStoryboardSegue)
   {
     // NOTE: Teach the router how to pass data to the next scene
     
@@ -62,11 +62,11 @@ class ListOrdersRouter
     // someWhereViewController.output.name = viewController.output.name
   }
   
-  func passDataToShowOrderScene(segue: UIStoryboardSegue)
+  func passDataToShowOrderScene(_ segue: UIStoryboardSegue)
   {
     if let selectedIndexPath = viewController.tableView.indexPathForSelectedRow {
-      if let selectedOrder = viewController.output.orders?[selectedIndexPath.row] {
-        let showOrderViewController = segue.destinationViewController as! ShowOrderViewController
+      if let selectedOrder = viewController.output.orders?[(selectedIndexPath as NSIndexPath).row] {
+        let showOrderViewController = segue.destination as! ShowOrderViewController
         showOrderViewController.output.order = selectedOrder
       }
     }

@@ -38,15 +38,15 @@ class ListOrdersViewControllerTests: XCTestCase
   
   func setupListOrdersViewController()
   {
-    let bundle = NSBundle.mainBundle()
+    let bundle = Bundle.main
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-    sut = storyboard.instantiateViewControllerWithIdentifier("ListOrdersViewController") as! ListOrdersViewController
+    sut = storyboard.instantiateViewController(withIdentifier: "ListOrdersViewController") as! ListOrdersViewController
   }
   
   func loadView()
   {
     window.addSubview(sut.view)
-    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    RunLoop.current.run(until: Date())
   }
   
   // MARK: Test doubles
@@ -59,7 +59,7 @@ class ListOrdersViewControllerTests: XCTestCase
     var fetchOrdersCalled = false
     
     // MARK: Spied methods
-    func fetchOrders(request: ListOrders.FetchOrders.Request)
+    func fetchOrders(_ request: ListOrders.FetchOrders.Request)
     {
       fetchOrdersCalled = true
     }
@@ -114,7 +114,7 @@ class ListOrdersViewControllerTests: XCTestCase
     let tableView = sut.tableView
     
     // When
-    let numberOfSections = sut.numberOfSectionsInTableView(tableView)
+    let numberOfSections = sut.numberOfSections(in: tableView!)
     
     // Then
     XCTAssertEqual(numberOfSections, 1, "The number of table view sections should always be 1")
@@ -128,7 +128,7 @@ class ListOrdersViewControllerTests: XCTestCase
     sut.displayedOrders = testDisplayedOrders
     
     // When
-    let numberOfRows = sut.tableView(tableView, numberOfRowsInSection: 0)
+    let numberOfRows = sut.tableView(tableView!, numberOfRowsInSection: 0)
     
     // Then
     XCTAssertEqual(numberOfRows, testDisplayedOrders.count, "The number of table view rows should equal the number of orders to display")
@@ -142,8 +142,8 @@ class ListOrdersViewControllerTests: XCTestCase
     sut.displayedOrders = testDisplayedOrders
     
     // When
-    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-    let cell = sut.tableView(tableView, cellForRowAtIndexPath: indexPath)
+    let indexPath = IndexPath(row: 0, section: 0)
+    let cell = sut.tableView(tableView!, cellForRowAt: indexPath)
     
     // Then
     XCTAssertEqual(cell.textLabel?.text, "6/29/07", "A properly configured table view cell should display the order date")

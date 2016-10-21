@@ -14,7 +14,7 @@ import CoreData
 
 extension ManagedOrder {
 
-    @NSManaged var date: NSDate?
+    @NSManaged var date: Date?
     @NSManaged var email: String?
     @NSManaged var firstName: String?
     @NSManaged var id: String?

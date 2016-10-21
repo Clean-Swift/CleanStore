@@ -46,7 +46,7 @@ class ListOrdersInteractorTests: XCTestCase
     var presentFetchedOrdersCalled = false
     
     // MARK: Spied methods
-    func presentFetchedOrders(response: ListOrders.FetchOrders.Response)
+    func presentFetchedOrders(_ response: ListOrders.FetchOrders.Response)
     {
       presentFetchedOrdersCalled = true
     }
@@ -58,10 +58,10 @@ class ListOrdersInteractorTests: XCTestCase
     var fetchOrdersCalled = false
     
     // MARK: Spied methods
-    override func fetchOrders(completionHandler: (orders: [Order]) -> Void)
+    override func fetchOrders(_ completionHandler: @escaping (_ orders: [Order]) -> Void)
     {
       fetchOrdersCalled = true
-      completionHandler(orders: [])
+      completionHandler([])
     }
   }
   
