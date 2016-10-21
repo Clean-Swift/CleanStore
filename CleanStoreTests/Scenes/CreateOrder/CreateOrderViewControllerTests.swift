@@ -28,9 +28,9 @@ class CreateOrderViewControllerTests: XCTestCase
   
   func setupCreateOrderViewController()
   {
-    let bundle = NSBundle.mainBundle()
+    let bundle = Bundle.main
     let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-    createOrderViewController = storyboard.instantiateViewControllerWithIdentifier("CreateOrderViewController") as! CreateOrderViewController
+    createOrderViewController = storyboard.instantiateViewController(withIdentifier: "CreateOrderViewController") as! CreateOrderViewController
     _ = createOrderViewController.view
     addViewToWindow()
   }
@@ -38,7 +38,7 @@ class CreateOrderViewControllerTests: XCTestCase
   func addViewToWindow()
   {
     window.addSubview(createOrderViewController.view)
-    NSRunLoop.currentRunLoop().runUntilDate(NSDate())
+    RunLoop.current.run(until: Date())
   }
   
   // MARK: Test doubles
@@ -55,7 +55,7 @@ class CreateOrderViewControllerTests: XCTestCase
     var shippingMethods = [String]()
     
     // MARK: Spied methods
-    func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
+    func formatExpirationDate(_ request: CreateOrder.FormatExpirationDate.Request)
     {
       formatExpirationDateCalled = true
       self.request = request
@@ -83,11 +83,11 @@ class CreateOrderViewControllerTests: XCTestCase
     let createOrderViewControllerOutputSpy = CreateOrderViewControllerOutputSpy()
     createOrderViewController.output = createOrderViewControllerOutputSpy
     
-    let dateComponents = NSDateComponents()
+    var dateComponents = DateComponents()
     dateComponents.year = 2007
     dateComponents.month = 6
     dateComponents.day = 29
-    let selectedDate = NSCalendar.currentCalendar().dateFromComponents(dateComponents)!
+    let selectedDate = Calendar.current.date(from: dateComponents)!
     
     // When
     createOrderViewController.expirationDatePicker.date = selectedDate
@@ -107,7 +107,7 @@ class CreateOrderViewControllerTests: XCTestCase
     let pickerView = createOrderViewController.shippingMethodPicker
     
     // When
-    let numberOfComponents = createOrderViewController.numberOfComponentsInPickerView(pickerView)
+    let numberOfComponents = createOrderViewController.numberOfComponents(in: pickerView!)
     
     // Then
     XCTAssertEqual(numberOfComponents, 1, "The number of components in the shipping method picker should be 1")
@@ -119,7 +119,7 @@ class CreateOrderViewControllerTests: XCTestCase
     let pickerView = createOrderViewController.shippingMethodPicker
     
     // When
-    let numberOfRows = createOrderViewController.pickerView(pickerView, numberOfRowsInComponent: 0)
+    let numberOfRows = createOrderViewController.pickerView(pickerView!, numberOfRowsInComponent: 0)
     
     // Then
     let numberOfAvailableShippingtMethods = createOrderViewController.output.shippingMethods.count
@@ -133,9 +133,9 @@ class CreateOrderViewControllerTests: XCTestCase
     
     // When
     let returnedTitles = [
-      createOrderViewController.pickerView(pickerView, titleForRow: 0, forComponent: 0),
-      createOrderViewController.pickerView(pickerView, titleForRow: 1, forComponent: 0),
-      createOrderViewController.pickerView(pickerView, titleForRow: 2, forComponent: 0)
+      createOrderViewController.pickerView(pickerView!, titleForRow: 0, forComponent: 0),
+      createOrderViewController.pickerView(pickerView!, titleForRow: 1, forComponent: 0),
+      createOrderViewController.pickerView(pickerView!, titleForRow: 2, forComponent: 0)
     ]
     
     // Then
@@ -155,7 +155,7 @@ class CreateOrderViewControllerTests: XCTestCase
     let pickerView = createOrderViewController.shippingMethodPicker
     
     // When
-    createOrderViewController.pickerView(pickerView, didSelectRow: 1, inComponent: 0)
+    createOrderViewController.pickerView(pickerView!, didSelectRow: 1, inComponent: 0)
     
     // Then
     let expectedShippingMethod = "Two-Day Shipping"
@@ -176,8 +176,8 @@ class CreateOrderViewControllerTests: XCTestCase
     createOrderViewController.textFieldShouldReturn(currentTextField)
     
     // Then
-    XCTAssert(!currentTextField.isFirstResponder(), "Current text field should lose keyboard focus")
-    XCTAssert(nextTextField.isFirstResponder(), "Next text field should gain keyboard focus")
+    XCTAssert(!currentTextField.isFirstResponder, "Current text field should lose keyboard focus")
+    XCTAssert(nextTextField.isFirstResponder, "Next text field should gain keyboard focus")
   }
   
   func testKeyboardShouldBeDismissedWhenUserTapsReturnKeyWhenFocusIsInLastTextField()
@@ -186,8 +186,8 @@ class CreateOrderViewControllerTests: XCTestCase
     
     // Scroll to the bottom of table view so the last text field is visible and its gesture recognizer is set up
     let lastSectionIndex = createOrderViewController.tableView.numberOfSections - 1
-    let lastRowIndex = createOrderViewController.tableView.numberOfRowsInSection(lastSectionIndex) - 1
-    createOrderViewController.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: lastRowIndex, inSection: lastSectionIndex), atScrollPosition: .Bottom, animated: false)
+    let lastRowIndex = createOrderViewController.tableView.numberOfRows(inSection: lastSectionIndex) - 1
+    createOrderViewController.tableView.scrollToRow(at: IndexPath(row: lastRowIndex, section: lastSectionIndex), at: .bottom, animated: false)
     
     // Show keyboard for the last text field
     let numTextFields = createOrderViewController.textFields.count
@@ -198,7 +198,7 @@ class CreateOrderViewControllerTests: XCTestCase
     createOrderViewController.textFieldShouldReturn(lastTextField)
     
     // Then
-    XCTAssert(!lastTextField.isFirstResponder(), "Last text field should lose keyboard focus")
+    XCTAssert(!lastTextField.isFirstResponder, "Last text field should lose keyboard focus")
   }
   
   func testTextFieldShouldHaveFocusWhenUserTapsOnTableViewRow()
@@ -206,12 +206,12 @@ class CreateOrderViewControllerTests: XCTestCase
     // Given
     
     // When
-    let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-    createOrderViewController.tableView(createOrderViewController.tableView, didSelectRowAtIndexPath: indexPath)
+    let indexPath = IndexPath(row: 0, section: 0)
+    createOrderViewController.tableView(createOrderViewController.tableView, didSelectRowAt: indexPath)
     
     // Then
     let textField = createOrderViewController.textFields[0]
-    XCTAssert(textField.isFirstResponder(), "The text field should have keyboard focus when user taps on the corresponding table view row")
+    XCTAssert(textField.isFirstResponder, "The text field should have keyboard focus when user taps on the corresponding table view row")
   }
   
   // MARK: Test picker configs when view is loaded

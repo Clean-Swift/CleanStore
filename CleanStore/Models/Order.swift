@@ -3,7 +3,7 @@ import Foundation
 struct Order: Equatable
 {
   var id: String?
-  var date: NSDate?
+  var date: Date?
   var email: String?
   var firstName: String?
   var lastName: String?
@@ -13,8 +13,8 @@ struct Order: Equatable
 func ==(lhs: Order, rhs: Order) -> Bool
 {
   var dateEqual = false
-  if let lhsDate = lhs.date, rhsDate = rhs.date {
-    dateEqual = lhsDate.timeIntervalSinceDate(rhsDate) < 1.0
+  if let lhsDate = lhs.date, let rhsDate = rhs.date {
+    dateEqual = lhsDate.timeIntervalSince(rhsDate) < 1.0
   }
   return lhs.id == rhs.id
     && dateEqual

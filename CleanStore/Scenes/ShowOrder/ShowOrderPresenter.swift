@@ -13,39 +13,39 @@ import UIKit
 
 protocol ShowOrderPresenterInput
 {
-  func presentOrder(response: ShowOrder.GetOrder.Response)
+  func presentOrder(_ response: ShowOrder.GetOrder.Response)
 }
 
 protocol ShowOrderPresenterOutput: class
 {
-  func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
+  func displayOrder(_ viewModel: ShowOrder.GetOrder.ViewModel)
 }
 
 class ShowOrderPresenter: ShowOrderPresenterInput
 {
   weak var output: ShowOrderPresenterOutput!
   
-  let dateFormatter: NSDateFormatter = {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.dateStyle = .ShortStyle
-    dateFormatter.timeStyle = NSDateFormatterStyle.NoStyle
+  let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+    dateFormatter.timeStyle = DateFormatter.Style.none
     return dateFormatter
   }()
   
-  let currencyFormatter: NSNumberFormatter = {
-    let currencyFormatter = NSNumberFormatter()
-    currencyFormatter.numberStyle = .CurrencyStyle
+  let currencyFormatter: NumberFormatter = {
+    let currencyFormatter = NumberFormatter()
+    currencyFormatter.numberStyle = .currency
     return currencyFormatter
   }()
   
   // MARK: Presentation logic
   
-  func presentOrder(response: ShowOrder.GetOrder.Response)
+  func presentOrder(_ response: ShowOrder.GetOrder.Response)
   {
     let order = response.order
     
-    let date = dateFormatter.stringFromDate(order.date!)
-    let total = currencyFormatter.stringFromNumber(order.total!)
+    let date = dateFormatter.string(from: order.date! as Date)
+    let total = currencyFormatter.string(from: order.total!)
     let displayedOrder = ShowOrder.GetOrder.ViewModel.DisplayedOrder(id: order.id!, date: date, email: order.email!, name: "\(order.firstName!) \(order.lastName!)", total: total!)
     
     let viewModel = ShowOrder.GetOrder.ViewModel(displayedOrder: displayedOrder)

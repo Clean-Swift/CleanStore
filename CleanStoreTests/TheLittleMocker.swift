@@ -11,12 +11,12 @@ import XCTest
 
 protocol Authorizer
 {
-  func authorize(username: String, password: String) -> Bool?
+  func authorize(_ username: String, password: String) -> Bool?
 }
 
 class DummyAuthorizer: Authorizer
 {
-  func authorize(username: String, password: String) -> Bool?
+  func authorize(_ username: String, password: String) -> Bool?
   {
     return nil
   }
@@ -24,7 +24,7 @@ class DummyAuthorizer: Authorizer
 
 class AcceptingAuthorizerStub: Authorizer
 {
-  func authorize(username: String, password: String) -> Bool?
+  func authorize(_ username: String, password: String) -> Bool?
   {
     return true
   }
@@ -34,7 +34,7 @@ class AcceptingAuthorizerSpy: Authorizer
 {
   var authorizeWasCalled = false
   
-  func authorize(username: String, password: String) -> Bool?
+  func authorize(_ username: String, password: String) -> Bool?
   {
     authorizeWasCalled = true
     return true
@@ -45,7 +45,7 @@ class AcceptingAuthorizerVerificationMock: Authorizer
 {
   var authorizeWasCalled = false
   
-  func authorize(username: String, password: String) -> Bool?
+  func authorize(_ username: String, password: String) -> Bool?
   {
     authorizeWasCalled = true
     return true
@@ -59,7 +59,7 @@ class AcceptingAuthorizerVerificationMock: Authorizer
 
 class AcceptingAuthorizerFake: Authorizer
 {
-  func authorize(username: String, password: String) -> Bool?
+  func authorize(_ username: String, password: String) -> Bool?
   {
     return username == "Bob"
   }

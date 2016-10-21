@@ -13,12 +13,12 @@ import UIKit
 
 protocol ShowOrderViewControllerInput
 {
-  func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
+  func displayOrder(_ viewModel: ShowOrder.GetOrder.ViewModel)
 }
 
 protocol ShowOrderViewControllerOutput
 {
-  func getOrder(request: ShowOrder.GetOrder.Request)
+  func getOrder(_ request: ShowOrder.GetOrder.Request)
   var order: Order! { get set }
 }
 
@@ -38,7 +38,7 @@ class ShowOrderViewController: UIViewController, ShowOrderViewControllerInput
   override func awakeFromNib()
   {
     super.awakeFromNib()
-    ShowOrderConfigurator.sharedInstance.configure(self)
+    ShowOrderConfigurator.shared.configure(self)
   }
   
   // MARK: View lifecycle
@@ -61,7 +61,7 @@ class ShowOrderViewController: UIViewController, ShowOrderViewControllerInput
   
   // MARK: Display logic
   
-  func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
+  func displayOrder(_ viewModel: ShowOrder.GetOrder.ViewModel)
   {
     let displayedOrder = viewModel.displayedOrder
     orderIDLabel.text = displayedOrder.id

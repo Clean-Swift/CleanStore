@@ -17,11 +17,11 @@ struct CreateOrder
   {
     struct Request
     {
-      var date: NSDate
+      var date: Date
     }
     struct Response
     {
-      var date: NSDate
+      var date: Date
     }
     struct ViewModel
     {
