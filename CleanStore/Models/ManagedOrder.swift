@@ -36,7 +36,7 @@ class ManagedOrder: NSManagedObject
     shipmentAddressState = order.shipmentAddress.state
     shipmentAddressZIP = order.shipmentAddress.zip
     
-    shipmentMethodSpeed = order.shipmentMethod.speed.rawValue
+    shipmentMethodSpeed = NSNumber(integerLiteral: order.shipmentMethod.speed.rawValue)
     
     id = order.id
     date = order.date

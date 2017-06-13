@@ -18,7 +18,7 @@ struct Order: Equatable
   
   // MARK: Misc
   var id: String?
-  var date: NSDate
+  var date: Date
   var total: NSDecimalNumber
 }
 
@@ -33,7 +33,7 @@ func ==(lhs: Order, rhs: Order) -> Bool
     && lhs.shipmentAddress == rhs.shipmentAddress
     && lhs.shipmentMethod == rhs.shipmentMethod
     && lhs.id == rhs.id
-    && lhs.date.timeIntervalSinceDate(rhs.date) < 1.0
+    && lhs.date.timeIntervalSince(rhs.date) < 1.0
     && lhs.total == rhs.total
 }
 
@@ -87,13 +87,13 @@ func ==(lhs: ShipmentMethod, rhs: ShipmentMethod) -> Bool
 struct PaymentMethod
 {
   var creditCardNumber: String
-  var expirationDate: NSDate
+  var expirationDate: Date
   var cvv: String
 }
 
 func ==(lhs: PaymentMethod, rhs: PaymentMethod) -> Bool
 {
   return lhs.creditCardNumber == rhs.creditCardNumber
-    && lhs.expirationDate.timeIntervalSinceDate(rhs.expirationDate) < 1.0
+    && lhs.expirationDate.timeIntervalSince(rhs.expirationDate) < 1.0
     && lhs.cvv == rhs.cvv
 }

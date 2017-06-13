@@ -15,7 +15,6 @@
 		71354B3C1C75462300813F04 /* ShowOrderInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71354B381C75462300813F04 /* ShowOrderInteractorTests.swift */; };
 		71354B3D1C75462300813F04 /* ShowOrderPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71354B391C75462300813F04 /* ShowOrderPresenterTests.swift */; };
 		71354B3E1C75462300813F04 /* ShowOrderViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71354B3A1C75462300813F04 /* ShowOrderViewControllerTests.swift */; };
-		713919941C7539C90081E47B /* ShowOrderConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139198D1C7539C90081E47B /* ShowOrderConfigurator.swift */; };
 		713919951C7539C90081E47B /* ShowOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139198E1C7539C90081E47B /* ShowOrderInteractor.swift */; };
 		713919961C7539C90081E47B /* ShowOrderModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7139198F1C7539C90081E47B /* ShowOrderModels.swift */; };
 		713919971C7539C90081E47B /* ShowOrderPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 713919901C7539C90081E47B /* ShowOrderPresenter.swift */; };
@@ -31,14 +30,12 @@
 		716B291E1BEEC861005986B1 /* CleanStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 716B291C1BEEC861005986B1 /* CleanStore.xcdatamodeld */; };
 		716B29391BEECAC9005986B1 /* ManagedOrder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716B29371BEECAC9005986B1 /* ManagedOrder+CoreDataProperties.swift */; };
 		716B293B1BEECAC9005986B1 /* ManagedOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716B29381BEECAC9005986B1 /* ManagedOrder.swift */; };
-		718697401B8D8B94004E4CD9 /* CreateOrderConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718697391B8D8B94004E4CD9 /* CreateOrderConfigurator.swift */; };
 		718697421B8D8B94004E4CD9 /* CreateOrderInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973A1B8D8B94004E4CD9 /* CreateOrderInteractor.swift */; };
 		718697441B8D8B94004E4CD9 /* CreateOrderModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973B1B8D8B94004E4CD9 /* CreateOrderModels.swift */; };
 		718697461B8D8B94004E4CD9 /* CreateOrderPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973C1B8D8B94004E4CD9 /* CreateOrderPresenter.swift */; };
 		718697481B8D8B94004E4CD9 /* CreateOrderRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973D1B8D8B94004E4CD9 /* CreateOrderRouter.swift */; };
 		7186974A1B8D8B94004E4CD9 /* CreateOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973E1B8D8B94004E4CD9 /* CreateOrderViewController.swift */; };
 		7186974C1B8D8B94004E4CD9 /* CreateOrderWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7186973F1B8D8B94004E4CD9 /* CreateOrderWorker.swift */; };
-		71B2CCE61BE547CA00C734CA /* ListOrdersConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CCDF1BE547CA00C734CA /* ListOrdersConfigurator.swift */; };
 		71B2CCE81BE547CA00C734CA /* ListOrdersInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CCE01BE547CA00C734CA /* ListOrdersInteractor.swift */; };
 		71B2CCEA1BE547CA00C734CA /* ListOrdersModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CCE11BE547CA00C734CA /* ListOrdersModels.swift */; };
 		71B2CCEC1BE547CA00C734CA /* ListOrdersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CCE21BE547CA00C734CA /* ListOrdersPresenter.swift */; };
@@ -78,10 +75,10 @@
 		710475471B882CA000D72E3C /* CleanStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CleanStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7104754C1B882CA000D72E3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7104754D1B882CA000D72E3C /* CleanStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanStoreTests.swift; sourceTree = "<group>"; };
+		710C9A0B1EA3321100E9187D /* CleanStore-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CleanStore-Bridging-Header.h"; sourceTree = "<group>"; };
 		71354B381C75462300813F04 /* ShowOrderInteractorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderInteractorTests.swift; path = ShowOrder/ShowOrderInteractorTests.swift; sourceTree = "<group>"; };
 		71354B391C75462300813F04 /* ShowOrderPresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderPresenterTests.swift; path = ShowOrder/ShowOrderPresenterTests.swift; sourceTree = "<group>"; };
 		71354B3A1C75462300813F04 /* ShowOrderViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderViewControllerTests.swift; path = ShowOrder/ShowOrderViewControllerTests.swift; sourceTree = "<group>"; };
-		7139198D1C7539C90081E47B /* ShowOrderConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderConfigurator.swift; path = ShowOrder/ShowOrderConfigurator.swift; sourceTree = "<group>"; };
 		7139198E1C7539C90081E47B /* ShowOrderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderInteractor.swift; path = ShowOrder/ShowOrderInteractor.swift; sourceTree = "<group>"; };
 		7139198F1C7539C90081E47B /* ShowOrderModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderModels.swift; path = ShowOrder/ShowOrderModels.swift; sourceTree = "<group>"; };
 		713919901C7539C90081E47B /* ShowOrderPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowOrderPresenter.swift; path = ShowOrder/ShowOrderPresenter.swift; sourceTree = "<group>"; };
@@ -97,14 +94,12 @@
 		716B291D1BEEC861005986B1 /* CleanStore.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CleanStore.xcdatamodel; sourceTree = "<group>"; };
 		716B29371BEECAC9005986B1 /* ManagedOrder+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ManagedOrder+CoreDataProperties.swift"; path = "Models/ManagedOrder+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		716B29381BEECAC9005986B1 /* ManagedOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManagedOrder.swift; path = Models/ManagedOrder.swift; sourceTree = "<group>"; };
-		718697391B8D8B94004E4CD9 /* CreateOrderConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderConfigurator.swift; sourceTree = "<group>"; };
 		7186973A1B8D8B94004E4CD9 /* CreateOrderInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderInteractor.swift; sourceTree = "<group>"; };
 		7186973B1B8D8B94004E4CD9 /* CreateOrderModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderModels.swift; sourceTree = "<group>"; };
 		7186973C1B8D8B94004E4CD9 /* CreateOrderPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderPresenter.swift; sourceTree = "<group>"; };
 		7186973D1B8D8B94004E4CD9 /* CreateOrderRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderRouter.swift; sourceTree = "<group>"; };
 		7186973E1B8D8B94004E4CD9 /* CreateOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderViewController.swift; sourceTree = "<group>"; };
 		7186973F1B8D8B94004E4CD9 /* CreateOrderWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateOrderWorker.swift; sourceTree = "<group>"; };
-		71B2CCDF1BE547CA00C734CA /* ListOrdersConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListOrdersConfigurator.swift; path = ListOrders/ListOrdersConfigurator.swift; sourceTree = "<group>"; };
 		71B2CCE01BE547CA00C734CA /* ListOrdersInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListOrdersInteractor.swift; path = ListOrders/ListOrdersInteractor.swift; sourceTree = "<group>"; };
 		71B2CCE11BE547CA00C734CA /* ListOrdersModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListOrdersModels.swift; path = ListOrders/ListOrdersModels.swift; sourceTree = "<group>"; };
 		71B2CCE21BE547CA00C734CA /* ListOrdersPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListOrdersPresenter.swift; path = ListOrders/ListOrdersPresenter.swift; sourceTree = "<group>"; };
@@ -148,6 +143,7 @@
 				710475341B882CA000D72E3C /* CleanStore */,
 				7104754A1B882CA000D72E3C /* CleanStoreTests */,
 				710475331B882CA000D72E3C /* Products */,
+				710C9A0B1EA3321100E9187D /* CleanStore-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -210,7 +206,6 @@
 		7139198C1C7539A10081E47B /* ShowOrder */ = {
 			isa = PBXGroup;
 			children = (
-				7139198D1C7539C90081E47B /* ShowOrderConfigurator.swift */,
 				7139198E1C7539C90081E47B /* ShowOrderInteractor.swift */,
 				7139198F1C7539C90081E47B /* ShowOrderModels.swift */,
 				713919901C7539C90081E47B /* ShowOrderPresenter.swift */,
@@ -274,7 +269,6 @@
 		718697381B8D8B94004E4CD9 /* CreateOrder */ = {
 			isa = PBXGroup;
 			children = (
-				718697391B8D8B94004E4CD9 /* CreateOrderConfigurator.swift */,
 				7186973A1B8D8B94004E4CD9 /* CreateOrderInteractor.swift */,
 				7186973B1B8D8B94004E4CD9 /* CreateOrderModels.swift */,
 				7186973C1B8D8B94004E4CD9 /* CreateOrderPresenter.swift */,
@@ -288,7 +282,6 @@
 		71B2CCDC1BE5463E00C734CA /* ListOrders */ = {
 			isa = PBXGroup;
 			children = (
-				71B2CCDF1BE547CA00C734CA /* ListOrdersConfigurator.swift */,
 				71B2CCE01BE547CA00C734CA /* ListOrdersInteractor.swift */,
 				71B2CCE11BE547CA00C734CA /* ListOrdersModels.swift */,
 				71B2CCE21BE547CA00C734CA /* ListOrdersPresenter.swift */,
@@ -391,14 +384,17 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Raymond Law";
 				TargetAttributes = {
 					710475311B882CA000D72E3C = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 5LBZDN8XB8;
+						LastSwiftMigration = 0830;
 					};
 					710475461B882CA000D72E3C = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0800;
 						TestTargetID = 710475311B882CA000D72E3C;
 					};
 				};
@@ -456,8 +452,6 @@
 				713919991C7539C90081E47B /* ShowOrderViewController.swift in Sources */,
 				713919981C7539C90081E47B /* ShowOrderRouter.swift in Sources */,
 				71B2CCEC1BE547CA00C734CA /* ListOrdersPresenter.swift in Sources */,
-				71B2CCE61BE547CA00C734CA /* ListOrdersConfigurator.swift in Sources */,
-				713919941C7539C90081E47B /* ShowOrderConfigurator.swift in Sources */,
 				71B2CCF21BE547CA00C734CA /* ListOrdersWorker.swift in Sources */,
 				716B291E1BEEC861005986B1 /* CleanStore.xcdatamodeld in Sources */,
 				71B2CD081BE5FB6E00C734CA /* Order.swift in Sources */,
@@ -465,7 +459,6 @@
 				716B293B1BEECAC9005986B1 /* ManagedOrder.swift in Sources */,
 				7186974A1B8D8B94004E4CD9 /* CreateOrderViewController.swift in Sources */,
 				71B2CD141BE6A04900C734CA /* OrdersCoreDataStore.swift in Sources */,
-				718697401B8D8B94004E4CD9 /* CreateOrderConfigurator.swift in Sources */,
 				7186974C1B8D8B94004E4CD9 /* CreateOrderWorker.swift in Sources */,
 				718697441B8D8B94004E4CD9 /* CreateOrderModels.swift in Sources */,
 				713919971C7539C90081E47B /* ShowOrderPresenter.swift in Sources */,
@@ -546,8 +539,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -570,7 +565,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -591,8 +586,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -608,9 +605,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -619,10 +617,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = 5LBZDN8XB8;
 				INFOPLIST_FILE = CleanStore/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CleanStore-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -630,10 +633,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = 5LBZDN8XB8;
 				INFOPLIST_FILE = CleanStore/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CleanStore-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -650,6 +657,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CleanStore.app/CleanStore";
 			};
 			name = Debug;
@@ -663,6 +671,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CleanStore.app/CleanStore";
 			};
 			name = Release;

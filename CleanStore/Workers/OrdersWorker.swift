@@ -11,49 +11,49 @@ class OrdersWorker
     self.ordersStore = ordersStore
   }
   
-  func fetchOrders(completionHandler: (orders: [Order]) -> Void)
+  func fetchOrders(completionHandler: @escaping ([Order]) -> Void)
   {
     ordersStore.fetchOrders { (orders: () throws -> [Order]) -> Void in
       do {
         let orders = try orders()
-        dispatch_async(dispatch_get_main_queue()) {
-          completionHandler(orders: orders)
+        DispatchQueue.main.async {
+          completionHandler(orders)
         }
       } catch {
-        dispatch_async(dispatch_get_main_queue()) {
-          completionHandler(orders: [])
+        DispatchQueue.main.async {
+          completionHandler([])
         }
       }
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (order: Order?) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: @escaping (Order?) -> Void)
   {
-    ordersStore.createOrder(orderToCreate) { (order: () throws -> Order?) -> Void in
+    ordersStore.createOrder(orderToCreate: orderToCreate) { (order: () throws -> Order?) -> Void in
       do {
         let order = try order()
-        dispatch_async(dispatch_get_main_queue()) {
-          completionHandler(order: order)
+        DispatchQueue.main.async {
+          completionHandler(order)
         }
       } catch {
-        dispatch_async(dispatch_get_main_queue()) {
-          completionHandler(order: nil)
+        DispatchQueue.main.async {
+          completionHandler(nil)
         }
       }
     }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (order: Order?) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: @escaping (Order?) -> Void)
   {
-    ordersStore.updateOrder(orderToUpdate) { (order: () throws -> Order?) in
+    ordersStore.updateOrder(orderToUpdate: orderToUpdate) { (order: () throws -> Order?) in
       do {
         let order = try order()
-        dispatch_async(dispatch_get_main_queue()) {
-          completionHandler(order: order)
+        DispatchQueue.main.async {
+          completionHandler(order)
         }
       } catch {
-        dispatch_async(dispatch_get_main_queue()) {
-          completionHandler(order: nil)
+        DispatchQueue.main.async {
+          completionHandler(nil)
         }
       }
     }
@@ -66,53 +66,53 @@ protocol OrdersStoreProtocol
 {
   // MARK: CRUD operations - Optional error
   
-  func fetchOrders(completionHandler: (fetchedOrders: [Order], error: OrdersStoreError?) -> Void)
-  func fetchOrder(id: String, completionHandler: (fetchedOrder: Order?, error: OrdersStoreError?) -> Void)
-  func createOrder(orderToCreate: Order, completionHandler: (createdOrder: Order?, error: OrdersStoreError?) -> Void)
-  func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: Order?, error: OrdersStoreError?) -> Void)
-  func deleteOrder(id: String, completionHandler: (deletedOrder: Order?, error: OrdersStoreError?) -> Void)
+  func fetchOrders(completionHandler: @escaping ([Order], OrdersStoreError?) -> Void)
+  func fetchOrder(id: String, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
+  func deleteOrder(id: String, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
   
   // MARK: CRUD operations - Generic enum result type
   
-  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler)
-  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler)
-  func createOrder(orderToCreate: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler)
-  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler)
-  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler)
+  func fetchOrders(completionHandler: @escaping OrdersStoreFetchOrdersCompletionHandler)
+  func fetchOrder(id: String, completionHandler: @escaping OrdersStoreFetchOrderCompletionHandler)
+  func createOrder(orderToCreate: Order, completionHandler: @escaping OrdersStoreCreateOrderCompletionHandler)
+  func updateOrder(orderToUpdate: Order, completionHandler: @escaping OrdersStoreUpdateOrderCompletionHandler)
+  func deleteOrder(id: String, completionHandler: @escaping OrdersStoreDeleteOrderCompletionHandler)
   
   // MARK: CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (fetchedOrders: () throws -> [Order]) -> Void)
-  func fetchOrder(id: String, completionHandler: (fetchedOrder: () throws -> Order?) -> Void)
-  func createOrder(orderToCreate: Order, completionHandler: (createdOrder: () throws -> Order?) -> Void)
-  func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: () throws -> Order?) -> Void)
-  func deleteOrder(id: String, completionHandler: (deletedOrder: () throws -> Order?) -> Void)
+  func fetchOrders(completionHandler: @escaping (() throws -> [Order]) -> Void)
+  func fetchOrder(id: String, completionHandler: @escaping (() throws -> Order?) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: @escaping (() throws -> Order?) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: @escaping (() throws -> Order?) -> Void)
+  func deleteOrder(id: String, completionHandler: @escaping (() throws -> Order?) -> Void)
 }
 
 protocol OrdersStoreUtilityProtocol {}
 
 extension OrdersStoreUtilityProtocol
 {
-  func generateOrderID(inout order: Order)
+  func generateOrderID(order: inout Order)
   {
     guard order.id == nil else { return }
-    order.id = "\(rand())"
+    order.id = "\(arc4random())"
   }
   
-  func calculateOrderTotal(inout order: Order)
+  func calculateOrderTotal(order: inout Order)
   {
-    guard order.total == NSDecimalNumber.notANumber() else { return }
-    order.total = NSDecimalNumber.one()
+    guard order.total == NSDecimalNumber.notANumber else { return }
+    order.total = NSDecimalNumber.one
   }
 }
 
 // MARK: - Orders store CRUD operation results
 
-typealias OrdersStoreFetchOrdersCompletionHandler = (result: OrdersStoreResult<[Order]>) -> Void
-typealias OrdersStoreFetchOrderCompletionHandler = (result: OrdersStoreResult<Order>) -> Void
-typealias OrdersStoreCreateOrderCompletionHandler = (result: OrdersStoreResult<Order>) -> Void
-typealias OrdersStoreUpdateOrderCompletionHandler = (result: OrdersStoreResult<Order>) -> Void
-typealias OrdersStoreDeleteOrderCompletionHandler = (result: OrdersStoreResult<Order>) -> Void
+typealias OrdersStoreFetchOrdersCompletionHandler = (OrdersStoreResult<[Order]>) -> Void
+typealias OrdersStoreFetchOrderCompletionHandler = (OrdersStoreResult<Order>) -> Void
+typealias OrdersStoreCreateOrderCompletionHandler = (OrdersStoreResult<Order>) -> Void
+typealias OrdersStoreUpdateOrderCompletionHandler = (OrdersStoreResult<Order>) -> Void
+typealias OrdersStoreDeleteOrderCompletionHandler = (OrdersStoreResult<Order>) -> Void
 
 enum OrdersStoreResult<U>
 {
@@ -122,7 +122,7 @@ enum OrdersStoreResult<U>
 
 // MARK: - Orders store CRUD operation errors
 
-enum OrdersStoreError: Equatable, ErrorType
+enum OrdersStoreError: Equatable, Error
 {
   case CannotFetch(String)
   case CannotCreate(String)

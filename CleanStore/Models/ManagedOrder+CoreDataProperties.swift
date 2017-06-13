@@ -14,7 +14,7 @@ import CoreData
 
 extension ManagedOrder {
 
-    @NSManaged var date: NSDate?
+    @NSManaged var date: Date?
     @NSManaged var email: String?
     @NSManaged var firstName: String?
     @NSManaged var id: String?
@@ -31,7 +31,7 @@ extension ManagedOrder {
     @NSManaged var shipmentAddressState: String?
     @NSManaged var shipmentAddressCity: String?
     @NSManaged var shipmentAddressZIP: String?
-    @NSManaged var paymentMethodExpirationDate: NSDate?
+    @NSManaged var paymentMethodExpirationDate: Date?
     @NSManaged var paymentMethodCVV: String?
     @NSManaged var paymentMethodCreditCardNumber: String?
     @NSManaged var shipmentMethodSpeed: NSNumber?

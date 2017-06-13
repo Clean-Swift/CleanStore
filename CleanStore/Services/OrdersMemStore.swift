@@ -6,150 +6,150 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   static var billingAddress = Address(street1: "1 Infinite Loop", street2: "", city: "Cupertino", state: "CA", zip: "95014")
   static var shipmentAddress = Address(street1: "One Microsoft Way", street2: "", city: "Redmond", state: "WA", zip: "98052-7329")
-  static var paymentMethod = PaymentMethod(creditCardNumber: "1234-123456-1234", expirationDate: NSDate(), cvv: "999")
+  static var paymentMethod = PaymentMethod(creditCardNumber: "1234-123456-1234", expirationDate: Date(), cvv: "999")
   static var shipmentMethod = ShipmentMethod(speed: .OneDay)
   
   static var orders = [
-    Order(firstName: "Amy", lastName: "Apple", phone: "111-111-1111", email: "amy.apple@clean-swift.com", billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: "abc123", date: NSDate(), total: NSDecimalNumber(string: "1.23")),
-    Order(firstName: "Bob", lastName: "Battery", phone: "222-222-2222", email: "bob.battery@clean-swift.com", billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: "def456", date: NSDate(), total: NSDecimalNumber(string: "4.56"))
+    Order(firstName: "Amy", lastName: "Apple", phone: "111-111-1111", email: "amy.apple@clean-swift.com", billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: "abc123", date: Date(), total: NSDecimalNumber(string: "1.23")),
+    Order(firstName: "Bob", lastName: "Battery", phone: "222-222-2222", email: "bob.battery@clean-swift.com", billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: "def456", date: Date(), total: NSDecimalNumber(string: "4.56"))
   ]
   
   // MARK: - CRUD operations - Optional error
   
-  func fetchOrders(completionHandler: (fetchedOrders: [Order], error: OrdersStoreError?) -> Void)
+  func fetchOrders(completionHandler: @escaping ([Order], OrdersStoreError?) -> Void)
   {
-    completionHandler(fetchedOrders: self.dynamicType.orders, error: nil)
+    completionHandler(type(of: self).orders, nil)
   }
   
-  func fetchOrder(id: String, completionHandler: (fetchedOrder: Order?, error: OrdersStoreError?) -> Void)
+  func fetchOrder(id: String, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
   {
-    if let index = indexOfOrderWithID(id) {
-      let order = self.dynamicType.orders[index]
-      completionHandler(fetchedOrder: order, error: nil)
+    if let index = indexOfOrderWithID(id: id) {
+      let order = type(of: self).orders[index]
+      completionHandler(order, nil)
     } else {
-      completionHandler(fetchedOrder: nil, error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
+      completionHandler(nil, OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)"))
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (createdOrder: Order?, error: OrdersStoreError?) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
   {
     var order = orderToCreate
-    generateOrderID(&order)
-    calculateOrderTotal(&order)
-    self.dynamicType.orders.append(order)
-    completionHandler(createdOrder: order, error: nil)
+    generateOrderID(order: &order)
+    calculateOrderTotal(order: &order)
+    type(of: self).orders.append(order)
+    completionHandler(order, nil)
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: Order?, error: OrdersStoreError?) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
   {
-    if let index = indexOfOrderWithID(orderToUpdate.id) {
-      self.dynamicType.orders[index] = orderToUpdate
-      let order = self.dynamicType.orders[index]
-      completionHandler(updatedOrder: order, error: nil)
+    if let index = indexOfOrderWithID(id: orderToUpdate.id) {
+      type(of: self).orders[index] = orderToUpdate
+      let order = type(of: self).orders[index]
+      completionHandler(order, nil)
     } else {
-      completionHandler(updatedOrder: nil, error: OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update"))
+      completionHandler(nil, OrdersStoreError.CannotUpdate("Cannot fetch order with id \(String(describing: orderToUpdate.id)) to update"))
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (deletedOrder: Order?, error: OrdersStoreError?) -> Void)
+  func deleteOrder(id: String, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
   {
-    if let index = indexOfOrderWithID(id) {
-      let order = self.dynamicType.orders.removeAtIndex(index)
-      completionHandler(deletedOrder: order, error: nil)
+    if let index = indexOfOrderWithID(id: id) {
+      let order = type(of: self).orders.remove(at: index)
+      completionHandler(order, nil)
       return
     }
-    completionHandler(deletedOrder: nil, error: OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete"))
+    completionHandler(nil, OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete"))
   }
   
   // MARK: - CRUD operations - Generic enum result type
   
-  func fetchOrders(completionHandler: OrdersStoreFetchOrdersCompletionHandler)
+  func fetchOrders(completionHandler: @escaping OrdersStoreFetchOrdersCompletionHandler)
   {
-    completionHandler(result: OrdersStoreResult.Success(result: self.dynamicType.orders))
+    completionHandler(OrdersStoreResult.Success(result: type(of: self).orders))
   }
   
-  func fetchOrder(id: String, completionHandler: OrdersStoreFetchOrderCompletionHandler)
+  func fetchOrder(id: String, completionHandler: @escaping OrdersStoreFetchOrderCompletionHandler)
   {
-    let order = self.dynamicType.orders.filter { (order: Order) -> Bool in
+    let order = type(of: self).orders.filter { (order: Order) -> Bool in
       return order.id == id
       }.first
     if let order = order {
-      completionHandler(result: OrdersStoreResult.Success(result: order))
+      completionHandler(OrdersStoreResult.Success(result: order))
     } else {
-      completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)")))
+      completionHandler(OrdersStoreResult.Failure(error: OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)")))
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: OrdersStoreCreateOrderCompletionHandler)
+  func createOrder(orderToCreate: Order, completionHandler: @escaping OrdersStoreCreateOrderCompletionHandler)
   {
     var order = orderToCreate
-    generateOrderID(&order)
-    calculateOrderTotal(&order)
-    self.dynamicType.orders.append(order)
-    completionHandler(result: OrdersStoreResult.Success(result: order))
+    generateOrderID(order: &order)
+    calculateOrderTotal(order: &order)
+    type(of: self).orders.append(order)
+    completionHandler(OrdersStoreResult.Success(result: order))
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: OrdersStoreUpdateOrderCompletionHandler)
+  func updateOrder(orderToUpdate: Order, completionHandler: @escaping OrdersStoreUpdateOrderCompletionHandler)
   {
-    if let index = indexOfOrderWithID(orderToUpdate.id) {
-      self.dynamicType.orders[index] = orderToUpdate
-      let order = self.dynamicType.orders[index]
-      completionHandler(result: OrdersStoreResult.Success(result: order))
+    if let index = indexOfOrderWithID(id: orderToUpdate.id) {
+      type(of: self).orders[index] = orderToUpdate
+      let order = type(of: self).orders[index]
+      completionHandler(OrdersStoreResult.Success(result: order))
     } else {
-      completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(orderToUpdate.id) to update")))
+      completionHandler(OrdersStoreResult.Failure(error: OrdersStoreError.CannotUpdate("Cannot update order with id \(String(describing: orderToUpdate.id)) to update")))
     }
   }
   
-  func deleteOrder(id: String, completionHandler: OrdersStoreDeleteOrderCompletionHandler)
+  func deleteOrder(id: String, completionHandler: @escaping OrdersStoreDeleteOrderCompletionHandler)
   {
-    if let index = indexOfOrderWithID(id) {
-      let order = self.dynamicType.orders.removeAtIndex(index)
-      completionHandler(result: OrdersStoreResult.Success(result: order))
+    if let index = indexOfOrderWithID(id: id) {
+      let order = type(of: self).orders.remove(at: index)
+      completionHandler(OrdersStoreResult.Success(result: order))
       return
     }
-    completionHandler(result: OrdersStoreResult.Failure(error: OrdersStoreError.CannotDelete("Cannot delete order with id \(id) to delete")))
+    completionHandler(OrdersStoreResult.Failure(error: OrdersStoreError.CannotDelete("Cannot delete order with id \(id) to delete")))
   }
   
   // MARK: - CRUD operations - Inner closure
   
-  func fetchOrders(completionHandler: (fetchedOrders: () throws -> [Order]) -> Void)
+  func fetchOrders(completionHandler: @escaping (() throws -> [Order]) -> Void)
   {
-    completionHandler { return self.dynamicType.orders }
+    completionHandler { return type(of: self).orders }
   }
   
-  func fetchOrder(id: String, completionHandler: (fetchedOrder: () throws -> Order?) -> Void)
+  func fetchOrder(id: String, completionHandler: @escaping (() throws -> Order?) -> Void)
   {
-    if let index = indexOfOrderWithID(id) {
-      completionHandler { return self.dynamicType.orders[index] }
+    if let index = indexOfOrderWithID(id: id) {
+      completionHandler { return type(of: self).orders[index] }
     } else {
       completionHandler { throw OrdersStoreError.CannotFetch("Cannot fetch order with id \(id)") }
     }
   }
   
-  func createOrder(orderToCreate: Order, completionHandler: (createdOrder: () throws -> Order?) -> Void)
+  func createOrder(orderToCreate: Order, completionHandler: @escaping (() throws -> Order?) -> Void)
   {
     var order = orderToCreate
-    generateOrderID(&order)
-    calculateOrderTotal(&order)
-    self.dynamicType.orders.append(order)
+    generateOrderID(order: &order)
+    calculateOrderTotal(order: &order)
+    type(of: self).orders.append(order)
     completionHandler { return order }
   }
   
-  func updateOrder(orderToUpdate: Order, completionHandler: (updatedOrder: () throws -> Order?) -> Void)
+  func updateOrder(orderToUpdate: Order, completionHandler: @escaping (() throws -> Order?) -> Void)
   {
-    if let index = indexOfOrderWithID(orderToUpdate.id) {
-      self.dynamicType.orders[index] = orderToUpdate
-      let order = self.dynamicType.orders[index]
+    if let index = indexOfOrderWithID(id: orderToUpdate.id) {
+      type(of: self).orders[index] = orderToUpdate
+      let order = type(of: self).orders[index]
       completionHandler { return order }
     } else {
-      completionHandler { throw OrdersStoreError.CannotUpdate("Cannot fetch order with id \(orderToUpdate.id) to update") }
+      completionHandler { throw OrdersStoreError.CannotUpdate("Cannot fetch order with id \(String(describing: orderToUpdate.id)) to update") }
     }
   }
   
-  func deleteOrder(id: String, completionHandler: (deletedOrder: () throws -> Order?) -> Void)
+  func deleteOrder(id: String, completionHandler: @escaping (() throws -> Order?) -> Void)
   {
-    if let index = indexOfOrderWithID(id) {
-      let order = self.dynamicType.orders.removeAtIndex(index)
+    if let index = indexOfOrderWithID(id: id) {
+      let order = type(of: self).orders.remove(at: index)
       completionHandler { return order }
     } else {
       completionHandler { throw OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete") }
@@ -160,6 +160,6 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   private func indexOfOrderWithID(id: String?) -> Int?
   {
-    return self.dynamicType.orders.indexOf { return $0.id == id }
+    return type(of: self).orders.index { return $0.id == id }
   }
 }

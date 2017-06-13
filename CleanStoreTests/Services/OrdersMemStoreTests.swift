@@ -48,14 +48,13 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var fetchedOrders = [Order]()
     var fetchOrdersError: OrdersStoreError?
-    let expectation = expectationWithDescription("Wait for fetchOrders() to return")
+    let expect = expectation(description: "Wait for fetchOrders() to return")
     sut.fetchOrders { (orders: [Order], error: OrdersStoreError?) -> Void in
       fetchedOrders = orders
       fetchOrdersError = error
-      expectation.fulfill()
+      expect.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(fetchedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
@@ -73,14 +72,13 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var fetchedOrder: Order?
     var fetchOrderError: OrdersStoreError?
-    let expectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToFetch.id!) { (order: Order?, error: OrdersStoreError?) -> Void in
+    let expect = expectation(description: "Wait for fetchOrder() to return")
+    sut.fetchOrder(id: orderToFetch.id!) { (order: Order?, error: OrdersStoreError?) -> Void in
       fetchedOrder = order
       fetchOrderError = error
-      expectation.fulfill()
+      expect.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(fetchedOrder, orderToFetch, "fetchOrder() should return an order")
@@ -95,14 +93,13 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var createdOrder: Order?
     var creatOrderError: OrdersStoreError?
-    let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
-    sut.createOrder(orderToCreate) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
+    let createOrderExpectation = expectation(description: "Wait for createOrder() to return")
+    sut.createOrder(orderToCreate: orderToCreate) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
       createdOrder = returnedOrder
       creatOrderError = error
       createOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
@@ -113,20 +110,19 @@ class OrdersMemStoreTests: XCTestCase
   {
     // Given
     var orderToUpdate = testOrders.first!
-    let tomorrow = NSDate(timeIntervalSinceNow: 24*60*60)
+    let tomorrow = Date(timeIntervalSinceNow: 24*60*60)
     orderToUpdate.date = tomorrow
     
     // When
     var updatedOrder: Order?
     var updatOrderError: OrdersStoreError?
-    let updateOrderExpectation = expectationWithDescription("Wait for updateOrder() to return")
-    sut.updateOrder(orderToUpdate) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
+    let updateOrderExpectation = expectation(description: "Wait for updateOrder() to return")
+    sut.updateOrder(orderToUpdate: orderToUpdate) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
       updatedOrder = returnedOrder
       updatOrderError = error
       updateOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
@@ -141,14 +137,13 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var deletedOrder: Order?
     var deletOrderError: OrdersStoreError?
-    let deleteOrderExpectation = expectationWithDescription("Wait for deleteOrder() to return")
-    sut.deleteOrder(orderToDelete.id!) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
+    let deleteOrderExpectation = expectation(description: "Wait for deleteOrder() to return")
+    sut.deleteOrder(id: orderToDelete.id!) { (returnedOrder: Order?, error: OrdersStoreError?) -> Void in
       deletedOrder = returnedOrder
       deletOrderError = error
       deleteOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(deletedOrder, orderToDelete, "deleteOrder() should delete an existing order")
@@ -164,7 +159,7 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var fetchedOrders = [Order]()
     var fetchOrdersError: OrdersStoreError?
-    let expectation = expectationWithDescription("Wait for fetchOrders() to return")
+    let expect = expectation(description: "Wait for fetchOrders() to return")
     sut.fetchOrders { (result: OrdersStoreResult<[Order]>) -> Void in
       switch (result) {
       case .Success(let orders):
@@ -173,10 +168,9 @@ class OrdersMemStoreTests: XCTestCase
         fetchOrdersError = error
         XCTFail("fetchOrders() should not return an error: \(error)")
       }
-      expectation.fulfill()
+      expect.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(fetchedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
@@ -194,8 +188,8 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var fetchedOrder: Order?
     var fetchOrderError: OrdersStoreError?
-    let expectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToFetch.id!) { (result: OrdersStoreResult<Order>) -> Void in
+    let expect = expectation(description: "Wait for fetchOrder() to return")
+    sut.fetchOrder(id: orderToFetch.id!) { (result: OrdersStoreResult<Order>) -> Void in
       switch (result) {
       case .Success(let order):
         fetchedOrder = order
@@ -203,10 +197,9 @@ class OrdersMemStoreTests: XCTestCase
         fetchOrderError = error
         XCTFail("fetchOrder() should not return an error: \(error)")
       }
-      expectation.fulfill()
+      expect.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(fetchedOrder, orderToFetch, "fetchOrder() should return an order")
@@ -221,8 +214,8 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var createdOrder: Order?
     var creatOrderError: OrdersStoreError?
-    let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
-    sut.createOrder(orderToCreate) { (result: OrdersStoreResult<Order>) -> Void in
+    let createOrderExpectation = expectation(description: "Wait for createOrder() to return")
+    sut.createOrder(orderToCreate: orderToCreate) { (result: OrdersStoreResult<Order>) -> Void in
       switch (result) {
       case .Success(let returnedOrder):
         createdOrder = returnedOrder
@@ -232,8 +225,7 @@ class OrdersMemStoreTests: XCTestCase
       }
       createOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
@@ -244,14 +236,14 @@ class OrdersMemStoreTests: XCTestCase
   {
     // Given
     var orderToUpdate = testOrders.first!
-    let tomorrow = NSDate(timeIntervalSinceNow: 24*60*60)
+    let tomorrow = Date(timeIntervalSinceNow: 24*60*60)
     orderToUpdate.date = tomorrow
     
     // When
     var updatedOrder: Order?
     var updatOrderError: OrdersStoreError?
-    let updateOrderExpectation = expectationWithDescription("Wait for updateOrder() to return")
-    sut.updateOrder(orderToUpdate) { (result: OrdersStoreResult<Order>) -> Void in
+    let updateOrderExpectation = expectation(description: "Wait for updateOrder() to return")
+    sut.updateOrder(orderToUpdate: orderToUpdate) { (result: OrdersStoreResult<Order>) -> Void in
       switch (result) {
       case .Success(let returnedOrder):
         updatedOrder = returnedOrder
@@ -261,8 +253,7 @@ class OrdersMemStoreTests: XCTestCase
       }
       updateOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
@@ -277,8 +268,8 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var deletedOrder: Order?
     var deleteOrderError: OrdersStoreError?
-    let deleteOrderExpectation = expectationWithDescription("Wait for deleteOrder() to return")
-    sut.deleteOrder(orderToDelete.id!) { (result: OrdersStoreResult<Order>) -> Void in
+    let deleteOrderExpectation = expectation(description: "Wait for deleteOrder() to return")
+    sut.deleteOrder(id: orderToDelete.id!) { (result: OrdersStoreResult<Order>) -> Void in
       switch (result) {
       case .Success(let returnedOrder):
         deletedOrder = returnedOrder
@@ -288,8 +279,7 @@ class OrdersMemStoreTests: XCTestCase
       }
       deleteOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(deletedOrder, orderToDelete, "deleteOrder() should delete an existing order")
@@ -305,17 +295,16 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var fetchedOrders = [Order]()
     var fetchOrdersError: OrdersStoreError?
-    let expectation = expectationWithDescription("Wait for fetchOrders() to return")
+    let expect = expectation(description: "Wait for fetchOrders() to return")
     sut.fetchOrders { (orders: () throws -> [Order]) -> Void in
       do {
         fetchedOrders = try orders()
       } catch let error as OrdersStoreError {
         fetchOrdersError = error
       } catch {}
-      expectation.fulfill()
+      expect.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(fetchedOrders.count, testOrders.count, "fetchOrders() should return a list of orders")
@@ -333,17 +322,16 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var fetchedOrder: Order?
     var fetchOrderError: OrdersStoreError?
-    let expectation = expectationWithDescription("Wait for fetchOrder() to return")
-    sut.fetchOrder(orderToFetch.id!) { (order: () throws -> Order?) -> Void in
+    let expect = expectation(description: "Wait for fetchOrder() to return")
+    sut.fetchOrder(id: orderToFetch.id!) { (order: () throws -> Order?) -> Void in
       do {
         fetchedOrder = try order()
       } catch let error as OrdersStoreError {
         fetchOrderError = error
       } catch {}
-      expectation.fulfill()
+      expect.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(fetchedOrder, orderToFetch, "fetchOrder() should return an order")
@@ -358,9 +346,9 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var createdOrder: Order?
     var creatOrderError: OrdersStoreError?
-    let createOrderExpectation = expectationWithDescription("Wait for createOrder() to return")
-    sut.createOrder(orderToCreate) { (order: () throws -> Order?) -> Void in
-      try! order()
+    let createOrderExpectation = expectation(description: "Wait for createOrder() to return")
+    sut.createOrder(orderToCreate: orderToCreate) { (order: () throws -> Order?) -> Void in
+      _ = try! order()
       do {
         createdOrder = try order()
       } catch let error as OrdersStoreError {
@@ -368,8 +356,7 @@ class OrdersMemStoreTests: XCTestCase
       } catch {}
       createOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(createdOrder, orderToCreate, "createOrder() should create a new order")
@@ -380,14 +367,14 @@ class OrdersMemStoreTests: XCTestCase
   {
     // Given
     var orderToUpdate = testOrders.first!
-    let tomorrow = NSDate(timeIntervalSinceNow: 24*60*60)
+    let tomorrow = Date(timeIntervalSinceNow: 24*60*60)
     orderToUpdate.date = tomorrow
     
     // When
     var updatedOrder: Order?
     var updatOrderError: OrdersStoreError?
-    let updateOrderExpectation = expectationWithDescription("Wait for updateOrder() to return")
-    sut.updateOrder(orderToUpdate) { (order: () throws -> Order?) -> Void in
+    let updateOrderExpectation = expectation(description: "Wait for updateOrder() to return")
+    sut.updateOrder(orderToUpdate: orderToUpdate) { (order: () throws -> Order?) -> Void in
       do {
         updatedOrder = try order()
       } catch let error as OrdersStoreError {
@@ -395,8 +382,7 @@ class OrdersMemStoreTests: XCTestCase
       } catch {}
       updateOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(updatedOrder, orderToUpdate, "updateOrder() should update an existing order")
@@ -411,8 +397,8 @@ class OrdersMemStoreTests: XCTestCase
     // When
     var deletedOrder: Order?
     var deleteOrderError: OrdersStoreError?
-    let deleteOrderExpectation = expectationWithDescription("Wait for deleteOrder() to return")
-    sut.deleteOrder(orderToDelete.id!) { (order: () throws -> Order?) -> Void in
+    let deleteOrderExpectation = expectation(description: "Wait for deleteOrder() to return")
+    sut.deleteOrder(id: orderToDelete.id!) { (order: () throws -> Order?) -> Void in
       do {
         deletedOrder = try order()
       } catch let error as OrdersStoreError {
@@ -420,8 +406,7 @@ class OrdersMemStoreTests: XCTestCase
       } catch {}
       deleteOrderExpectation.fulfill()
     }
-    waitForExpectationsWithTimeout(1.0) { (error: NSError?) -> Void in
-    }
+    waitForExpectations(timeout: 1.0)
     
     // Then
     XCTAssertEqual(deletedOrder, orderToDelete, "deleteOrder() should delete an existing order")
