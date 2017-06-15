@@ -23,7 +23,7 @@ protocol CreateOrderDisplayLogic: class
 class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate
 {
   var interactor: CreateOrderBusinessLogic?
-  var router: (NSObjectProtocol & CreateOrderRoutingLogic)?
+  var router: (NSObjectProtocol & CreateOrderRoutingLogic & CreateOrderDataPassing)?
   
   // MARK: Object lifecycle
   

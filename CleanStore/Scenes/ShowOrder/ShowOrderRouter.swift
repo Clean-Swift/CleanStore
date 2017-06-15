@@ -12,13 +12,17 @@
 
 import UIKit
 
-protocol ShowOrderRoutingLogic
+@objc protocol ShowOrderRoutingLogic
 {
-  var dataStore: ShowOrderDataStore? { get }
   func routeToEditOrder(segue: UIStoryboardSegue)
 }
 
-class ShowOrderRouter: NSObject, ShowOrderRoutingLogic
+protocol ShowOrderDataPassing
+{
+  var dataStore: ShowOrderDataStore? { get }
+}
+
+class ShowOrderRouter: NSObject, ShowOrderRoutingLogic, ShowOrderDataPassing
 {
   weak var viewController: ShowOrderViewController?
   var dataStore: ShowOrderDataStore?

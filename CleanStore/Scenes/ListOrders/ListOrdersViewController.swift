@@ -20,7 +20,7 @@ protocol ListOrdersDisplayLogic: class
 class ListOrdersViewController: UITableViewController, ListOrdersDisplayLogic
 {
   var interactor: ListOrdersBusinessLogic?
-  var router: (NSObjectProtocol & ListOrdersRoutingLogic)?
+  var router: (NSObjectProtocol & ListOrdersRoutingLogic & ListOrdersDataPassing)?
   var displayedOrders: [ListOrders.FetchOrders.ViewModel.DisplayedOrder] = []
   
   // MARK: Object lifecycle
