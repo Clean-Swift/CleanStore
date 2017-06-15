@@ -296,6 +296,8 @@ class CreateOrderViewControllerTests: XCTestCase
   
   // MARK: - Test text fields
   
+  // FIXME: Calling textField.becomeFirstResponder() doesn't set textField.isFirstResponder to true
+  //        Tried to wait but didn't help. Maybe a beta issue.
   func testCursorFocusShouldMoveToNextTextFieldWhenUserTapsReturnKey()
   {
     // Given
