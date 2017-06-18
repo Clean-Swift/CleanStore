@@ -143,7 +143,6 @@
 				710475341B882CA000D72E3C /* CleanStore */,
 				7104754A1B882CA000D72E3C /* CleanStoreTests */,
 				710475331B882CA000D72E3C /* Products */,
-				710C9A0B1EA3321100E9187D /* CleanStore-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -168,6 +167,7 @@
 				716B291C1BEEC861005986B1 /* CleanStore.xcdatamodeld */,
 				7104753E1B882CA000D72E3C /* Images.xcassets */,
 				710475401B882CA000D72E3C /* LaunchScreen.xib */,
+				710C9A0B1EA3321100E9187D /* CleanStore-Bridging-Header.h */,
 				710475351B882CA000D72E3C /* Supporting Files */,
 			);
 			path = CleanStore;
@@ -637,7 +637,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "CleanStore-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CleanStore/CleanStore-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -654,7 +654,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "CleanStore-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CleanStore/CleanStore-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
