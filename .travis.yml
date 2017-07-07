@@ -1,5 +1,7 @@
 language: objective-c
-osx_image: xcode8.3
+osx_image: xcode9
 xcode_project: CleanStore.xcodeproj
 xcode_scheme: CleanStore
-xcode_sdk: iphonesimulator10.3
+xcode_sdk: iphonesimulator11.0
+script:
+- xcodebuild -project CleanStore.xcodeproj -scheme CleanStore -sdk iphonesimulator11.0 -destination 'platform=iOS Simulator,name=iPhone 7 Plus' build test
