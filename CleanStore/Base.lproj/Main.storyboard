@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.19" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3zf-vf-WGz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.19" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="3zf-vf-WGz">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.16"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -812,7 +812,10 @@
         <scene sceneID="YQY-8y-3K4">
             <objects>
                 <viewController storyboardIdentifier="ShowOrderViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="faT-vy-0qJ" customClass="ShowOrderViewController" customModule="CleanStore" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides/>
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bUv-Pp-O0v"/>
+                        <viewControllerLayoutGuide type="bottom" id="jQU-wh-57S"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="6dW-Yj-Zjm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -895,10 +898,9 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Xsa-vX-SYv" firstAttribute="centerX" secondItem="G22-H8-uWV" secondAttribute="centerX" id="6xI-FJ-jkW"/>
-                            <constraint firstItem="Xsa-vX-SYv" firstAttribute="top" secondItem="G22-H8-uWV" secondAttribute="top" constant="20" id="CEY-dI-gin"/>
+                            <constraint firstItem="Xsa-vX-SYv" firstAttribute="centerX" secondItem="6dW-Yj-Zjm" secondAttribute="centerX" id="6xI-FJ-jkW"/>
+                            <constraint firstItem="Xsa-vX-SYv" firstAttribute="top" secondItem="bUv-Pp-O0v" secondAttribute="bottom" constant="20" id="CEY-dI-gin"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="G22-H8-uWV"/>
                     </view>
                     <navigationItem key="navigationItem" title="Show Order" id="MlT-XT-whS">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="5av-h8-z0p">
