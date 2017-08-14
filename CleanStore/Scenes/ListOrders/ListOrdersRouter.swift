@@ -14,8 +14,8 @@ import UIKit
 
 @objc protocol ListOrdersRoutingLogic
 {
-  func routeToShowOrder(segue: UIStoryboardSegue)
-  func routeToCreateOrder(segue: UIStoryboardSegue)
+  func routeToShowOrder(segue: UIStoryboardSegue?)
+  func routeToCreateOrder(segue: UIStoryboardSegue?)
 }
 
 protocol ListOrdersDataPassing
@@ -30,18 +30,32 @@ class ListOrdersRouter: NSObject, ListOrdersRoutingLogic, ListOrdersDataPassing
   
   // MARK: Routing
   
-  func routeToShowOrder(segue: UIStoryboardSegue)
+  func routeToShowOrder(segue: UIStoryboardSegue?)
   {
-    let destinationVC = segue.destination as! ShowOrderViewController
-    var destinationDS = destinationVC.router!.dataStore!
-    passDataToShowOrder(source: dataStore!, destination: &destinationDS)
+    if let segue = segue {
+      let destinationVC = segue.destination as! ShowOrderViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToShowOrder(source: dataStore!, destination: &destinationDS)
+    } else {
+      let destinationVC = viewController?.storyboard?.instantiateViewController(withIdentifier: "ShowOrderViewController") as! ShowOrderViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToShowOrder(source: dataStore!, destination: &destinationDS)
+      navigateToShowOrder(source: viewController!, destination: destinationVC)
+    }
   }
   
-  func routeToCreateOrder(segue: UIStoryboardSegue)
+  func routeToCreateOrder(segue: UIStoryboardSegue?)
   {
-    let destinationVC = segue.destination as! CreateOrderViewController
-    var destinationDS = destinationVC.router!.dataStore!
-    passDataToCreateOrder(source: dataStore!, destination: &destinationDS)
+    if let segue = segue {
+      let destinationVC = segue.destination as! CreateOrderViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToCreateOrder(source: dataStore!, destination: &destinationDS)
+    } else {
+      let destinationVC = viewController?.storyboard?.instantiateViewController(withIdentifier: "CreateOrderViewController") as! CreateOrderViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToCreateOrder(source: dataStore!, destination: &destinationDS)
+      navigateToCreateOrder(source: viewController!, destination: destinationVC)
+    }
   }
   
   // MARK: Navigation

@@ -14,7 +14,7 @@ import UIKit
 
 @objc protocol ShowOrderRoutingLogic
 {
-  func routeToEditOrder(segue: UIStoryboardSegue)
+  func routeToEditOrder(segue: UIStoryboardSegue?)
 }
 
 protocol ShowOrderDataPassing
@@ -29,11 +29,18 @@ class ShowOrderRouter: NSObject, ShowOrderRoutingLogic, ShowOrderDataPassing
   
   // MARK: Routing
   
-  func routeToEditOrder(segue: UIStoryboardSegue)
+  func routeToEditOrder(segue: UIStoryboardSegue?)
   {
-    let destinationVC = segue.destination as! CreateOrderViewController
-    var destinationDS = destinationVC.router!.dataStore!
-    passDataToEditOrder(source: dataStore!, destination: &destinationDS)
+    if let segue = segue {
+      let destinationVC = segue.destination as! CreateOrderViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToEditOrder(source: dataStore!, destination: &destinationDS)
+    } else {
+      let destinationVC = viewController?.storyboard?.instantiateViewController(withIdentifier: "CreateOrderViewController") as! CreateOrderViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToEditOrder(source: dataStore!, destination: &destinationDS)
+      navigateToEditOrder(source: viewController!, destination: destinationVC)
+    }
   }
   
   // MARK: Navigation

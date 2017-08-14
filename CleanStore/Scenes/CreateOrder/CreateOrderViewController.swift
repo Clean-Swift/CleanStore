@@ -227,7 +227,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
   func displayCreatedOrder(viewModel: CreateOrder.CreateOrder.ViewModel)
   {
     if viewModel.order != nil {
-      router?.routeToListOrders()
+      router?.routeToListOrders(segue: nil)
     } else {
       showOrderFailureAlert(title: "Failed to create order", message: "Please correct your order and submit again.")
     }
@@ -274,7 +274,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
   func displayUpdatedOrder(viewModel: CreateOrder.UpdateOrder.ViewModel)
   {
     if viewModel.order != nil {
-      router?.routeToShowOrder()
+      router?.routeToShowOrder(segue: nil)
     } else {
       showOrderFailureAlert(title: "Failed to update order", message: "Please correct your order and submit again.")
     }

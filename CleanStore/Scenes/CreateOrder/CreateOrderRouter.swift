@@ -14,8 +14,8 @@ import UIKit
 
 @objc protocol CreateOrderRoutingLogic
 {
-  func routeToListOrders()
-  func routeToShowOrder()
+  func routeToListOrders(segue: UIStoryboardSegue?)
+  func routeToShowOrder(segue: UIStoryboardSegue?)
 }
 
 protocol CreateOrderDataPassing
@@ -30,22 +30,34 @@ class CreateOrderRouter: NSObject, CreateOrderRoutingLogic, CreateOrderDataPassi
   
   // MARK: Routing
   
-  func routeToListOrders()
+  func routeToListOrders(segue: UIStoryboardSegue?)
   {
-    let index = viewController!.navigationController!.viewControllers.count - 2
-    let destinationVC = viewController?.navigationController?.viewControllers[index] as! ListOrdersViewController
-    var destinationDS = destinationVC.router!.dataStore!
-    passDataToListOrders(source: dataStore!, destination: &destinationDS)
-    navigateToListOrders(source: viewController!, destination: destinationVC)
+    if let segue = segue {
+      let destinationVC = segue.destination as! ListOrdersViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToListOrders(source: dataStore!, destination: &destinationDS)
+    } else {
+      let index = viewController!.navigationController!.viewControllers.count - 2
+      let destinationVC = viewController?.navigationController?.viewControllers[index] as! ListOrdersViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToListOrders(source: dataStore!, destination: &destinationDS)
+      navigateToListOrders(source: viewController!, destination: destinationVC)
+    }
   }
   
-  func routeToShowOrder()
+  func routeToShowOrder(segue: UIStoryboardSegue?)
   {
-    let index = viewController!.navigationController!.viewControllers.count - 2
-    let destinationVC = viewController?.navigationController?.viewControllers[index] as! ShowOrderViewController
-    var destinationDS = destinationVC.router!.dataStore!
-    passDataToShowOrder(source: dataStore!, destination: &destinationDS)
-    navigateToShowOrder(source: viewController!, destination: destinationVC)
+    if let segue = segue {
+      let destinationVC = segue.destination as! ShowOrderViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToShowOrder(source: dataStore!, destination: &destinationDS)
+    } else {
+      let index = viewController!.navigationController!.viewControllers.count - 2
+      let destinationVC = viewController?.navigationController?.viewControllers[index] as! ShowOrderViewController
+      var destinationDS = destinationVC.router!.dataStore!
+      passDataToShowOrder(source: dataStore!, destination: &destinationDS)
+      navigateToShowOrder(source: viewController!, destination: destinationVC)
+    }
   }
   
   // MARK: Navigation

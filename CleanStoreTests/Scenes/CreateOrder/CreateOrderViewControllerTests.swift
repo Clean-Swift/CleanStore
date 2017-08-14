@@ -125,12 +125,12 @@ class CreateOrderViewControllerTests: XCTestCase
     
     // MARK: Spied methods
     
-    override func routeToListOrders()
+    override func routeToListOrders(segue: UIStoryboardSegue?)
     {
       routeToListOrdersCalled = true
     }
     
-    override func routeToShowOrder()
+    override func routeToShowOrder(segue: UIStoryboardSegue?)
     {
       routeToShowOrderCalled = true
     }
