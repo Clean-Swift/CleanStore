@@ -23,18 +23,12 @@ protocol CreateOrderPresentationLogic
 class CreateOrderPresenter: CreateOrderPresentationLogic
 {
   weak var viewController: CreateOrderDisplayLogic?
-  let dateFormatter: DateFormatter = {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .short
-    dateFormatter.timeStyle = .none
-    return dateFormatter
-  }()
-  
+    
   // MARK: - Expiration date
   
   func presentExpirationDate(response: CreateOrder.FormatExpirationDate.Response)
   {
-    let date = dateFormatter.string(from: response.date)
+    let date = response.date.simpleFormat()
     let viewModel = CreateOrder.FormatExpirationDate.ViewModel(date: date)
     viewController?.displayExpirationDate(viewModel: viewModel)
   }
@@ -66,7 +60,7 @@ class CreateOrderPresenter: CreateOrderPresentationLogic
         paymentMethodCreditCardNumber: orderToEdit.paymentMethod.creditCardNumber,
         paymentMethodCVV: orderToEdit.paymentMethod.cvv,
         paymentMethodExpirationDate: orderToEdit.paymentMethod.expirationDate,
-        paymentMethodExpirationDateString: dateFormatter.string(from: orderToEdit.paymentMethod.expirationDate),
+        paymentMethodExpirationDateString: orderToEdit.paymentMethod.expirationDate.simpleFormat(),
         shipmentAddressStreet1: orderToEdit.shipmentAddress.street1,
         shipmentAddressStreet2: orderToEdit.shipmentAddress.street2 != nil ? orderToEdit.shipmentAddress.street2! : "",
         shipmentAddressCity: orderToEdit.shipmentAddress.city,

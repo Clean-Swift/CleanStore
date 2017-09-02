@@ -109,4 +109,10 @@ class ListOrdersPresenterTests: XCTestCase
     // Then
     XCTAssert(listOrdersDisplayLogicSpy.displayFetchedOrdersCalled, "Presenting fetched orders should ask view controller to display them")
   }
+    
+  func testDateSimpleFormat() {
+    let dateToTest = Date(timeIntervalSince1970: 0)
+    XCTAssertEqual(dateToTest.simpleFormat(), "12/31/69")
+  }
+    
 }
