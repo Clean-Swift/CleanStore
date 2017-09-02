@@ -262,10 +262,7 @@ class CreateOrderPresenterTests: XCTestCase
     sut.presentOrderToEdit(response: response)
     
     // Then
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateStyle = .short
-    dateFormatter.timeStyle = .none
-    let orderPaymentMethodExpirationDate = dateFormatter.string(from: order.paymentMethod.expirationDate)
+    let orderPaymentMethodExpirationDate = order.paymentMethod.expirationDate.simpleFormat()
     XCTAssertEqual(createOrderDisplayLogicSpy.editOrderViewModel.orderFormFields.firstName, order.firstName, "Presenting the order to edit should format the existing order")
     XCTAssertEqual(createOrderDisplayLogicSpy.editOrderViewModel.orderFormFields.lastName, order.lastName, "Presenting the order to edit should format the existing order")
     XCTAssertEqual(createOrderDisplayLogicSpy.editOrderViewModel.orderFormFields.phone, order.phone, "Presenting the order to edit should format the existing order")

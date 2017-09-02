@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27309F741F5A11AD0022D3EC /* Date+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27309F731F5A11AC0022D3EC /* Date+Formatting.swift */; };
 		710475381B882CA000D72E3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710475371B882CA000D72E3C /* AppDelegate.swift */; };
 		7104753D1B882CA000D72E3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7104753B1B882CA000D72E3C /* Main.storyboard */; };
 		7104753F1B882CA000D72E3C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7104753E1B882CA000D72E3C /* Images.xcassets */; };
@@ -66,6 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		27309F731F5A11AC0022D3EC /* Date+Formatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Formatting.swift"; sourceTree = "<group>"; };
 		710475321B882CA000D72E3C /* CleanStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CleanStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		710475361B882CA000D72E3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		710475371B882CA000D72E3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +139,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		27309F721F59FD1C0022D3EC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				27309F731F5A11AC0022D3EC /* Date+Formatting.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		710475291B882CA000D72E3C = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +168,7 @@
 		710475341B882CA000D72E3C /* CleanStore */ = {
 			isa = PBXGroup;
 			children = (
+				27309F721F59FD1C0022D3EC /* Utilities */,
 				71B2CD061BE5FB5800C734CA /* Models */,
 				71B2CD0F1BE6A01A00C734CA /* Services */,
 				71B2CCFD1BE5F9A700C734CA /* Workers */,
@@ -451,6 +462,7 @@
 				71B2CCEA1BE547CA00C734CA /* ListOrdersModels.swift in Sources */,
 				713919991C7539C90081E47B /* ShowOrderViewController.swift in Sources */,
 				713919981C7539C90081E47B /* ShowOrderRouter.swift in Sources */,
+				27309F741F5A11AD0022D3EC /* Date+Formatting.swift in Sources */,
 				71B2CCEC1BE547CA00C734CA /* ListOrdersPresenter.swift in Sources */,
 				71B2CCF21BE547CA00C734CA /* ListOrdersWorker.swift in Sources */,
 				716B291E1BEEC861005986B1 /* CleanStore.xcdatamodeld in Sources */,
