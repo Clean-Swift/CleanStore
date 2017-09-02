@@ -2,7 +2,6 @@
 //  Date+Formatting.swift
 //  CleanStore
 //
-//  Created by Mike Katsenos on 9/1/17.
 //  Copyright © 2017 Raymond Law. All rights reserved.
 //
 
