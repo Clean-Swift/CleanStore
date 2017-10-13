@@ -58,6 +58,22 @@ class OrdersWorker
       }
     }
   }
+  
+  func fetchShipmentMethods(completionHandler: @escaping ([ShipmentMethod]) -> Void)
+  {
+    ordersStore.fetchShipmentMethods { (shipmentMethod: () throws -> [ShipmentMethod]) -> Void in
+      do {
+        let shipmentMethods = try shipmentMethod()
+        DispatchQueue.main.async {
+          completionHandler(shipmentMethods)
+        }
+      } catch {
+        DispatchQueue.main.async {
+          completionHandler([])
+        }
+      }
+    }
+  }
 }
 
 // MARK: - Orders store API
@@ -71,6 +87,7 @@ protocol OrdersStoreProtocol
   func createOrder(orderToCreate: Order, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
   func updateOrder(orderToUpdate: Order, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
   func deleteOrder(id: String, completionHandler: @escaping (Order?, OrdersStoreError?) -> Void)
+  func fetchShipmentMethods(completionHandler: @escaping ([ShipmentMethod], OrdersStoreError?) -> Void)
   
   // MARK: CRUD operations - Generic enum result type
   
@@ -79,6 +96,7 @@ protocol OrdersStoreProtocol
   func createOrder(orderToCreate: Order, completionHandler: @escaping OrdersStoreCreateOrderCompletionHandler)
   func updateOrder(orderToUpdate: Order, completionHandler: @escaping OrdersStoreUpdateOrderCompletionHandler)
   func deleteOrder(id: String, completionHandler: @escaping OrdersStoreDeleteOrderCompletionHandler)
+  func fetchShipmentMethods(completionHandler: @escaping OrdersStoreFetchShipmentMethodsCompletionHandler)
   
   // MARK: CRUD operations - Inner closure
   
@@ -87,6 +105,7 @@ protocol OrdersStoreProtocol
   func createOrder(orderToCreate: Order, completionHandler: @escaping (() throws -> Order?) -> Void)
   func updateOrder(orderToUpdate: Order, completionHandler: @escaping (() throws -> Order?) -> Void)
   func deleteOrder(id: String, completionHandler: @escaping (() throws -> Order?) -> Void)
+  func fetchShipmentMethods(completionHandler: @escaping (() throws -> [ShipmentMethod]) -> Void)
 }
 
 protocol OrdersStoreUtilityProtocol {}
@@ -113,6 +132,7 @@ typealias OrdersStoreFetchOrderCompletionHandler = (OrdersStoreResult<Order>) ->
 typealias OrdersStoreCreateOrderCompletionHandler = (OrdersStoreResult<Order>) -> Void
 typealias OrdersStoreUpdateOrderCompletionHandler = (OrdersStoreResult<Order>) -> Void
 typealias OrdersStoreDeleteOrderCompletionHandler = (OrdersStoreResult<Order>) -> Void
+typealias OrdersStoreFetchShipmentMethodsCompletionHandler = (OrdersStoreResult<[ShipmentMethod]>) -> Void
 
 enum OrdersStoreResult<U>
 {

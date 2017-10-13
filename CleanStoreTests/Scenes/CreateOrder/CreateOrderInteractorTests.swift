@@ -50,6 +50,7 @@ class CreateOrderInteractorTests: XCTestCase
     var presentCreatedOrderCalled = false
     var presentOrderToEditCalled = false
     var presentUpdatedOrderCalled = false
+    var presentFetchedShipmentMethods = false
     
     // MARK: Spied methods
     
@@ -71,6 +72,10 @@ class CreateOrderInteractorTests: XCTestCase
     {
       presentUpdatedOrderCalled = true
     }
+    
+    func presentFetchedShipmentMethods(response: CreateOrder.FetchShipmentMethods.Response) {
+        presentFetchedShipmentMethods = true
+    }
   }
   
   class OrdersWorkerSpy: OrdersWorker
@@ -79,6 +84,7 @@ class CreateOrderInteractorTests: XCTestCase
     
     var createOrderCalled = false
     var updateOrderCalled = false
+    var fetchShipmentMethodsCalled = false
     
     // MARK: Spied methods
     
@@ -92,6 +98,12 @@ class CreateOrderInteractorTests: XCTestCase
     {
       updateOrderCalled = true
       completionHandler(Seeds.Orders.amy)
+    }
+    
+    override func fetchShipmentMethods(completionHandler: @escaping ([ShipmentMethod]) -> Void)
+    {
+      fetchShipmentMethodsCalled = true
+      completionHandler(Seeds.ShipmentMethods.all)
     }
   }
   
@@ -116,17 +128,18 @@ class CreateOrderInteractorTests: XCTestCase
   func testShippingMethodsShouldReturnAllAvailableShippingMethods()
   {
     // Given
-    let allAvailableShippingMethods = [
-      "Standard Shipping",
-      "One-Day Shipping",
-      "Two-Day Shipping"
-    ]
+    let createOrderPresentationLogicSpy = CreateOrderPresentationLogicSpy()
+    sut.presenter = createOrderPresentationLogicSpy
+    let ordersWorkerSpy = OrdersWorkerSpy(ordersStore: OrdersMemStore())
+    sut.ordersWorker = ordersWorkerSpy
     
     // When
-    let returnedShippingMethods = sut.shippingMethods
+    let request = CreateOrder.FetchShipmentMethods.Request()
+    sut.fetchShipmentMethods(request: request)
     
     // Then
-    XCTAssertEqual(returnedShippingMethods, allAvailableShippingMethods, "Shipping Methods should list all available shipping methods")
+    XCTAssert(ordersWorkerSpy.fetchShipmentMethodsCalled, "FetchShipmentMethods() should ask OrdersWorker to fetch shipment methods")
+    XCTAssert(createOrderPresentationLogicSpy.presentFetchedShipmentMethods, "FetchShipmentMethods() should ask presenter to format shipment methods result")
   }
   
   // MARK: - Test creating a new order

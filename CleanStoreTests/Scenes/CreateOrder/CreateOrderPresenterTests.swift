@@ -50,6 +50,7 @@ class CreateOrderPresenterTests: XCTestCase
     var displayCreatedOrderCalled = false
     var displayOrderToEditCalled = false
     var displayUpdatedOrderCalled = false
+    var displayFetchedShipmentMethodsCalled = false
     
     // MARK: Argument expectations
     
@@ -57,6 +58,7 @@ class CreateOrderPresenterTests: XCTestCase
     var createOrderViewModel: CreateOrder.CreateOrder.ViewModel!
     var editOrderViewModel: CreateOrder.EditOrder.ViewModel!
     var updateOrderViewModel: CreateOrder.UpdateOrder.ViewModel!
+    var fetchedShipmentMethodsViewModel: CreateOrder.FetchShipmentMethods.ViewModel!
     
     // MARK: Spied methods
     
@@ -82,6 +84,12 @@ class CreateOrderPresenterTests: XCTestCase
     {
       displayUpdatedOrderCalled = true
       self.updateOrderViewModel = viewModel
+    }
+    
+    func displayFetchedShipmentMethods(viewModel: CreateOrder.FetchShipmentMethods.ViewModel)
+    {
+      displayFetchedShipmentMethodsCalled = true
+      self.fetchedShipmentMethodsViewModel = viewModel
     }
   }
   
@@ -93,6 +101,7 @@ class CreateOrderPresenterTests: XCTestCase
     var displayCreatedOrderCalled = false
     var displayOrderToEditCalled = false
     var displayUpdatedOrderCalled = false
+    var displayFetchedShipmentMethodsCalled = false
     
     // MARK: Argument expectations
     
@@ -100,6 +109,7 @@ class CreateOrderPresenterTests: XCTestCase
     var createOrderViewModel: CreateOrder.CreateOrder.ViewModel!
     var editOrderViewModel: CreateOrder.EditOrder.ViewModel!
     var updateOrderViewModel: CreateOrder.UpdateOrder.ViewModel!
+    var fetchedShipmentMethodsViewModel: CreateOrder.FetchShipmentMethods.ViewModel!
     
     // MARK: Spied methods
     
@@ -125,6 +135,12 @@ class CreateOrderPresenterTests: XCTestCase
     {
       displayUpdatedOrderCalled = true
       self.updateOrderViewModel = viewModel
+    }
+    
+    func displayFetchedShipmentMethods(viewModel: CreateOrder.FetchShipmentMethods.ViewModel)
+    {
+      displayFetchedShipmentMethodsCalled = true
+      self.fetchedShipmentMethodsViewModel = viewModel
     }
     
     // MARK: Verifications

@@ -18,6 +18,7 @@ protocol CreateOrderPresentationLogic
   func presentCreatedOrder(response: CreateOrder.CreateOrder.Response)
   func presentOrderToEdit(response: CreateOrder.EditOrder.Response)
   func presentUpdatedOrder(response: CreateOrder.UpdateOrder.Response)
+  func presentFetchedShipmentMethods(response: CreateOrder.FetchShipmentMethods.Response)
 }
 
 class CreateOrderPresenter: CreateOrderPresentationLogic
@@ -86,5 +87,21 @@ class CreateOrderPresenter: CreateOrderPresentationLogic
   {
     let viewModel = CreateOrder.UpdateOrder.ViewModel(order: response.order)
     viewController?.displayUpdatedOrder(viewModel: viewModel)
+  }
+  
+  // MARK: - Fetch orders
+  
+  func presentFetchedShipmentMethods(response: CreateOrder.FetchShipmentMethods.Response)
+  {
+    var displayedShipmentMethods: [CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod] = []
+    for shipmentMethod in response.shipmentMethods {
+      let displayedShipmentMethod = CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod(
+        id: shipmentMethod.speed.rawValue,
+        text: shipmentMethod.toString()
+      )
+      displayedShipmentMethods.append(displayedShipmentMethod)
+    }
+    let viewModel = CreateOrder.FetchShipmentMethods.ViewModel(displayedShipmentMethods: displayedShipmentMethods)
+    viewController?.displayFetchedShipmentMethods(viewModel: viewModel)
   }
 }

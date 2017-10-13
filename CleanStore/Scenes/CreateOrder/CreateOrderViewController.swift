@@ -18,12 +18,14 @@ protocol CreateOrderDisplayLogic: class
   func displayCreatedOrder(viewModel: CreateOrder.CreateOrder.ViewModel)
   func displayOrderToEdit(viewModel: CreateOrder.EditOrder.ViewModel)
   func displayUpdatedOrder(viewModel: CreateOrder.UpdateOrder.ViewModel)
+  func displayFetchedShipmentMethods(viewModel: CreateOrder.FetchShipmentMethods.ViewModel)
 }
 
 class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate
 {
   var interactor: CreateOrderBusinessLogic?
   var router: (NSObjectProtocol & CreateOrderRoutingLogic & CreateOrderDataPassing)?
+  var displayedShipmentMethods: [CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod] = []
   
   // MARK: Object lifecycle
   
@@ -74,6 +76,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
     super.viewDidLoad()
     configurePickers()
     showOrderToEdit()
+    fetchShipmentMethodsOnLoad()
   }
   
   // MARK: - Text fields
@@ -121,17 +124,31 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
   
   func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
   {
-    return interactor?.shippingMethods.count ?? 0
+    return displayedShipmentMethods.count
   }
   
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
   {
-    return interactor?.shippingMethods[row]
+    return displayedShipmentMethods[row].text
   }
   
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
   {
-    shippingMethodTextField.text = interactor?.shippingMethods[row]
+    shippingMethodTextField.text = displayedShipmentMethods[row].text
+  }
+  
+  // MARK: - Fetch shipment methods
+  
+  func fetchShipmentMethodsOnLoad()
+  {
+    let request = CreateOrder.FetchShipmentMethods.Request()
+    interactor?.fetchShipmentMethods(request: request)
+  }
+  
+  func displayFetchedShipmentMethods(viewModel: CreateOrder.FetchShipmentMethods.ViewModel)
+  {
+    displayedShipmentMethods = viewModel.displayedShipmentMethods
+    shippingMethodPicker.reloadAllComponents()
   }
   
   // MARK: - Expiration date

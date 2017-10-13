@@ -114,4 +114,24 @@ enum CreateOrder
       var order: Order?
     }
   }
+  
+  enum FetchShipmentMethods
+  {
+    struct Request
+    {
+    }
+    struct Response
+    {
+      var shipmentMethods: [ShipmentMethod]
+    }
+    struct ViewModel
+    {
+      struct DisplayedShipmentMethod
+      {
+        var id: Int
+        var text: String
+      }
+      var displayedShipmentMethods: [DisplayedShipmentMethod]
+    }
+  }
 }

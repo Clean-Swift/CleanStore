@@ -14,4 +14,13 @@ struct Seeds
     static let bob = Order(firstName: "Bob", lastName: "Battery", phone: "222-222-2222", email: "bob.battery@clean-swift.com", billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: "bbb222", date: Date(), total: NSDecimalNumber(string: "2.22"))
     static let chris = Order(firstName: "Chris", lastName: "Camera", phone: "333-333-3333", email: "chris.camera@clean-swift.com", billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: "ccc333", date: Date(), total: NSDecimalNumber(string: "3.33"))
   }
+  
+  struct ShipmentMethods
+  {
+    static let all = [
+        ShipmentMethod(speed: .Standard),
+        ShipmentMethod(speed: .OneDay),
+        ShipmentMethod(speed: .TwoDay)
+    ]
+  }
 }
