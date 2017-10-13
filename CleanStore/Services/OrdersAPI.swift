@@ -24,6 +24,10 @@ class OrdersAPI: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   {
   }
   
+  func fetchShipmentMethods(completionHandler: @escaping ([ShipmentMethod], OrdersStoreError?) -> Void)
+  {
+  }
+  
   // MARK: - CRUD operations - Generic enum result type
   
   func fetchOrders(completionHandler: @escaping OrdersStoreFetchOrdersCompletionHandler)
@@ -46,6 +50,10 @@ class OrdersAPI: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   {
   }
   
+  func fetchShipmentMethods(completionHandler: @escaping OrdersStoreFetchShipmentMethodsCompletionHandler)
+  {
+  }
+  
   // MARK: - CRUD operations - Inner closure
   
   func fetchOrders(completionHandler: @escaping (() throws -> [Order]) -> Void)
@@ -65,6 +73,10 @@ class OrdersAPI: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   }
   
   func deleteOrder(id: String, completionHandler: @escaping (() throws -> Order?) -> Void)
+  {
+  }
+  
+  func fetchShipmentMethods(completionHandler: @escaping (() throws -> [ShipmentMethod]) -> Void)
   {
   }
 }

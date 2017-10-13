@@ -14,6 +14,12 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
     Order(firstName: "Bob", lastName: "Battery", phone: "222-222-2222", email: "bob.battery@clean-swift.com", billingAddress: billingAddress, paymentMethod: paymentMethod, shipmentAddress: shipmentAddress, shipmentMethod: shipmentMethod, id: "def456", date: Date(), total: NSDecimalNumber(string: "4.56"))
   ]
   
+  static var shipmentMethods = [
+    ShipmentMethod(speed: .Standard),
+    ShipmentMethod(speed: .OneDay),
+    ShipmentMethod(speed: .TwoDay)
+  ]
+  
   // MARK: - CRUD operations - Optional error
   
   func fetchOrders(completionHandler: @escaping ([Order], OrdersStoreError?) -> Void)
@@ -59,6 +65,11 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
       return
     }
     completionHandler(nil, OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete"))
+  }
+  
+  func fetchShipmentMethods(completionHandler: @escaping ([ShipmentMethod], OrdersStoreError?) -> Void)
+  {
+    completionHandler(type(of: self).shipmentMethods, nil)
   }
   
   // MARK: - CRUD operations - Generic enum result type
@@ -110,6 +121,11 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
     completionHandler(OrdersStoreResult.Failure(error: OrdersStoreError.CannotDelete("Cannot delete order with id \(id) to delete")))
   }
   
+  func fetchShipmentMethods(completionHandler: @escaping OrdersStoreFetchShipmentMethodsCompletionHandler)
+  {
+    completionHandler(OrdersStoreResult.Success(result: type(of: self).shipmentMethods))
+  }
+  
   // MARK: - CRUD operations - Inner closure
   
   func fetchOrders(completionHandler: @escaping (() throws -> [Order]) -> Void)
@@ -154,6 +170,11 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
     } else {
       completionHandler { throw OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete") }
     }
+  }
+  
+  func fetchShipmentMethods(completionHandler: @escaping (() throws -> [ShipmentMethod]) -> Void)
+  {
+    completionHandler { return type(of: self).shipmentMethods }
   }
   
   // MARK: - Convenience methods

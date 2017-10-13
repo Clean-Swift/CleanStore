@@ -149,6 +149,11 @@ class OrdersCoreDataStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
     }
   }
   
+  func fetchShipmentMethods(completionHandler: @escaping ([ShipmentMethod], OrdersStoreError?) -> Void)
+  {
+    fatalError("Not implemented")
+  }
+  
   // MARK: - CRUD operations - Generic enum result type
   
   func fetchOrders(completionHandler: @escaping OrdersStoreFetchOrdersCompletionHandler)
@@ -249,6 +254,11 @@ class OrdersCoreDataStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
     }
   }
   
+  func fetchShipmentMethods(completionHandler: @escaping OrdersStoreFetchShipmentMethodsCompletionHandler)
+  {
+    fatalError("Not implemented")
+  }
+  
   // MARK: - CRUD operations - Inner closure
   
   func fetchOrders(completionHandler: @escaping (() throws -> [Order]) -> Void)
@@ -346,5 +356,10 @@ class OrdersCoreDataStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
         completionHandler { throw OrdersStoreError.CannotDelete("Cannot fetch order with id \(id) to delete") }
       }
     }
+  }
+  
+  func fetchShipmentMethods(completionHandler: @escaping (() throws -> [ShipmentMethod]) -> Void)
+  {
+    fatalError("Not implemented")
   }
 }

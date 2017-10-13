@@ -76,6 +76,7 @@ class CreateOrderViewControllerTests: XCTestCase
     var createOrderCalled = false
     var showOrderToEditCalled = false
     var updateOrderCalled = false
+    var presentFetchedShipmentMethodsCalled = false
     
     // MARK: Argument expectations
     
@@ -83,10 +84,11 @@ class CreateOrderViewControllerTests: XCTestCase
     var createOrderRequest: CreateOrder.CreateOrder.Request!
     var editOrderRequest: CreateOrder.EditOrder.Request!
     var updateOrderRequest: CreateOrder.UpdateOrder.Request!
+    var fetchShipmentMethodsRequest: CreateOrder.FetchShipmentMethods.Request!
     
     // MARK: Spied variables
     
-    var shippingMethods = [String]()
+    var shippingMethods = [ShipmentMethod]()
     var orderToEdit: Order?
     
     // MARK: Spied methods
@@ -113,6 +115,12 @@ class CreateOrderViewControllerTests: XCTestCase
     {
       updateOrderCalled = true
       self.updateOrderRequest = request
+    }
+    
+    func fetchShipmentMethods(request: CreateOrder.FetchShipmentMethods.Request)
+    {
+      presentFetchedShipmentMethodsCalled = true
+      self.fetchShipmentMethodsRequest = request
     }
   }
   
@@ -246,13 +254,14 @@ class CreateOrderViewControllerTests: XCTestCase
     // Given
     loadView()
     let pickerView = sut.shippingMethodPicker!
+    let testShipmentMethods = [CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod(id: 1, text: "Some Shipping")]
+    sut.displayedShipmentMethods = testShipmentMethods
     
     // When
     let numberOfRows = sut.pickerView(pickerView, numberOfRowsInComponent: 0)
     
     // Then
-    let numberOfAvailableShippingtMethods = sut.interactor?.shippingMethods.count
-    XCTAssertEqual(numberOfRows, numberOfAvailableShippingtMethods, "The number of rows in the first component of shipping method picker should equal to the number of available shipping methods")
+    XCTAssertEqual(numberOfRows, testShipmentMethods.count, "The number of rows in the first component of shipping method picker should equal to the number of available shipping methods")
   }
   
   func testShippingMethodPickerShouldDisplayProperTitles()
@@ -261,7 +270,17 @@ class CreateOrderViewControllerTests: XCTestCase
     loadView()
     let pickerView = sut.shippingMethodPicker!
     
+    let displayedShipmentMethods = [
+        CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod(id: 1, text: "Standard Shipping"),
+        CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod(id: 2, text: "One-Day Shipping"),
+        CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod(id: 3, text: "Two-Day Shipping")
+    ]
+    
+    let viewModel = CreateOrder.FetchShipmentMethods.ViewModel(displayedShipmentMethods: displayedShipmentMethods)
+    
     // When
+    sut.displayFetchedShipmentMethods(viewModel: viewModel)
+    
     let returnedTitles = [
       sut.pickerView(pickerView, titleForRow: 0, forComponent: 0),
       sut.pickerView(pickerView, titleForRow: 1, forComponent: 0),
@@ -285,7 +304,16 @@ class CreateOrderViewControllerTests: XCTestCase
     loadView()
     let pickerView = sut.shippingMethodPicker!
     
+    let displayedShipmentMethods = [
+        CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod(id: 1, text: "Standard Shipping"),
+        CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod(id: 2, text: "One-Day Shipping"),
+        CreateOrder.FetchShipmentMethods.ViewModel.DisplayedShipmentMethod(id: 3, text: "Two-Day Shipping")
+    ]
+    
+    let viewModel = CreateOrder.FetchShipmentMethods.ViewModel(displayedShipmentMethods: displayedShipmentMethods)
+    
     // When
+    sut.displayFetchedShipmentMethods(viewModel: viewModel)
     sut.pickerView(pickerView, didSelectRow: 1, inComponent: 0)
     
     // Then

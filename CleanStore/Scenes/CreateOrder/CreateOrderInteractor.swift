@@ -14,17 +14,17 @@ import UIKit
 
 protocol CreateOrderBusinessLogic
 {
-  var shippingMethods: [String] { get }
   var orderToEdit: Order? { get set }
   func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
   func createOrder(request: CreateOrder.CreateOrder.Request)
   func showOrderToEdit(request: CreateOrder.EditOrder.Request)
   func updateOrder(request: CreateOrder.UpdateOrder.Request)
+  func fetchShipmentMethods(request: CreateOrder.FetchShipmentMethods.Request)
 }
 
 protocol CreateOrderDataStore
 {
-  var shippingMethods: [String] { get }
+  var shipmentMethods: [ShipmentMethod] { get }
   var orderToEdit: Order? { get set }
 }
 
@@ -33,11 +33,7 @@ class CreateOrderInteractor: CreateOrderBusinessLogic, CreateOrderDataStore
   var presenter: CreateOrderPresentationLogic?
   var ordersWorker = OrdersWorker(ordersStore: OrdersMemStore())
   var orderToEdit: Order?
-  var shippingMethods = [
-    ShipmentMethod(speed: .Standard).toString(),
-    ShipmentMethod(speed: .OneDay).toString(),
-    ShipmentMethod(speed: .TwoDay).toString()
-  ]
+  var shipmentMethods: [ShipmentMethod] = []
   
   // MARK: - Expiration date
   
@@ -78,6 +74,15 @@ class CreateOrderInteractor: CreateOrderBusinessLogic, CreateOrderDataStore
       self.orderToEdit = order
       let response = CreateOrder.UpdateOrder.Response(order: order)
       self.presenter?.presentUpdatedOrder(response: response)
+    }
+  }
+  
+  func fetchShipmentMethods(request: CreateOrder.FetchShipmentMethods.Request)
+  {
+    ordersWorker.fetchShipmentMethods { (shipmentMethods) -> Void in
+      self.shipmentMethods = shipmentMethods
+      let response = CreateOrder.FetchShipmentMethods.Response(shipmentMethods: shipmentMethods)
+      self.presenter?.presentFetchedShipmentMethods(response: response)
     }
   }
   
