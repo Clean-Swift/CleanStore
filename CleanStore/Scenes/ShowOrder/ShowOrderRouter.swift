@@ -14,32 +14,28 @@ import UIKit
 
 @objc protocol ShowOrderRoutingLogic
 {
-  func routeToEditOrder(segue: UIStoryboardSegue?)
+  func routeToEditOrder()
 }
 
 protocol ShowOrderDataPassing
 {
-  var dataStore: ShowOrderDataStore? { get }
+  var dataStore: ShowOrderDataStore? { get set }
 }
 
-class ShowOrderRouter: NSObject, ShowOrderRoutingLogic, ShowOrderDataPassing
+class ShowOrderRouter: NSObject, RouterProtocol, ShowOrderRoutingLogic, ShowOrderDataPassing
 {
-  weak var viewController: ShowOrderViewController?
+  typealias ViewControllerType = ShowOrderViewController
+  
+  weak var viewController: ViewControllerType?
   var dataStore: ShowOrderDataStore?
   
   // MARK: Routing
   
-  func routeToEditOrder(segue: UIStoryboardSegue?)
+  func routeToEditOrder()
   {
-    if let segue = segue {
-      let destinationVC = segue.destination as! CreateOrderViewController
+    show(storyboard: .createOrder) { (destinationVC: CreateOrderViewController) in
       var destinationDS = destinationVC.router!.dataStore!
-      passDataToEditOrder(source: dataStore!, destination: &destinationDS)
-    } else {
-      let destinationVC = viewController?.storyboard?.instantiateViewController(withIdentifier: "CreateOrderViewController") as! CreateOrderViewController
-      var destinationDS = destinationVC.router!.dataStore!
-      passDataToEditOrder(source: dataStore!, destination: &destinationDS)
-      navigateToEditOrder(source: viewController!, destination: destinationVC)
+      self.passDataToEditOrder(source: self.dataStore!, destination: &destinationDS)
     }
   }
   
@@ -56,4 +52,11 @@ class ShowOrderRouter: NSObject, ShowOrderRoutingLogic, ShowOrderDataPassing
   {
     destination.orderToEdit = source.order
   }
+}
+
+extension ShowOrderRouter {
+    
+    enum StoryboardIdentifier: String {
+        case createOrder = "CreateOrder"
+    }
 }

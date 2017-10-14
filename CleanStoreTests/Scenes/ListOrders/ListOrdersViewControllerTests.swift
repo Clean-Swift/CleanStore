@@ -40,8 +40,8 @@ class ListOrdersViewControllerTests: XCTestCase
   func setupListOrdersViewController()
   {
     let bundle = Bundle.main
-    let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-    sut = storyboard.instantiateViewController(withIdentifier: "ListOrdersViewController") as! ListOrdersViewController
+    let storyboard = UIStoryboard(name: "ListOrders", bundle: bundle)
+    sut = storyboard.instantiateInitialViewController() as! ListOrdersViewController
   }
   
   func loadView()

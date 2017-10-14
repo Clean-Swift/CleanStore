@@ -56,8 +56,8 @@ class CreateOrderViewControllerTests: XCTestCase
   func setupCreateOrderViewController()
   {
     let bundle = Bundle.main
-    let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-    sut = storyboard.instantiateViewController(withIdentifier: "CreateOrderViewController") as! CreateOrderViewController
+    let storyboard = UIStoryboard(name: "CreateOrder", bundle: bundle)
+    sut = storyboard.instantiateInitialViewController() as! CreateOrderViewController
   }
   
   func loadView()
@@ -125,12 +125,12 @@ class CreateOrderViewControllerTests: XCTestCase
     
     // MARK: Spied methods
     
-    override func routeToListOrders(segue: UIStoryboardSegue?)
+    override func routeToListOrders()
     {
       routeToListOrdersCalled = true
     }
     
-    override func routeToShowOrder(segue: UIStoryboardSegue?)
+    override func routeToShowOrder()
     {
       routeToShowOrderCalled = true
     }
