@@ -34,30 +34,46 @@ class CreateOrderRouter: NSObject, RouterProtocol, CreateOrderRoutingLogic, Crea
   
   func routeToListOrders()
   {
-    show(storyboard: .listOrders) { (destinationVC: ListOrdersViewController) in
-      var destinationDS = destinationVC.router!.dataStore!
-      self.passDataToListOrders(source: self.dataStore!, destination: &destinationDS)
-    }
+    guard let destinationVC = viewController?.navigationController?.viewControllers.first(where: { $0 is ListOrdersViewController }) as? ListOrdersViewController
+        else {
+            // List order not in stack so push fresh
+            return show(storyboard: .listOrders) { (destinationVC: ListOrdersViewController) in
+              var destinationDS = destinationVC.router!.dataStore!
+              self.passDataToListOrders(source: self.dataStore!, destination: &destinationDS)
+            }
+        }
+    
+    var destinationDS = destinationVC.router!.dataStore!
+    passDataToListOrders(source: dataStore!, destination: &destinationDS)
+    navigateToListOrders(source: viewController!, destination: destinationVC)
   }
   
   func routeToShowOrder()
   {
-    show(storyboard: .showOrder) { (destinationVC: ShowOrderViewController) in
-      var destinationDS = destinationVC.router!.dataStore!
-      self.passDataToShowOrder(source: self.dataStore!, destination: &destinationDS)
-    }
+    guard let destinationVC = viewController?.navigationController?.viewControllers.first(where: { $0 is ShowOrderViewController }) as? ShowOrderViewController
+        else {
+            // Show order not in stack so push fresh
+            return show(storyboard: .showOrder) { (destinationVC: ShowOrderViewController) in
+              var destinationDS = destinationVC.router!.dataStore!
+              self.passDataToShowOrder(source: self.dataStore!, destination: &destinationDS)
+            }
+        }
+    
+    var destinationDS = destinationVC.router!.dataStore!
+    passDataToShowOrder(source: dataStore!, destination: &destinationDS)
+    navigateToShowOrder(source: viewController!, destination: destinationVC)
   }
   
   // MARK: Navigation
   
   func navigateToListOrders(source: CreateOrderViewController, destination: ListOrdersViewController)
   {
-    source.navigationController?.popViewController(animated: true)
+    source.navigationController?.popToViewController(destination, animated: true)
   }
   
   func navigateToShowOrder(source: CreateOrderViewController, destination: ShowOrderViewController)
   {
-    source.navigationController?.popViewController(animated: true)
+    source.navigationController?.popToViewController(destination, animated: true)
   }
   
   // MARK: Passing data
