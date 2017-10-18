@@ -23,7 +23,7 @@ protocol CreateOrderDisplayLogic: class
 class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate
 {
   var interactor: CreateOrderBusinessLogic?
-  var router: (NSObjectProtocol & CreateOrderRoutingLogic & CreateOrderDataPassing)?
+  var router: (CreateOrderRoutingLogic & CreateOrderDataPassing)?
   
   // MARK: Object lifecycle
   
@@ -53,18 +53,6 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
     presenter.viewController = viewController
     router.viewController = viewController
     router.dataStore = interactor
-  }
-  
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
-    }
   }
   
   // MARK: - View lifecycle

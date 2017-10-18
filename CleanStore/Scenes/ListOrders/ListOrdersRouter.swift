@@ -23,7 +23,7 @@ protocol ListOrdersDataPassing
   var dataStore: ListOrdersDataStore? { get }
 }
 
-class ListOrdersRouter: NSObject, RouterProtocol, ListOrdersRoutingLogic, ListOrdersDataPassing
+class ListOrdersRouter: RouterProtocol, ListOrdersRoutingLogic, ListOrdersDataPassing
 {
   typealias ViewControllerType = ListOrdersViewController
   

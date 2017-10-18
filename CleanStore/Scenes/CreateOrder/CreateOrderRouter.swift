@@ -23,7 +23,7 @@ protocol CreateOrderDataPassing
   var dataStore: CreateOrderDataStore? { get }
 }
 
-class CreateOrderRouter: NSObject, RouterProtocol, CreateOrderRoutingLogic, CreateOrderDataPassing
+class CreateOrderRouter: RouterProtocol, CreateOrderRoutingLogic, CreateOrderDataPassing
 {
   typealias ViewControllerType = CreateOrderViewController
   

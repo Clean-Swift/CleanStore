@@ -20,7 +20,7 @@ protocol ShowOrderDisplayLogic: class
 class ShowOrderViewController: UIViewController, ShowOrderDisplayLogic
 {
   var interactor: ShowOrderBusinessLogic?
-  var router: (NSObjectProtocol & ShowOrderRoutingLogic & ShowOrderDataPassing)?
+  var router: (ShowOrderRoutingLogic & ShowOrderDataPassing)?
   
   @IBOutlet weak var orderIDLabel: UILabel!
   @IBOutlet weak var orderDateLabel: UILabel!

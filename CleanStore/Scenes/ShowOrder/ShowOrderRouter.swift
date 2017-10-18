@@ -22,7 +22,7 @@ protocol ShowOrderDataPassing
   var dataStore: ShowOrderDataStore? { get set }
 }
 
-class ShowOrderRouter: NSObject, RouterProtocol, ShowOrderRoutingLogic, ShowOrderDataPassing
+class ShowOrderRouter: RouterProtocol, ShowOrderRoutingLogic, ShowOrderDataPassing
 {
   typealias ViewControllerType = ShowOrderViewController
   
