@@ -84,17 +84,18 @@ class ListOrdersViewControllerTests: XCTestCase
   
   // MARK: - Tests
   
-  func testShouldFetchOrdersWhenViewIsLoaded()
+  func testShouldFetchOrdersWhenViewDidAppear()
   {
     // Given
     let listOrdersBusinessLogicSpy = ListOrdersBusinessLogicSpy()
     sut.interactor = listOrdersBusinessLogicSpy
-    
-    // When
     loadView()
     
+    // When
+    sut.viewDidAppear(true)
+    
     // Then
-    XCTAssert(listOrdersBusinessLogicSpy.fetchOrdersCalled, "Should fetch orders when the view is loaded")
+    XCTAssert(listOrdersBusinessLogicSpy.fetchOrdersCalled, "Should fetch orders right after the view appears")
   }
   
   func testShouldDisplayFetchedOrders()
@@ -103,10 +104,9 @@ class ListOrdersViewControllerTests: XCTestCase
     let tableViewSpy = TableViewSpy()
     sut.tableView = tableViewSpy
     
+    // When
     let displayedOrders = [ListOrders.FetchOrders.ViewModel.DisplayedOrder(id: "abc123", date: "6/29/07", email: "amy.apple@clean-swift.com", name: "Amy Apple", total: "$1.23")]
     let viewModel = ListOrders.FetchOrders.ViewModel(displayedOrders: displayedOrders)
-    
-    // When
     sut.displayFetchedOrders(viewModel: viewModel)
     
     // Then

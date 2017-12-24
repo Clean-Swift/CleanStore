@@ -49,14 +49,14 @@ class ShowOrderPresenterTests: XCTestCase
     
     // MARK: Argument expectations
     
-    var viewModel: ShowOrder.GetOrder.ViewModel!
+    var displayOrderViewModel: ShowOrder.GetOrder.ViewModel!
     
     // MARK: Spied methods
     
     func displayOrder(viewModel: ShowOrder.GetOrder.ViewModel)
     {
       displayOrderCalled = true
-      self.viewModel = viewModel
+      displayOrderViewModel = viewModel
     }
   }
   
@@ -77,13 +77,12 @@ class ShowOrderPresenterTests: XCTestCase
     var order = Seeds.Orders.amy
     order.date = date
     
-    let response = ShowOrder.GetOrder.Response(order: order)
-    
     // When
+    let response = ShowOrder.GetOrder.Response(order: order)
     sut.presentOrder(response: response)
     
     // Then
-    let displayedOrder = showOrderDisplayLogicSpy.viewModel.displayedOrder
+    let displayedOrder = showOrderDisplayLogicSpy.displayOrderViewModel.displayedOrder
     XCTAssertEqual(displayedOrder.id, "aaa111", "Presenting order should properly format order ID")
     XCTAssertEqual(displayedOrder.date, "6/29/07", "Presenting order should properly format order date")
     XCTAssertEqual(displayedOrder.email, "amy.apple@clean-swift.com", "Presenting order should properly format email")
@@ -97,10 +96,9 @@ class ShowOrderPresenterTests: XCTestCase
     let showOrderDisplayLogicSpy = ShowOrderDisplayLogicSpy()
     sut.viewController = showOrderDisplayLogicSpy
     
+    // When
     let order = Seeds.Orders.amy
     let response = ShowOrder.GetOrder.Response(order: order)
-    
-    // When
     sut.presentOrder(response: response)
     
     // Then

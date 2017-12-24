@@ -233,7 +233,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
     }
   }
   
-  // MARK: - Edit order
+  // MARK: - Update order
   
   func showOrderToEdit()
   {
@@ -287,6 +287,6 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
     alertController.addAction(alertAction)
-    self.showDetailViewController(alertController, sender: nil)
+    showDetailViewController(alertController, sender: nil)
   }
 }

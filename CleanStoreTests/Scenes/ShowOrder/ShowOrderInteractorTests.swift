@@ -62,12 +62,10 @@ class ShowOrderInteractorTests: XCTestCase
     // Given
     let showOrderPresentationLogicSpy = ShowOrderPresentationLogicSpy()
     sut.presenter = showOrderPresentationLogicSpy
-    
     sut.order = Seeds.Orders.amy
     
-    let request = ShowOrder.GetOrder.Request()
-    
     // When
+    let request = ShowOrder.GetOrder.Request()
     sut.getOrder(request: request)
     
     // Then

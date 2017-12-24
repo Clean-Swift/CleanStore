@@ -15,7 +15,7 @@ import UIKit
 protocol CreateOrderBusinessLogic
 {
   var shippingMethods: [String] { get }
-  var orderToEdit: Order? { get set }
+  var orderToEdit: Order? { get }
   func formatExpirationDate(request: CreateOrder.FormatExpirationDate.Request)
   func createOrder(request: CreateOrder.CreateOrder.Request)
   func showOrderToEdit(request: CreateOrder.EditOrder.Request)

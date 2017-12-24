@@ -63,7 +63,8 @@ class CreateOrderInteractorTests: XCTestCase
       presentCreatedOrderCalled = true
     }
     
-    func presentOrderToEdit(response: CreateOrder.EditOrder.Response) {
+    func presentOrderToEdit(response: CreateOrder.EditOrder.Response)
+    {
       presentOrderToEditCalled = true
     }
     
@@ -102,9 +103,9 @@ class CreateOrderInteractorTests: XCTestCase
     // Given
     let createOrderPresentationLogicSpy = CreateOrderPresentationLogicSpy()
     sut.presenter = createOrderPresentationLogicSpy
-    let request = CreateOrder.FormatExpirationDate.Request(date: Date())
     
     // When
+    let request = CreateOrder.FormatExpirationDate.Request(date: Date())
     sut.formatExpirationDate(request: request)
     
     // Then
@@ -155,12 +156,10 @@ class CreateOrderInteractorTests: XCTestCase
     // Given
     let createOrderPresentationLogicSpy = CreateOrderPresentationLogicSpy()
     sut.presenter = createOrderPresentationLogicSpy
-    
     sut.orderToEdit = Seeds.Orders.amy
     
-    let request = CreateOrder.EditOrder.Request()
-    
     // When
+    let request = CreateOrder.EditOrder.Request()
     sut.showOrderToEdit(request: request)
     
     // Then
@@ -172,17 +171,17 @@ class CreateOrderInteractorTests: XCTestCase
     // Given
     let createOrderPresentationLogicSpy = CreateOrderPresentationLogicSpy()
     sut.presenter = createOrderPresentationLogicSpy
-    
     sut.orderToEdit = nil
     
-    let request = CreateOrder.EditOrder.Request()
-    
     // When
+    let request = CreateOrder.EditOrder.Request()
     sut.showOrderToEdit(request: request)
     
     // Then
     XCTAssertFalse(createOrderPresentationLogicSpy.presentOrderToEditCalled, "ShowOrderToEdit() should not ask presenter to format if there is no existing order")
   }
+  
+  // MARK: - Test updating an order
   
   func testUpdateOrderShouldAskOrdersWorkerToUpdateTheExistingOrderAndPresenterToFormatIt()
   {

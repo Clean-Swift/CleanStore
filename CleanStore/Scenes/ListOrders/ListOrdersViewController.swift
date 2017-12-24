@@ -67,21 +67,15 @@ class ListOrdersViewController: UITableViewController, ListOrdersDisplayLogic
   
   // MARK: - View lifecycle
   
-  override func viewDidLoad()
-  {
-    super.viewDidLoad()
-    fetchOrdersOnLoad()
-  }
-  
   override func viewDidAppear(_ animated: Bool)
   {
     super.viewDidAppear(animated)
-    fetchOrdersOnLoad()
+    fetchOrders()
   }
   
   // MARK: - Fetch orders
   
-  func fetchOrdersOnLoad()
+  func fetchOrders()
   {
     let request = ListOrders.FetchOrders.Request()
     interactor?.fetchOrders(request: request)

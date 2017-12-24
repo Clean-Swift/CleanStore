@@ -88,12 +88,11 @@ class ShowOrderViewControllerTests: XCTestCase
     // Given
     let showOrderBusinessLogicSpy = ShowOrderBusinessLogicSpy()
     sut.interactor = showOrderBusinessLogicSpy
-    
-    let displayedOrder = ShowOrder.GetOrder.ViewModel.DisplayedOrder(id: "asdf1234", date: "2000-01-01", email: "steve.jobs@clean-swift.com", name: "Steve Jobs", total: "1,000,000")
-    let viewModel = ShowOrder.GetOrder.ViewModel(displayedOrder: displayedOrder)
+    loadView()
     
     // When
-    loadView()
+    let displayedOrder = ShowOrder.GetOrder.ViewModel.DisplayedOrder(id: "asdf1234", date: "2000-01-01", email: "steve.jobs@clean-swift.com", name: "Steve Jobs", total: "1,000,000")
+    let viewModel = ShowOrder.GetOrder.ViewModel(displayedOrder: displayedOrder)
     sut.displayOrder(viewModel: viewModel)
     
     // Then

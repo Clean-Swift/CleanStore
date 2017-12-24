@@ -68,6 +68,7 @@ class ListOrdersPresenterTests: XCTestCase
     let listOrdersDisplayLogicSpy = ListOrdersDisplayLogicSpy()
     sut.viewController = listOrdersDisplayLogicSpy
     
+    // When
     var dateComponents = DateComponents()
     dateComponents.year = 2007
     dateComponents.month = 6
@@ -79,13 +80,11 @@ class ListOrdersPresenterTests: XCTestCase
     let orders = [amy]
     
     let response = ListOrders.FetchOrders.Response(orders: orders)
-    
-    // When
     sut.presentFetchedOrders(response: response)
     
     // Then
     let displayedOrders = listOrdersDisplayLogicSpy.viewModel.displayedOrders
-    for displayedOrder in displayedOrders{
+    for displayedOrder in displayedOrders {
       XCTAssertEqual(displayedOrder.id, "aaa111", "Presenting fetched orders should properly format order ID")
       XCTAssertEqual(displayedOrder.date, "6/29/07", "Presenting fetched orders should properly format order date")
       XCTAssertEqual(displayedOrder.email, "amy.apple@clean-swift.com", "Presenting fetched orders should properly format email")
@@ -100,10 +99,9 @@ class ListOrdersPresenterTests: XCTestCase
     let listOrdersDisplayLogicSpy = ListOrdersDisplayLogicSpy()
     sut.viewController = listOrdersDisplayLogicSpy
     
+    // When
     let orders = [Seeds.Orders.amy]
     let response = ListOrders.FetchOrders.Response(orders: orders)
-    
-    // When
     sut.presentFetchedOrders(response: response)
     
     // Then

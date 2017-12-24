@@ -14,7 +14,7 @@
 import UIKit
 import XCTest
 
-class TestDisplaySaveOrderFailure
+struct TestDisplaySaveOrderFailure
 {
   static var presentViewControllerAnimatedCompletionCalled = false
   static var viewControllerToPresent: UIViewController?
@@ -136,6 +136,20 @@ class CreateOrderViewControllerTests: XCTestCase
     }
   }
   
+  // MARK: - Test picker configs when view is loaded
+  
+  func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded()
+  {
+    // Given
+    
+    // When
+    loadView()
+    
+    // Then
+    XCTAssertEqual(sut.expirationDateTextField.inputView, sut.expirationDatePicker, "Expiration date text field should have the expiration date picker as input view")
+    XCTAssertEqual(sut.shippingMethodTextField.inputView, sut.shippingMethodPicker, "Shipping method text field should have the shipping method picker as input view")
+  }
+  
   // MARK: - Test displaying order to edit when view is loaded
   
   func testShouldShowOrderToEditWhenViewIsLoaded()
@@ -155,13 +169,13 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     loadView()
+    
+    // When
     let dateFormatter = DateFormatter()
     dateFormatter.dateStyle = .short
     dateFormatter.timeStyle = .none
     let orderToEdit = Seeds.Orders.amy
     let viewModel = CreateOrder.EditOrder.ViewModel(orderFormFields: CreateOrder.OrderFormFields(firstName: orderToEdit.firstName, lastName: orderToEdit.lastName, phone: orderToEdit.phone, email: orderToEdit.email, billingAddressStreet1: orderToEdit.billingAddress.street1, billingAddressStreet2: orderToEdit.billingAddress.street2 ?? "", billingAddressCity: orderToEdit.billingAddress.city, billingAddressState: orderToEdit.billingAddress.state, billingAddressZIP: orderToEdit.billingAddress.zip, paymentMethodCreditCardNumber: orderToEdit.paymentMethod.creditCardNumber, paymentMethodCVV: orderToEdit.paymentMethod.cvv, paymentMethodExpirationDate: orderToEdit.paymentMethod.expirationDate, paymentMethodExpirationDateString: dateFormatter.string(from: orderToEdit.paymentMethod.expirationDate), shipmentAddressStreet1: orderToEdit.shipmentAddress.street1, shipmentAddressStreet2: orderToEdit.shipmentAddress.street2 ?? "", shipmentAddressCity: orderToEdit.shipmentAddress.city, shipmentAddressState: orderToEdit.shipmentAddress.state, shipmentAddressZIP: orderToEdit.shipmentAddress.zip, shipmentMethodSpeed: orderToEdit.shipmentMethod.speed.rawValue, shipmentMethodSpeedString: orderToEdit.shipmentMethod.toString(), id: orderToEdit.id, date: orderToEdit.date, total: orderToEdit.total))
-    
-    // When
     sut.displayOrderToEdit(viewModel: viewModel)
     
     // Then
@@ -193,9 +207,9 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     loadView()
-    let viewModel = CreateOrder.FormatExpirationDate.ViewModel(date: "6/29/07")
     
     // When
+    let viewModel = CreateOrder.FormatExpirationDate.ViewModel(date: "6/29/07")
     sut.displayExpirationDate(viewModel: viewModel)
     
     // Then
@@ -210,13 +224,12 @@ class CreateOrderViewControllerTests: XCTestCase
     let createOrderBusinessLogicSpy = CreateOrderBusinessLogicSpy()
     sut.interactor = createOrderBusinessLogicSpy
     
+    // When
     var dateComponents = DateComponents()
     dateComponents.year = 2007
     dateComponents.month = 6
     dateComponents.day = 29
     let selectedDate = Calendar.current.date(from: dateComponents)!
-    
-    // When
     sut.expirationDatePicker.date = selectedDate
     sut.expirationDatePickerValueChanged(self)
     
@@ -232,9 +245,9 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     loadView()
-    let pickerView = sut.shippingMethodPicker!
     
     // When
+    let pickerView = sut.shippingMethodPicker!
     let numberOfComponents = sut.numberOfComponents(in: pickerView)
     
     // Then
@@ -245,9 +258,9 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     loadView()
-    let pickerView = sut.shippingMethodPicker!
     
     // When
+    let pickerView = sut.shippingMethodPicker!
     let numberOfRows = sut.pickerView(pickerView, numberOfRowsInComponent: 0)
     
     // Then
@@ -259,9 +272,9 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     loadView()
-    let pickerView = sut.shippingMethodPicker!
     
     // When
+    let pickerView = sut.shippingMethodPicker!
     let returnedTitles = [
       sut.pickerView(pickerView, titleForRow: 0, forComponent: 0),
       sut.pickerView(pickerView, titleForRow: 1, forComponent: 0),
@@ -283,9 +296,9 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     loadView()
-    let pickerView = sut.shippingMethodPicker!
     
     // When
+    let pickerView = sut.shippingMethodPicker!
     sut.pickerView(pickerView, didSelectRow: 1, inComponent: 0)
     
     // Then
@@ -298,15 +311,15 @@ class CreateOrderViewControllerTests: XCTestCase
   
   // NOTE: Calling textField.becomeFirstResponder() doesn't set textField.isFirstResponder to true
   //       Tried to wait but didn't help. Maybe a beta issue.
-  func _testCursorFocusShouldMoveToNextTextFieldWhenUserTapsReturnKey()
+  func testCursorFocusShouldMoveToNextTextFieldWhenUserTapsReturnKey()
   {
     // Given
     loadView()
+    
+    // When
     let currentTextField = sut.textFields[0]
     let nextTextField = sut.textFields[1]
     currentTextField.becomeFirstResponder()
-    
-    // When
     _ = sut.textFieldShouldReturn(currentTextField)
     
     // Then
@@ -324,12 +337,10 @@ class CreateOrderViewControllerTests: XCTestCase
     let lastRowIndex = sut.tableView.numberOfRows(inSection: lastSectionIndex) - 1
     sut.tableView.scrollToRow(at: IndexPath(row: lastRowIndex, section: lastSectionIndex), at: .bottom, animated: false)
     
-    // Show keyboard for the last text field
+    // When
     let numTextFields = sut.textFields.count
     let lastTextField = sut.textFields[numTextFields - 1]
     lastTextField.becomeFirstResponder()
-    
-    // When
     _ = sut.textFieldShouldReturn(lastTextField)
     
     // Then
@@ -348,20 +359,6 @@ class CreateOrderViewControllerTests: XCTestCase
     // Then
     let textField = sut.textFields[0]
     XCTAssert(textField.isFirstResponder, "The text field should have keyboard focus when user taps on the corresponding table view row")
-  }
-  
-  // MARK: - Test picker configs when view is loaded
-  
-  func testCreateOrderViewControllerShouldConfigurePickersWhenViewIsLoaded()
-  {
-    // Given
-    
-    // When
-    loadView()
-    
-    // Then
-    XCTAssertEqual(sut.expirationDateTextField.inputView, sut.expirationDatePicker, "Expiration date text field should have the expiration date picker as input view")
-    XCTAssertEqual(sut.shippingMethodTextField.inputView, sut.shippingMethodPicker, "Shipping method text field should have the shipping method picker as input view")
   }
   
   // MARK: - Test creating a new order
@@ -388,9 +385,8 @@ class CreateOrderViewControllerTests: XCTestCase
     let createOrderRouterSpy = CreateOrderRouterSpy()
     sut.router = createOrderRouterSpy
     
-    let viewModel = CreateOrder.CreateOrder.ViewModel(order: Seeds.Orders.amy)
-    
     // When
+    let viewModel = CreateOrder.CreateOrder.ViewModel(order: Seeds.Orders.amy)
     sut.displayCreatedOrder(viewModel: viewModel)
     
     // Then
@@ -401,9 +397,9 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     loadView()
-    let viewModel = CreateOrder.CreateOrder.ViewModel(order: nil)
     
     // When
+    let viewModel = CreateOrder.CreateOrder.ViewModel(order: nil)
     sut.displayCreatedOrder(viewModel: viewModel)
     
     // Then
@@ -437,9 +433,8 @@ class CreateOrderViewControllerTests: XCTestCase
     let createOrderRouterSpy = CreateOrderRouterSpy()
     sut.router = createOrderRouterSpy
     
-    let viewModel = CreateOrder.UpdateOrder.ViewModel(order: Seeds.Orders.amy)
-    
     // When
+    let viewModel = CreateOrder.UpdateOrder.ViewModel(order: Seeds.Orders.amy)
     sut.displayUpdatedOrder(viewModel: viewModel)
     
     // Then
@@ -450,9 +445,9 @@ class CreateOrderViewControllerTests: XCTestCase
   {
     // Given
     loadView()
-    let viewModel = CreateOrder.UpdateOrder.ViewModel(order: nil)
     
     // When
+    let viewModel = CreateOrder.UpdateOrder.ViewModel(order: nil)
     sut.displayUpdatedOrder(viewModel: viewModel)
     
     // Then

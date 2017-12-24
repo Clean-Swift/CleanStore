@@ -138,6 +138,43 @@ class CreateOrderPresenterTests: XCTestCase
     {
       return formatExpirationDateViewModel.date == date
     }
+    
+    func verifyEditOrderViewModelOrderFormFields(order: Order) -> Bool
+    {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateStyle = .short
+      dateFormatter.timeStyle = .none
+      let orderPaymentMethodExpirationDate = dateFormatter.string(from: order.paymentMethod.expirationDate)
+      
+      return editOrderViewModel.orderFormFields.firstName == order.firstName &&
+        editOrderViewModel.orderFormFields.lastName == order.lastName &&
+        editOrderViewModel.orderFormFields.phone == order.phone &&
+        editOrderViewModel.orderFormFields.email == order.email &&
+        
+        editOrderViewModel.orderFormFields.billingAddressStreet1 == order.billingAddress.street1 &&
+        editOrderViewModel.orderFormFields.billingAddressStreet2 == order.billingAddress.street2 &&
+        editOrderViewModel.orderFormFields.billingAddressCity == order.billingAddress.city &&
+        editOrderViewModel.orderFormFields.billingAddressState == order.billingAddress.state &&
+        editOrderViewModel.orderFormFields.billingAddressZIP == order.billingAddress.zip &&
+        
+        editOrderViewModel.orderFormFields.paymentMethodCreditCardNumber == order.paymentMethod.creditCardNumber &&
+        editOrderViewModel.orderFormFields.paymentMethodCVV == order.paymentMethod.cvv &&
+        editOrderViewModel.orderFormFields.paymentMethodExpirationDate == order.paymentMethod.expirationDate &&
+        editOrderViewModel.orderFormFields.paymentMethodExpirationDateString == orderPaymentMethodExpirationDate &&
+        
+        editOrderViewModel.orderFormFields.shipmentAddressStreet1 == order.shipmentAddress.street1 &&
+        editOrderViewModel.orderFormFields.shipmentAddressStreet2 == order.shipmentAddress.street2 &&
+        editOrderViewModel.orderFormFields.shipmentAddressCity == order.shipmentAddress.city &&
+        editOrderViewModel.orderFormFields.shipmentAddressState == order.shipmentAddress.state &&
+        editOrderViewModel.orderFormFields.shipmentAddressZIP == order.shipmentAddress.zip &&
+        
+        editOrderViewModel.orderFormFields.shipmentMethodSpeed == order.shipmentMethod.speed.rawValue &&
+        editOrderViewModel.orderFormFields.shipmentMethodSpeedString == order.shipmentMethod.toString() &&
+        
+        editOrderViewModel.orderFormFields.id == order.id &&
+        editOrderViewModel.orderFormFields.date == order.date &&
+        editOrderViewModel.orderFormFields.total == order.total
+    }
   }
   
   // MARK: - Test expiration date
@@ -148,34 +185,19 @@ class CreateOrderPresenterTests: XCTestCase
     let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
     sut.viewController = createOrderDisplayLogicSpy
     
+    // When
     var dateComponents = DateComponents()
     dateComponents.year = 2007
     dateComponents.month = 6
     dateComponents.day = 29
     let date = Calendar.current.date(from: dateComponents)!
     let response = CreateOrder.FormatExpirationDate.Response(date: date)
-    
-    // When
     sut.presentExpirationDate(response: response)
     
     // Then
-    let returnedDate = createOrderDisplayLogicSpy.formatExpirationDateViewModel.date
     let expectedDate = "6/29/07"
+    let returnedDate = createOrderDisplayLogicSpy.formatExpirationDateViewModel.date
     XCTAssertEqual(returnedDate, expectedDate, "Presenting an expiration date should convert date to string")
-  }
-  
-  func testPresentExpirationDateShouldAskViewControllerToDisplayDateStringUsingSpy()
-  {
-    // Given
-    let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
-    sut.viewController = createOrderDisplayLogicSpy
-    let response = CreateOrder.FormatExpirationDate.Response(date: Date())
-    
-    // When
-    sut.presentExpirationDate(response: response)
-    
-    // Then
-    XCTAssert(createOrderDisplayLogicSpy.displayExpirationDateCalled, "Presenting an expiration date should ask view controller to display date string")
   }
   
   func testPresentExpirationDateShouldConvertDateToStringUsingMock()
@@ -184,14 +206,13 @@ class CreateOrderPresenterTests: XCTestCase
     let createOrderDisplayLogicMock = CreateOrderDisplayLogicMock()
     sut.viewController = createOrderDisplayLogicMock
     
+    // When
     var dateComponents = DateComponents()
     dateComponents.year = 2007
     dateComponents.month = 6
     dateComponents.day = 29
     let date = Calendar.current.date(from: dateComponents)!
     let response = CreateOrder.FormatExpirationDate.Response(date: date)
-    
-    // When
     sut.presentExpirationDate(response: response)
     
     // Then
@@ -199,14 +220,28 @@ class CreateOrderPresenterTests: XCTestCase
     XCTAssert(createOrderDisplayLogicMock.verifyExpirationDateIsFormattedAs(date: expectedDate), "Presenting an expiration date should convert date to string")
   }
   
+  func testPresentExpirationDateShouldAskViewControllerToDisplayDateStringUsingSpy()
+  {
+    // Given
+    let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
+    sut.viewController = createOrderDisplayLogicSpy
+    
+    // When
+    let response = CreateOrder.FormatExpirationDate.Response(date: Date())
+    sut.presentExpirationDate(response: response)
+    
+    // Then
+    XCTAssert(createOrderDisplayLogicSpy.displayExpirationDateCalled, "Presenting an expiration date should ask view controller to display date string")
+  }
+  
   func testPresentExpirationDateShouldAskViewControllerToDisplayDateStringUsingMock()
   {
     // Given
     let createOrderDisplayLogicMock = CreateOrderDisplayLogicMock()
     sut.viewController = createOrderDisplayLogicMock
-    let response = CreateOrder.FormatExpirationDate.Response(date: Date())
     
     // When
+    let response = CreateOrder.FormatExpirationDate.Response(date: Date())
     sut.presentExpirationDate(response: response)
     
     // Then
@@ -215,50 +250,33 @@ class CreateOrderPresenterTests: XCTestCase
   
   // MARK: - Test created order
   
-  func testPresentCreatedOrderShouldFormatCreatedOrderForDisplay()
-  {
-    // Given
-    let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
-    sut.viewController = createOrderDisplayLogicSpy
-    
-    let order = Seeds.Orders.amy
-    let response = CreateOrder.CreateOrder.Response(order: order)
-    
-    // When
-    sut.presentCreatedOrder(response: response)
-    
-    // Then
-    XCTAssertNotNil(createOrderDisplayLogicSpy.createOrderViewModel.order, "Presenting the newly created order should succeed")
-  }
-  
   func testPresentCreatedOrderShouldAskViewControllerToDisplayTheNewlyCreatedOrder()
   {
     // Given
     let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
     sut.viewController = createOrderDisplayLogicSpy
     
+    // When
     let order = Seeds.Orders.amy
     let response = CreateOrder.CreateOrder.Response(order: order)
-    
-    // When
     sut.presentCreatedOrder(response: response)
     
     // Then
     XCTAssert(createOrderDisplayLogicSpy.displayCreatedOrderCalled, "Presenting the newly created order should ask view controller to display it")
+    XCTAssertNotNil(createOrderDisplayLogicSpy.createOrderViewModel.order, "Presenting the newly created order should succeed")
   }
   
   // MARK: Test editing order
   
-  func testPresentOrderToEditShouldFormatTheExistingOrderForDisplay()
+  func testPresentOrderToEditShouldFormatTheExistingOrderForDisplayUsingSpy()
   {
     // Given
     let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
     sut.viewController = createOrderDisplayLogicSpy
     
+    // When
     let order = Seeds.Orders.amy
     let response = CreateOrder.EditOrder.Response(order: order)
-    
-    // When
     sut.presentOrderToEdit(response: response)
     
     // Then
@@ -266,6 +284,9 @@ class CreateOrderPresenterTests: XCTestCase
     dateFormatter.dateStyle = .short
     dateFormatter.timeStyle = .none
     let orderPaymentMethodExpirationDate = dateFormatter.string(from: order.paymentMethod.expirationDate)
+    
+    XCTAssert(createOrderDisplayLogicSpy.displayOrderToEditCalled, "Presenting the order to edit should ask view controller to display it")
+    
     XCTAssertEqual(createOrderDisplayLogicSpy.editOrderViewModel.orderFormFields.firstName, order.firstName, "Presenting the order to edit should format the existing order")
     XCTAssertEqual(createOrderDisplayLogicSpy.editOrderViewModel.orderFormFields.lastName, order.lastName, "Presenting the order to edit should format the existing order")
     XCTAssertEqual(createOrderDisplayLogicSpy.editOrderViewModel.orderFormFields.phone, order.phone, "Presenting the order to edit should format the existing order")
@@ -296,37 +317,23 @@ class CreateOrderPresenterTests: XCTestCase
     XCTAssertEqual(createOrderDisplayLogicSpy.editOrderViewModel.orderFormFields.total, order.total, "Presenting the order to edit should format the existing order")
   }
   
-  func testPresentOrderToEditShouldAskViewControllerToDisplayTheExistingOrder()
+  func testPresentOrderToEditShouldFormatTheExistingOrderForDisplayUsingMock()
   {
     // Given
-    let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
-    sut.viewController = createOrderDisplayLogicSpy
-    
-    let order = Seeds.Orders.amy
-    let response = CreateOrder.EditOrder.Response(order: order)
+    let createOrderDisplayLogicMock = CreateOrderDisplayLogicMock()
+    sut.viewController = createOrderDisplayLogicMock
     
     // When
+    let order = Seeds.Orders.amy
+    let response = CreateOrder.EditOrder.Response(order: order)
     sut.presentOrderToEdit(response: response)
     
     // Then
-    XCTAssert(createOrderDisplayLogicSpy.displayOrderToEditCalled, "Presenting the order to edit should ask view controller to display it")
+    XCTAssert(createOrderDisplayLogicMock.displayOrderToEditCalled, "Presenting the order to edit should ask view controller to display it")
+    XCTAssertTrue(createOrderDisplayLogicMock.verifyEditOrderViewModelOrderFormFields(order: order), "Presenting the order to edit should format the existing order")
   }
   
-  func testPresentUpdatedOrderShouldFormatUpdatedOrderForDisplay()
-  {
-    // Given
-    let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
-    sut.viewController = createOrderDisplayLogicSpy
-    
-    let order = Seeds.Orders.amy
-    let response = CreateOrder.UpdateOrder.Response(order: order)
-    
-    // When
-    sut.presentUpdatedOrder(response: response)
-    
-    // Then
-    XCTAssertNotNil(createOrderDisplayLogicSpy.updateOrderViewModel.order, "Presenting the updated order should succeed")
-  }
+  // MARK: - Test updating an order
   
   func testPresentUpdatedOrderShouldAskViewControllerToDisplayTheUpdatedOrder()
   {
@@ -334,13 +341,13 @@ class CreateOrderPresenterTests: XCTestCase
     let createOrderDisplayLogicSpy = CreateOrderDisplayLogicSpy()
     sut.viewController = createOrderDisplayLogicSpy
     
+    // When
     let order = Seeds.Orders.amy
     let response = CreateOrder.UpdateOrder.Response(order: order)
-    
-    // When
     sut.presentUpdatedOrder(response: response)
     
     // Then
     XCTAssert(createOrderDisplayLogicSpy.displayUpdatedOrderCalled, "Presenting the updated order should ask view controller to display it")
+    XCTAssertNotNil(createOrderDisplayLogicSpy.updateOrderViewModel.order, "Presenting the updated order should succeed")
   }
 }
