@@ -40,8 +40,8 @@ class ShowOrderViewControllerTests: XCTestCase
   func setupShowOrderViewController()
   {
     let bundle = Bundle.main
-    let storyboard = UIStoryboard(name: "Main", bundle: bundle)
-    sut = storyboard.instantiateViewController(withIdentifier: "ShowOrderViewController") as! ShowOrderViewController
+    let storyboard = UIStoryboard(name: "ShowOrder", bundle: bundle)
+    sut = storyboard.instantiateInitialViewController() as! ShowOrderViewController
   }
   
   func loadView()

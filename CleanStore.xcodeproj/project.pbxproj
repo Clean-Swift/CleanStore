@@ -53,6 +53,10 @@
 		71B2CD171BE6A06800C734CA /* OrdersAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B2CD161BE6A06800C734CA /* OrdersAPI.swift */; };
 		71DF947A1C00682C003AFED3 /* OrdersAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71DF94791C00682C003AFED3 /* OrdersAPITests.swift */; };
 		71F147841D01668F00872BFF /* Seeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71F147831D01668F00872BFF /* Seeds.swift */; };
+		8B12CBA01F91A9CF00CD7097 /* ListOrders.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B12CB9F1F91A9CF00CD7097 /* ListOrders.storyboard */; };
+		8B12CBA21F91A9DE00CD7097 /* CreateOrder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B12CBA11F91A9DE00CD7097 /* CreateOrder.storyboard */; };
+		8B12CBA41F91A9EC00CD7097 /* ShowOrder.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B12CBA31F91A9EC00CD7097 /* ShowOrder.storyboard */; };
+		8B12CBA71F91AD9F00CD7097 /* RouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B12CBA61F91AD9F00CD7097 /* RouterProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +121,10 @@
 		71B2CD161BE6A06800C734CA /* OrdersAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersAPI.swift; path = Services/OrdersAPI.swift; sourceTree = "<group>"; };
 		71DF94791C00682C003AFED3 /* OrdersAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrdersAPITests.swift; path = Services/OrdersAPITests.swift; sourceTree = "<group>"; };
 		71F147831D01668F00872BFF /* Seeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seeds.swift; sourceTree = "<group>"; };
+		8B12CB9F1F91A9CF00CD7097 /* ListOrders.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ListOrders.storyboard; path = ListOrders/ListOrders.storyboard; sourceTree = "<group>"; };
+		8B12CBA11F91A9DE00CD7097 /* CreateOrder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateOrder.storyboard; sourceTree = "<group>"; };
+		8B12CBA31F91A9EC00CD7097 /* ShowOrder.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ShowOrder.storyboard; path = ShowOrder/ShowOrder.storyboard; sourceTree = "<group>"; };
+		8B12CBA61F91AD9F00CD7097 /* RouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RouterProtocol.swift; path = Common/RouterProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +166,7 @@
 		710475341B882CA000D72E3C /* CleanStore */ = {
 			isa = PBXGroup;
 			children = (
+				8B12CBA51F91AD7B00CD7097 /* Common */,
 				71B2CD061BE5FB5800C734CA /* Models */,
 				71B2CD0F1BE6A01A00C734CA /* Services */,
 				71B2CCFD1BE5F9A700C734CA /* Workers */,
@@ -212,6 +221,7 @@
 				713919911C7539C90081E47B /* ShowOrderRouter.swift */,
 				713919921C7539C90081E47B /* ShowOrderViewController.swift */,
 				713919931C7539C90081E47B /* ShowOrderWorker.swift */,
+				8B12CBA31F91A9EC00CD7097 /* ShowOrder.storyboard */,
 			);
 			name = ShowOrder;
 			sourceTree = "<group>";
@@ -275,6 +285,7 @@
 				7186973D1B8D8B94004E4CD9 /* CreateOrderRouter.swift */,
 				7186973E1B8D8B94004E4CD9 /* CreateOrderViewController.swift */,
 				7186973F1B8D8B94004E4CD9 /* CreateOrderWorker.swift */,
+				8B12CBA11F91A9DE00CD7097 /* CreateOrder.storyboard */,
 			);
 			path = CreateOrder;
 			sourceTree = "<group>";
@@ -288,6 +299,7 @@
 				71B2CCE31BE547CA00C734CA /* ListOrdersRouter.swift */,
 				71B2CCE41BE547CA00C734CA /* ListOrdersViewController.swift */,
 				71B2CCE51BE547CA00C734CA /* ListOrdersWorker.swift */,
+				8B12CB9F1F91A9CF00CD7097 /* ListOrders.storyboard */,
 			);
 			name = ListOrders;
 			sourceTree = "<group>";
@@ -336,6 +348,14 @@
 				71B2CD161BE6A06800C734CA /* OrdersAPI.swift */,
 			);
 			name = Services;
+			sourceTree = "<group>";
+		};
+		8B12CBA51F91AD7B00CD7097 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				8B12CBA61F91AD9F00CD7097 /* RouterProtocol.swift */,
+			);
+			name = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -425,7 +445,10 @@
 			files = (
 				7104753D1B882CA000D72E3C /* Main.storyboard in Resources */,
 				710475421B882CA000D72E3C /* LaunchScreen.xib in Resources */,
+				8B12CBA41F91A9EC00CD7097 /* ShowOrder.storyboard in Resources */,
 				7104753F1B882CA000D72E3C /* Images.xcassets in Resources */,
+				8B12CBA01F91A9CF00CD7097 /* ListOrders.storyboard in Resources */,
+				8B12CBA21F91A9DE00CD7097 /* CreateOrder.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +475,7 @@
 				713919991C7539C90081E47B /* ShowOrderViewController.swift in Sources */,
 				713919981C7539C90081E47B /* ShowOrderRouter.swift in Sources */,
 				71B2CCEC1BE547CA00C734CA /* ListOrdersPresenter.swift in Sources */,
+				8B12CBA71F91AD9F00CD7097 /* RouterProtocol.swift in Sources */,
 				71B2CCF21BE547CA00C734CA /* ListOrdersWorker.swift in Sources */,
 				716B291E1BEEC861005986B1 /* CleanStore.xcdatamodeld in Sources */,
 				71B2CD081BE5FB6E00C734CA /* Order.swift in Sources */,

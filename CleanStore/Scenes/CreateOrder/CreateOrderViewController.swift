@@ -23,7 +23,7 @@ protocol CreateOrderDisplayLogic: class
 class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate
 {
   var interactor: CreateOrderBusinessLogic?
-  var router: (NSObjectProtocol & CreateOrderRoutingLogic & CreateOrderDataPassing)?
+  var router: (CreateOrderRoutingLogic & CreateOrderDataPassing)?
   
   // MARK: Object lifecycle
   
@@ -53,18 +53,6 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
     presenter.viewController = viewController
     router.viewController = viewController
     router.dataStore = interactor
-  }
-  
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
-    }
   }
   
   // MARK: - View lifecycle
@@ -227,7 +215,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
   func displayCreatedOrder(viewModel: CreateOrder.CreateOrder.ViewModel)
   {
     if viewModel.order != nil {
-      router?.routeToListOrders(segue: nil)
+      router?.routeToListOrders()
     } else {
       showOrderFailureAlert(title: "Failed to create order", message: "Please correct your order and submit again.")
     }
@@ -274,7 +262,7 @@ class CreateOrderViewController: UITableViewController, CreateOrderDisplayLogic,
   func displayUpdatedOrder(viewModel: CreateOrder.UpdateOrder.ViewModel)
   {
     if viewModel.order != nil {
-      router?.routeToShowOrder(segue: nil)
+      router?.routeToShowOrder()
     } else {
       showOrderFailureAlert(title: "Failed to update order", message: "Please correct your order and submit again.")
     }

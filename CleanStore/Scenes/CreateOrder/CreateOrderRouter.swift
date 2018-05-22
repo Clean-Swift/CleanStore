@@ -14,8 +14,8 @@ import UIKit
 
 @objc protocol CreateOrderRoutingLogic
 {
-  func routeToListOrders(segue: UIStoryboardSegue?)
-  func routeToShowOrder(segue: UIStoryboardSegue?)
+  func routeToListOrders()
+  func routeToShowOrder()
 }
 
 protocol CreateOrderDataPassing
@@ -23,53 +23,57 @@ protocol CreateOrderDataPassing
   var dataStore: CreateOrderDataStore? { get }
 }
 
-class CreateOrderRouter: NSObject, CreateOrderRoutingLogic, CreateOrderDataPassing
+class CreateOrderRouter: RouterProtocol, CreateOrderRoutingLogic, CreateOrderDataPassing
 {
-  weak var viewController: CreateOrderViewController?
+  typealias ViewControllerType = CreateOrderViewController
+  
+  weak var viewController: ViewControllerType?
   var dataStore: CreateOrderDataStore?
   
   // MARK: Routing
   
-  func routeToListOrders(segue: UIStoryboardSegue?)
+  func routeToListOrders()
   {
-    if let segue = segue {
-      let destinationVC = segue.destination as! ListOrdersViewController
-      var destinationDS = destinationVC.router!.dataStore!
-      passDataToListOrders(source: dataStore!, destination: &destinationDS)
-    } else {
-      let index = viewController!.navigationController!.viewControllers.count - 2
-      let destinationVC = viewController?.navigationController?.viewControllers[index] as! ListOrdersViewController
-      var destinationDS = destinationVC.router!.dataStore!
-      passDataToListOrders(source: dataStore!, destination: &destinationDS)
-      navigateToListOrders(source: viewController!, destination: destinationVC)
-    }
+    guard let destinationVC = viewController?.navigationController?.viewControllers.first(where: { $0 is ListOrdersViewController }) as? ListOrdersViewController
+        else {
+            // List order not in stack so push fresh
+            return show(storyboard: .listOrders) { (destinationVC: ListOrdersViewController) in
+              var destinationDS = destinationVC.router!.dataStore!
+              self.passDataToListOrders(source: self.dataStore!, destination: &destinationDS)
+            }
+        }
+    
+    var destinationDS = destinationVC.router!.dataStore!
+    passDataToListOrders(source: dataStore!, destination: &destinationDS)
+    navigateToListOrders(source: viewController!, destination: destinationVC)
   }
   
-  func routeToShowOrder(segue: UIStoryboardSegue?)
+  func routeToShowOrder()
   {
-    if let segue = segue {
-      let destinationVC = segue.destination as! ShowOrderViewController
-      var destinationDS = destinationVC.router!.dataStore!
-      passDataToShowOrder(source: dataStore!, destination: &destinationDS)
-    } else {
-      let index = viewController!.navigationController!.viewControllers.count - 2
-      let destinationVC = viewController?.navigationController?.viewControllers[index] as! ShowOrderViewController
-      var destinationDS = destinationVC.router!.dataStore!
-      passDataToShowOrder(source: dataStore!, destination: &destinationDS)
-      navigateToShowOrder(source: viewController!, destination: destinationVC)
-    }
+    guard let destinationVC = viewController?.navigationController?.viewControllers.first(where: { $0 is ShowOrderViewController }) as? ShowOrderViewController
+        else {
+            // Show order not in stack so push fresh
+            return show(storyboard: .showOrder) { (destinationVC: ShowOrderViewController) in
+              var destinationDS = destinationVC.router!.dataStore!
+              self.passDataToShowOrder(source: self.dataStore!, destination: &destinationDS)
+            }
+        }
+    
+    var destinationDS = destinationVC.router!.dataStore!
+    passDataToShowOrder(source: dataStore!, destination: &destinationDS)
+    navigateToShowOrder(source: viewController!, destination: destinationVC)
   }
   
   // MARK: Navigation
   
   func navigateToListOrders(source: CreateOrderViewController, destination: ListOrdersViewController)
   {
-    source.navigationController?.popViewController(animated: true)
+    source.navigationController?.popToViewController(destination, animated: true)
   }
   
   func navigateToShowOrder(source: CreateOrderViewController, destination: ShowOrderViewController)
   {
-    source.navigationController?.popViewController(animated: true)
+    source.navigationController?.popToViewController(destination, animated: true)
   }
   
   // MARK: Passing data
@@ -82,4 +86,12 @@ class CreateOrderRouter: NSObject, CreateOrderRoutingLogic, CreateOrderDataPassi
   {
     destination.order = source.orderToEdit
   }
+}
+
+extension CreateOrderRouter {
+    
+    enum StoryboardIdentifier: String {
+        case listOrders = "ListOrders"
+        case showOrder = "ShowOrder"
+    }
 }

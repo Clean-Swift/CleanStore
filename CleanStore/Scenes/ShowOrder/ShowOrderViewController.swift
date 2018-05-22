@@ -20,7 +20,7 @@ protocol ShowOrderDisplayLogic: class
 class ShowOrderViewController: UIViewController, ShowOrderDisplayLogic
 {
   var interactor: ShowOrderBusinessLogic?
-  var router: (NSObjectProtocol & ShowOrderRoutingLogic & ShowOrderDataPassing)?
+  var router: (ShowOrderRoutingLogic & ShowOrderDataPassing)?
   
   @IBOutlet weak var orderIDLabel: UILabel!
   @IBOutlet weak var orderDateLabel: UILabel!
@@ -58,18 +58,6 @@ class ShowOrderViewController: UIViewController, ShowOrderDisplayLogic
     router.dataStore = interactor
   }
   
-  // MARK: Routing
-  
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?)
-  {
-    if let scene = segue.identifier {
-      let selector = NSSelectorFromString("routeTo\(scene)WithSegue:")
-      if let router = router, router.responds(to: selector) {
-        router.perform(selector, with: segue)
-      }
-    }
-  }
-  
   // MARK: - View lifecycle
   
   override func viewWillAppear(_ animated: Bool)
@@ -95,4 +83,10 @@ class ShowOrderViewController: UIViewController, ShowOrderDisplayLogic
     orderNameLabel.text = displayedOrder.name
     orderTotalLabel.text = displayedOrder.total
   }
+    
+  @IBAction func editButtonTapped(_ sender: Any)
+  {
+    router?.routeToEditOrder()
+  }
+    
 }
