@@ -27,14 +27,14 @@ enum ListOrders
     }
     struct ViewModel
     {
-      struct DisplayedOrder
-      {
-        var id: String
-        var date: String
-        var email: String
-        var name: String
-        var total: String
-      }
+      typealias DisplayedOrder =
+      (
+        id: String,
+        date: String,
+        email: String,
+        name: String,
+        total: String
+      )
       var displayedOrders: [DisplayedOrder]
     }
   }

@@ -14,41 +14,41 @@ import UIKit
 
 enum CreateOrder
 {
-  struct OrderFormFields
-  {
+  typealias OrderFormFields =
+  (
     // MARK: Contact info
-    var firstName: String
-    var lastName: String
-    var phone: String
-    var email: String
+    firstName: String,
+    lastName: String,
+    phone: String,
+    email: String,
     
     // MARK: Payment info
-    var billingAddressStreet1: String
-    var billingAddressStreet2: String
-    var billingAddressCity: String
-    var billingAddressState: String
-    var billingAddressZIP: String
+    billingAddressStreet1: String,
+    billingAddressStreet2: String,
+    billingAddressCity: String,
+    billingAddressState: String,
+    billingAddressZIP: String,
     
-    var paymentMethodCreditCardNumber: String
-    var paymentMethodCVV: String
-    var paymentMethodExpirationDate: Date
-    var paymentMethodExpirationDateString: String
+    paymentMethodCreditCardNumber: String,
+    paymentMethodCVV: String,
+    paymentMethodExpirationDate: Date,
+    paymentMethodExpirationDateString: String,
     
     // MARK: Shipping info
-    var shipmentAddressStreet1: String
-    var shipmentAddressStreet2: String
-    var shipmentAddressCity: String
-    var shipmentAddressState: String
-    var shipmentAddressZIP: String
+    shipmentAddressStreet1: String,
+    shipmentAddressStreet2: String,
+    shipmentAddressCity: String,
+    shipmentAddressState: String,
+    shipmentAddressZIP: String,
     
-    var shipmentMethodSpeed: Int
-    var shipmentMethodSpeedString: String
+    shipmentMethodSpeed: Int,
+    shipmentMethodSpeedString: String,
     
     // MARK: Misc
-    var id: String?
-    var date: Date
-    var total: NSDecimalNumber
-  }
+    id: String?,
+    date: Date,
+    total: NSDecimalNumber
+  )
   
   // MARK: Use cases
   
