@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14460.32" systemVersion="18A391" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ManagedOrder" representedClassName=".ManagedOrder" syncable="YES">
+        <attribute name="billingAddressCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="billingAddressState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="billingAddressStreet1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="billingAddressStreet2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="billingAddressZIP" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="paymentMethodCreditCardNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="paymentMethodCVV" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="paymentMethodExpirationDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shipmentAddressCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shipmentAddressState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shipmentAddressStreet1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shipmentAddressStreet2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shipmentAddressZIP" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shipmentMethodSpeed" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="total" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ManagedOrder" positionX="-63" positionY="-18" width="128" height="360"/>
+    </elements>
+</model>
