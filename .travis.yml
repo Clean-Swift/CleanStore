@@ -4,4 +4,4 @@ xcode_project: CleanStore.xcodeproj
 xcode_scheme: CleanStore
 xcode_destination: platform=iOS Simulator,OS=12.1,name=iPhone XR
 script:
-  - xcodebuild clean test -project CleanStore.xcodeproj -scheme CleanStore -destination "platform=iOS Simulator,OS=12.1,name=iPhone XR"
+  - xcodebuild clean test -project CleanStore.xcodeproj -scheme CleanStore -destination "platform=iOS Simulator,OS=12.1,name=iPhone XR" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO -quiet
