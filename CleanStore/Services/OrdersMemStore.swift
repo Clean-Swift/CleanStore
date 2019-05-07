@@ -168,6 +168,6 @@ class OrdersMemStore: OrdersStoreProtocol, OrdersStoreUtilityProtocol
   
   private func indexOfOrderWithID(id: String?) -> Int?
   {
-    return type(of: self).orders.index { return $0.id == id }
+    return type(of: self).orders.firstIndex { return $0.id == id }
   }
 }

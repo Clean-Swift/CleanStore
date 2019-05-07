@@ -322,9 +322,9 @@
 		71F1231E2214E0710009FC03 /* ShowOrder */ = {
 			isa = PBXGroup;
 			children = (
+				71F123582214EF1C0009FC03 /* ShowOrderViewControllerTests.swift */,
 				71F1235A2214EF1C0009FC03 /* ShowOrderInteractorTests.swift */,
 				71F123592214EF1C0009FC03 /* ShowOrderPresenterTests.swift */,
-				71F123582214EF1C0009FC03 /* ShowOrderViewControllerTests.swift */,
 			);
 			path = ShowOrder;
 			sourceTree = "<group>";
@@ -332,9 +332,9 @@
 		71F1231F2214E0720009FC03 /* CreateOrder */ = {
 			isa = PBXGroup;
 			children = (
+				71F123522214EF110009FC03 /* CreateOrderViewControllerTests.swift */,
 				71F123532214EF110009FC03 /* CreateOrderInteractorTests.swift */,
 				71F123542214EF110009FC03 /* CreateOrderPresenterTests.swift */,
-				71F123522214EF110009FC03 /* CreateOrderViewControllerTests.swift */,
 			);
 			path = CreateOrder;
 			sourceTree = "<group>";
@@ -342,9 +342,9 @@
 		71F123202214E0730009FC03 /* ListOrders */ = {
 			isa = PBXGroup;
 			children = (
+				71F1234C2214EF070009FC03 /* ListOrdersViewControllerTests.swift */,
 				71F1234E2214EF070009FC03 /* ListOrdersInteractorTests.swift */,
 				71F1234D2214EF070009FC03 /* ListOrdersPresenterTests.swift */,
-				71F1234C2214EF070009FC03 /* ListOrdersViewControllerTests.swift */,
 			);
 			path = ListOrders;
 			sourceTree = "<group>";
@@ -417,13 +417,16 @@
 				TargetAttributes = {
 					715283022213143A004602FF = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 					715283162213143D004602FF = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 						TestTargetID = 715283022213143A004602FF;
 					};
 					715283212213143D004602FF = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 						TestTargetID = 715283022213143A004602FF;
 					};
 				};
@@ -627,7 +630,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -682,7 +685,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -705,7 +708,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.CleanStore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -723,7 +726,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.CleanStore";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -743,7 +746,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.CleanStoreTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CleanStore.app/CleanStore";
 			};
@@ -764,7 +767,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.CleanStoreTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CleanStore.app/CleanStore";
 			};
@@ -784,7 +787,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.CleanStoreUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CleanStore;
 			};
@@ -804,7 +807,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.clean-swift.CleanStoreUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CleanStore;
 			};
