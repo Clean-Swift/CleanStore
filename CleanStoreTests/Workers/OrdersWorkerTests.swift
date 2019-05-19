@@ -57,7 +57,7 @@ class OrdersWorkerTests: XCTestCase
       createOrderCalled = true
       DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
         completionHandler { () -> Order in
-          return OrdersWorkerTests.testOrders.first!
+          return orderToCreate
         }
       }
     }
@@ -67,7 +67,7 @@ class OrdersWorkerTests: XCTestCase
       updateOrderCalled = true
       DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
         completionHandler { () -> Order in
-          return OrdersWorkerTests.testOrders.first!
+          return orderToUpdate
         }
       }
     }

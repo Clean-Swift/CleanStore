@@ -30,24 +30,9 @@ struct Order: Equatable
   var total: NSDecimalNumber
 }
 
-func ==(lhs: Order, rhs: Order) -> Bool
-{
-  return lhs.firstName == rhs.firstName
-    && lhs.lastName == rhs.lastName
-    && lhs.phone == rhs.phone
-    && lhs.email == rhs.email
-    && lhs.billingAddress == rhs.billingAddress
-    && lhs.paymentMethod == rhs.paymentMethod
-    && lhs.shipmentAddress == rhs.shipmentAddress
-    && lhs.shipmentMethod == rhs.shipmentMethod
-    && lhs.id == rhs.id
-    && lhs.date.timeIntervalSince(rhs.date) < 1.0
-    && lhs.total == rhs.total
-}
-
 // MARK: - Supporting models
 
-struct Address
+struct Address: Equatable
 {
   var street1: String
   var street2: String?
@@ -56,16 +41,7 @@ struct Address
   var zip: String
 }
 
-func ==(lhs: Address, rhs: Address) -> Bool
-{
-  return lhs.street1 == rhs.street1
-    && lhs.street2 == rhs.street2
-    && lhs.city == rhs.city
-    && lhs.state == rhs.state
-    && lhs.zip == rhs.zip
-}
-
-struct ShipmentMethod
+struct ShipmentMethod: Equatable
 {
   enum ShippingSpeed: Int {
     case Standard = 0 // "Standard Shipping"
@@ -87,21 +63,9 @@ struct ShipmentMethod
   }
 }
 
-func ==(lhs: ShipmentMethod, rhs: ShipmentMethod) -> Bool
-{
-  return lhs.speed == rhs.speed
-}
-
-struct PaymentMethod
+struct PaymentMethod: Equatable
 {
   var creditCardNumber: String
   var expirationDate: Date
   var cvv: String
-}
-
-func ==(lhs: PaymentMethod, rhs: PaymentMethod) -> Bool
-{
-  return lhs.creditCardNumber == rhs.creditCardNumber
-    && lhs.expirationDate.timeIntervalSince(rhs.expirationDate) < 1.0
-    && lhs.cvv == rhs.cvv
 }
