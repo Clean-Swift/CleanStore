@@ -1,0 +1,8 @@
+app_identifier("com.hatoriz.CleanStore") # The bundle identifier of your app
+apple_id("iam.nathdanai@gmail.com") # Your Apple email address
+
+itc_team_id("118634136") # App Store Connect Team ID
+team_id("XX6GM43XX9") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
