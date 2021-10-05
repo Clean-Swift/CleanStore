@@ -12,7 +12,7 @@
 
 import UIKit
 
-protocol CreateOrderDisplayLogic: class
+protocol CreateOrderDisplayLogic: AnyObject
 {
   func displayExpirationDate(viewModel: CreateOrder.FormatExpirationDate.ViewModel)
   func displayCreatedOrder(viewModel: CreateOrder.CreateOrder.ViewModel)

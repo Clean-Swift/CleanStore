@@ -12,7 +12,7 @@
 
 import UIKit
 
-protocol ListOrdersDisplayLogic: class
+protocol ListOrdersDisplayLogic: AnyObject
 {
   func displayFetchedOrders(viewModel: ListOrders.FetchOrders.ViewModel)
 }

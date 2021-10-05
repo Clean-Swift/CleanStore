@@ -282,7 +282,7 @@ class CreateOrderViewControllerTests: XCTestCase
     ]
     
     // Then
-    var expectedTitles = [
+    let expectedTitles = [
       "Standard Shipping",
       "One-Day Shipping",
       "Two-Day Shipping"
